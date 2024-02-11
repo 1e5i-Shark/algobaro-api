@@ -51,11 +51,11 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
 
                 // 기존 세션 로그인 방식 제외
-                .sessionManagement((manage) ->
+                .sessionManagement(manage ->
                         manage.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 // api 별 권한 처리
-                .authorizeHttpRequests((authorize) -> authorize
+                .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/v1/users/join").permitAll()
                         .requestMatchers("/api/v1/users/login").permitAll()
                         .requestMatchers("/api/v1/users/test").hasRole("USER")
