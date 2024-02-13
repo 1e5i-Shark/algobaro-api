@@ -1,14 +1,14 @@
-package ei.algobaroapi.domain.member.service;
+package ei.algobaroapi.domain.auth.service;
 
 import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.member.domain.MemberRepository;
 import ei.algobaroapi.domain.member.domain.vo.EmailVo;
-import ei.algobaroapi.domain.member.dto.MemberSignUpRequest;
-import ei.algobaroapi.domain.member.dto.MemberSignInRequest;
-import ei.algobaroapi.domain.member.exception.AuthErrorCode;
-import ei.algobaroapi.domain.member.exception.umm.MemberFoundException;
-import ei.algobaroapi.domain.member.exception.umm.MemberPasswordException;
-import ei.algobaroapi.domain.member.util.PasswordUtil;
+import ei.algobaroapi.domain.auth.dto.MemberSignUpRequest;
+import ei.algobaroapi.domain.auth.dto.MemberSignInRequest;
+import ei.algobaroapi.domain.auth.exception.AuthErrorCode;
+import ei.algobaroapi.domain.auth.exception.umm.MemberFoundException;
+import ei.algobaroapi.domain.auth.exception.umm.MemberPasswordException;
+import ei.algobaroapi.domain.auth.util.PasswordUtil;
 import ei.algobaroapi.global.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

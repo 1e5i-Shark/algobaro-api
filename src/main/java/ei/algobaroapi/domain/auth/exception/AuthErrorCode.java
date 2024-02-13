@@ -1,4 +1,4 @@
-package ei.algobaroapi.domain.member.exception;
+package ei.algobaroapi.domain.auth.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

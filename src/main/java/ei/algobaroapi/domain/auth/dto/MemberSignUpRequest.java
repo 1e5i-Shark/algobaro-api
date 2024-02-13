@@ -1,4 +1,4 @@
-package ei.algobaroapi.domain.member.dto;
+package ei.algobaroapi.domain.auth.dto;
 
 import ei.algobaroapi.domain.member.domain.Member;
 import lombok.Builder;

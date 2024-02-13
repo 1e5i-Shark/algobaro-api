@@ -1,9 +1,9 @@
-package ei.algobaroapi.domain.member.controller;
+package ei.algobaroapi.domain.auth.controller;
 
 import ei.algobaroapi.domain.member.domain.Member;
-import ei.algobaroapi.domain.member.dto.MemberSignUpRequest;
-import ei.algobaroapi.domain.member.dto.MemberSignInRequest;
-import ei.algobaroapi.domain.member.service.AuthService;
+import ei.algobaroapi.domain.auth.dto.MemberSignUpRequest;
+import ei.algobaroapi.domain.auth.dto.MemberSignInRequest;
+import ei.algobaroapi.domain.auth.service.AuthService;
 import ei.algobaroapi.global.config.swaggerdoc.AuthControllerDoc;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

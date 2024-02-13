@@ -1,7 +1,7 @@
-package ei.algobaroapi.domain.member.exception;
+package ei.algobaroapi.domain.auth.exception;
 
-import ei.algobaroapi.domain.member.exception.umm.MemberFoundException;
-import ei.algobaroapi.domain.member.exception.umm.MemberPasswordException;
+import ei.algobaroapi.domain.auth.exception.umm.MemberFoundException;
+import ei.algobaroapi.domain.auth.exception.umm.MemberPasswordException;
 import ei.algobaroapi.global.message.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

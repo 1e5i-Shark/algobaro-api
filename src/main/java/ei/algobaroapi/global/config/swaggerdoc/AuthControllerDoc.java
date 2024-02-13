@@ -1,8 +1,8 @@
 package ei.algobaroapi.global.config.swaggerdoc;
 
 import ei.algobaroapi.domain.member.domain.Member;
-import ei.algobaroapi.domain.member.dto.MemberSignInRequest;
-import ei.algobaroapi.domain.member.dto.MemberSignUpRequest;
+import ei.algobaroapi.domain.auth.dto.MemberSignInRequest;
+import ei.algobaroapi.domain.auth.dto.MemberSignUpRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

@@ -1,6 +1,6 @@
-package ei.algobaroapi.domain.member.exception.umm;
+package ei.algobaroapi.domain.auth.exception.umm;
 
-import ei.algobaroapi.domain.member.exception.AuthErrorCode;
+import ei.algobaroapi.domain.auth.exception.AuthErrorCode;
 import lombok.Getter;
 
 @Getter

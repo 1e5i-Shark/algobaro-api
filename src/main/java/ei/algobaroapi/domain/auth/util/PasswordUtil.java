@@ -1,4 +1,4 @@
-package ei.algobaroapi.domain.member.util;
+package ei.algobaroapi.domain.auth.util;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
