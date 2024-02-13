@@ -11,7 +11,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -20,9 +19,6 @@ import java.util.List;
 @Table(name = "members")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseEntity implements UserDetails {
-
-    @ElementCollection(fetch = FetchType.LAZY)
-    private final List<String> roles = new ArrayList<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,10 +30,14 @@ public class Member extends BaseEntity implements UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @ElementCollection(fetch = FetchType.LAZY)
+    private List<String> roles;
+
     @Builder
     public Member(String email, String password) {
         this.email = new EmailVo(email);
         this.password = password;
+        roles = List.of("ROLE_USER");
     }
 
     @Override
