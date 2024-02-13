@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class MemberSignUpRequest {
+public class AuthSignUpRequest {
 
     private String email;
     private String password;

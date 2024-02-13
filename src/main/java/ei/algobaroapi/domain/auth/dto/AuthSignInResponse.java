@@ -6,11 +6,11 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class MemberSignInResponse {
+public class AuthSignInResponse {
 
     private final String accessToken;
 
-    public static MemberSignInResponse of(String accessToken) {
-        return new MemberSignInResponse(accessToken);
+    public static AuthSignInResponse of(String accessToken) {
+        return new AuthSignInResponse(accessToken);
     }
 }

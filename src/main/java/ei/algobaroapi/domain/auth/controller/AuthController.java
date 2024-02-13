@@ -1,9 +1,9 @@
 package ei.algobaroapi.domain.auth.controller;
 
-import ei.algobaroapi.domain.auth.dto.MemberSignInResponse;
+import ei.algobaroapi.domain.auth.dto.AuthSignInResponse;
 import ei.algobaroapi.domain.member.domain.Member;
-import ei.algobaroapi.domain.auth.dto.MemberSignUpRequest;
-import ei.algobaroapi.domain.auth.dto.MemberSignInRequest;
+import ei.algobaroapi.domain.auth.dto.AuthSignUpRequest;
+import ei.algobaroapi.domain.auth.dto.AuthSignInRequest;
 import ei.algobaroapi.domain.auth.service.AuthService;
 import ei.algobaroapi.global.config.swaggerdoc.AuthControllerDoc;
 import lombok.RequiredArgsConstructor;
@@ -19,13 +19,13 @@ public class AuthController implements AuthControllerDoc {
 
     @Override
     @PostMapping("/auth/sign-up")
-    public void signUp(@RequestBody MemberSignUpRequest request) {
+    public void signUp(@RequestBody AuthSignUpRequest request) {
         this.authService.signUp(request);
     }
 
     @Override
     @PostMapping("/auth/sign-in")
-    public MemberSignInResponse signIn(@RequestBody MemberSignInRequest request) {
+    public AuthSignInResponse signIn(@RequestBody AuthSignInRequest request) {
         return this.authService.signIn(request);
     }
 

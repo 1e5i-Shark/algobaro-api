@@ -1,6 +1,6 @@
-package ei.algobaroapi.domain.member.exception;
+package ei.algobaroapi.domain.member.exception.common;
 
-import ei.algobaroapi.domain.member.exception.umm.MemberFoundException;
+import ei.algobaroapi.domain.member.exception.MemberFoundException;
 import ei.algobaroapi.global.response.message.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
 @RestControllerAdvice
-public class MemberGlobalExceptionHandler {
+public class MemberExceptionHandler {
 
     @ExceptionHandler(MemberFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
