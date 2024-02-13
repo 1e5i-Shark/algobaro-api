@@ -8,9 +8,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@Tag(name = "Member", description = "회원 도메인 API")
+@Tag(name = "Auth", description = "회원 인증 도메인 API")
 @SuppressWarnings("unused")
-public interface MemberControllerDoc {
+public interface AuthControllerDoc {
 
     @Operation(summary = "회원 가입", description = "회원가입을 합니다.")
     void signUp(@RequestBody MemberSignUpRequest request);

@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class MemberService {
+public class AuthService {
 
     private final MemberRepository memberRepository;
     private final JwtProvider jwtProvider;
