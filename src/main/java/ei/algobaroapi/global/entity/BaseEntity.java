@@ -3,7 +3,6 @@ package ei.algobaroapi.global.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
@@ -11,7 +10,6 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 public abstract class BaseEntity {
 
-    @CreatedDate
     @Column(name = "created_at", columnDefinition = "datetime", updatable = false)
     private LocalDateTime createdAt;
 
@@ -21,8 +19,17 @@ public abstract class BaseEntity {
     @Column(name = "deleted_at", columnDefinition = "datetime")
     private LocalDateTime deletedAt;
 
+    protected BaseEntity() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
     public boolean isDeleted() {
         return this.deletedAt != null;
+    }
+
+    protected void update() {
+        this.updatedAt = LocalDateTime.now();
     }
 
     protected void delete() {
