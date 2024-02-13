@@ -2,7 +2,6 @@ package ei.algobaroapi.global.config;
 
 import ei.algobaroapi.global.jwt.JwtAuthenticationFilter;
 import ei.algobaroapi.global.jwt.JwtProvider;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +15,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
