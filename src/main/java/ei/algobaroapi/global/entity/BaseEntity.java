@@ -2,9 +2,8 @@ package ei.algobaroapi.global.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
-import lombok.Getter;
-
 import java.time.LocalDateTime;
+import lombok.Getter;
 
 @Getter
 @MappedSuperclass
@@ -33,7 +32,9 @@ public abstract class BaseEntity {
     }
 
     protected void delete() {
-        if (isDeleted()) throw new IllegalArgumentException("이미 삭제된 엔티티 입니다.");
+        if (isDeleted()) {
+            throw new IllegalArgumentException("이미 삭제된 엔티티 입니다.");
+        }
         this.deletedAt = LocalDateTime.now();
     }
 }
