@@ -1,10 +1,10 @@
 package ei.algobaroapi.domain.member.service;
 
-import ei.algobaroapi.domain.auth.exception.AuthErrorCode;
-import ei.algobaroapi.domain.auth.exception.umm.MemberFoundException;
 import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.member.domain.MemberRepository;
 import ei.algobaroapi.domain.member.domain.vo.EmailVo;
+import ei.algobaroapi.domain.member.exception.MemberErrorCode;
+import ei.algobaroapi.domain.member.exception.umm.MemberFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +18,7 @@ public class MemberService {
 
     public Member getMemberByEmail(String email) {
         return memberRepository.findByEmailAndDeletedAtIsNull(new EmailVo(email))
-                .orElseThrow(() -> MemberFoundException.of(AuthErrorCode.EMAIL_NOT_FOUND));
+                .orElseThrow(() -> MemberFoundException.of(MemberErrorCode.EMAIL_NOT_FOUND));
     }
 
     @Transactional
