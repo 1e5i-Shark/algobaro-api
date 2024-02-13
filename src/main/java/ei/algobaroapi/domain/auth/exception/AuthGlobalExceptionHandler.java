@@ -1,7 +1,7 @@
 package ei.algobaroapi.domain.auth.exception;
 
 import ei.algobaroapi.domain.auth.exception.umm.AuthPasswordException;
-import ei.algobaroapi.global.message.ErrorResponse;
+import ei.algobaroapi.global.response.message.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;

@@ -1,4 +1,4 @@
-package ei.algobaroapi.global.message;
+package ei.algobaroapi.global.response.message;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

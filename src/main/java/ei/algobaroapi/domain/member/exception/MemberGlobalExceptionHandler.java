@@ -1,7 +1,7 @@
 package ei.algobaroapi.domain.member.exception;
 
 import ei.algobaroapi.domain.member.exception.umm.MemberFoundException;
-import ei.algobaroapi.global.message.ErrorResponse;
+import ei.algobaroapi.global.response.message.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;

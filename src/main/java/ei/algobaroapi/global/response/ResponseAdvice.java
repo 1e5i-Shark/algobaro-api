@@ -1,5 +1,6 @@
-package ei.algobaroapi.global.message;
+package ei.algobaroapi.global.response;
 
+import ei.algobaroapi.global.response.message.ErrorResponse;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;

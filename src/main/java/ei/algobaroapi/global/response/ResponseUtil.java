@@ -1,4 +1,7 @@
-package ei.algobaroapi.global.message;
+package ei.algobaroapi.global.response;
+
+import ei.algobaroapi.global.response.message.BasicResponse;
+import ei.algobaroapi.global.response.message.ErrorResponse;
 
 public class ResponseUtil {
 
