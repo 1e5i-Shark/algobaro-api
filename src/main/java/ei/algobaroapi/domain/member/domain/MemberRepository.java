@@ -10,6 +10,6 @@ import java.util.Optional;
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
-    @Query("SELECT m FROM Member m WHERE m.email = :email AND m.deletedAt IS NULL")
+    @Query("SELECT m FROM Member m LEFT JOIN FETCH m.roles WHERE m.email = :email AND m.deletedAt IS NULL")
     Optional<Member> findByEmailAndDeletedAtIsNull(EmailVo email);
 }
