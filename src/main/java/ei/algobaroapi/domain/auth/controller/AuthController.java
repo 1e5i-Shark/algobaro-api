@@ -1,5 +1,6 @@
 package ei.algobaroapi.domain.auth.controller;
 
+import ei.algobaroapi.domain.auth.dto.MemberSignInResponse;
 import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.auth.dto.MemberSignUpRequest;
 import ei.algobaroapi.domain.auth.dto.MemberSignInRequest;
@@ -24,7 +25,7 @@ public class AuthController implements AuthControllerDoc {
 
     @Override
     @PostMapping("/auth/sign-in")
-    public String signIn(@RequestBody MemberSignInRequest request) {
+    public MemberSignInResponse signIn(@RequestBody MemberSignInRequest request) {
         return this.authService.signIn(request);
     }
 

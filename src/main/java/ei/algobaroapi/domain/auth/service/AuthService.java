@@ -1,11 +1,12 @@
 package ei.algobaroapi.domain.auth.service;
 
-import ei.algobaroapi.domain.member.domain.Member;
-import ei.algobaroapi.domain.auth.dto.MemberSignUpRequest;
 import ei.algobaroapi.domain.auth.dto.MemberSignInRequest;
+import ei.algobaroapi.domain.auth.dto.MemberSignInResponse;
+import ei.algobaroapi.domain.auth.dto.MemberSignUpRequest;
 import ei.algobaroapi.domain.auth.exception.AuthErrorCode;
 import ei.algobaroapi.domain.auth.exception.umm.AuthPasswordException;
 import ei.algobaroapi.domain.auth.util.PasswordUtil;
+import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.member.service.MemberService;
 import ei.algobaroapi.global.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
@@ -28,12 +29,14 @@ public class AuthService {
     }
 
     @Transactional
-    public String signIn(MemberSignInRequest request) {
+    public MemberSignInResponse signIn(MemberSignInRequest request) {
         Member member = memberService.getMemberByEmail(request.getEmail());
         if (!passwordUtil.isPasswordMatch(request.getPassword(), member.getPassword())) {
             throw AuthPasswordException.of(AuthErrorCode.PASSWORD_NOT_MATCH);
         }
 
-        return jwtProvider.generateToken(member.getUsername(), member.getRoles());
+        String accessToken = jwtProvider.generateToken(member.getUsername(), member.getRoles());
+
+        return MemberSignInResponse.of(accessToken);
     }
 }

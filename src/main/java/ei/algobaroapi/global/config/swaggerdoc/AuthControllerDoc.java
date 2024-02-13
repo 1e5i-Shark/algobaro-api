@@ -1,5 +1,6 @@
 package ei.algobaroapi.global.config.swaggerdoc;
 
+import ei.algobaroapi.domain.auth.dto.MemberSignInResponse;
 import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.auth.dto.MemberSignInRequest;
 import ei.algobaroapi.domain.auth.dto.MemberSignUpRequest;
@@ -16,7 +17,7 @@ public interface AuthControllerDoc {
     void signUp(@RequestBody MemberSignUpRequest request);
 
     @Operation(summary = "로그인", description = "이메일, 비밀번호로 로그인을 합니다.")
-    String signIn(@RequestBody MemberSignInRequest request);
+    MemberSignInResponse signIn(@RequestBody MemberSignInRequest request);
 
     @Operation(summary = "테스트", description = "테스트용 API")
     String hello(@AuthenticationPrincipal Member member);
