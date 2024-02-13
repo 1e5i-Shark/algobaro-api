@@ -1,13 +1,12 @@
 package ei.algobaroapi.domain.member.controller;
 
+import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.member.dto.MemberSignUpRequest;
 import ei.algobaroapi.domain.member.dto.MemberSignInRequest;
 import ei.algobaroapi.domain.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,5 +23,11 @@ public class MemberController {
     @PostMapping("/members/sign-in")
     public String signIn(@RequestBody MemberSignInRequest request) {
         return this.memberService.signIn(request);
+    }
+
+    @GetMapping("/members/test")
+    public String hello(@AuthenticationPrincipal Member member) {
+        System.out.println(member.getEmail().getEmail());
+        return "Hello, World!";
     }
 }
