@@ -62,4 +62,4 @@ jobs:
             docker rm algobaro-api
             sudo docker pull ${{ secrets.DOCKER_ID }}/${{ secrets.DOCKER_REPO }}
             docker run -d --name algobaro-api -p 8080:8080 ${{ secrets.DOCKER_ID }}/${{ secrets.DOCKER_REPO }}
-            docker images -f "dangling=true" -q | xargs -r docker rmi -f
+            docker rmi $(docker images -a | grep "<none>" | awk '{print $3}')
