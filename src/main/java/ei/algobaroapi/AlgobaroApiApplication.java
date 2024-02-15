@@ -1,4 +1,4 @@
-package e5i.algobaroapi;
+package ei.algobaroapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
