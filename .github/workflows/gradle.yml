@@ -8,60 +8,74 @@
 name: Java CI with Gradle
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
+# 테스트 결과 작성을 위해 쓰기권한 추가
+permissions: write-all
+
+# 해당 Workflow의 Job 목록
 jobs:
   build:
-
+    # Runner가 실행되는 환경을 정의
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
 
+    # build Job 내의 step 목록
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
+      # uses 키워드를 통해 Action 호출
+      - uses: actions/checkout@v4
+      # jdk 세팅
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
 
-    # Configure Gradle for optimal use in GiHub Actions, including caching of downloaded dependencies.
-    # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@ec92e829475ac0c2315ea8f9eced72db85bb337a # v3.0.0
+        # gradle 캐싱
+      - name: Gradle Caching
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
-    - name: Build with Gradle Wrapper
-      run: ./gradlew build
+      ### CI
+      #gradlew 권한 추가
+      - name: Grant Execute Permission For Gradlew
+        run: chmod +x gradlew
 
-    # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
-    # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
-    #
-    # - name: Setup Gradle
-    #   uses: gradle/actions/setup-gradle@ec92e829475ac0c2315ea8f9eced72db85bb337a # v3.0.0
-    #   with:
-    #     gradle-version: '8.5'
-    #
-    # - name: Build with Gradle 8.5
-    #   run: gradle build
+      #test를 제외한 프로젝트 빌드
+      - name: Build With Gradle
+        run: ./gradlew build -x test
 
-  dependency-submission:
+      #test를 위한 mysql설정
+      - name: Start MySQL
+        uses: samin/mysql-action@v1.3
+        with:
+          host port: 3305
+          container port: 3305
+          mysql database: 'algobaro'
+          mysql user: 'admin'
+          mysql password: 'admin1234'
 
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
+      #테스트를 위한 test properties 설정
+      - name: Make application-test.properties
+        run: |
+          cd ./src/test/resources
+          touch ./application.properties
+          echo "${{ secrets.PROPERTIES_TEST }}" > ./application.properties
+        shell: bash
 
-    steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
+      #test코드 빌드
+      - name: Build With Test
+        run: ./gradlew test
 
-    # Generates and submits a dependency graph, enabling Dependabot Alerts for all project dependencies.
-    # See: https://github.com/gradle/actions/blob/main/dependency-submission/README.md
-    - name: Generate and submit dependency graph
-      uses: gradle/actions/dependency-submission@ec92e829475ac0c2315ea8f9eced72db85bb337a # v3.0.0
+      #테스트 결과 파일 생성
+      - name: Publish Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: ${{ always() }}
+        with:
+          files: build/test-results/**/*.xml
