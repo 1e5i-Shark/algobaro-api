@@ -6,6 +6,7 @@ import ei.algobaroapi.domain.auth.dto.AuthSignUpRequest;
 import ei.algobaroapi.domain.auth.service.AuthService;
 import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.global.config.swaggerdoc.AuthControllerDoc;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +37,7 @@ public class AuthController implements AuthControllerDoc {
     @Override
     @GetMapping("/auth/test")
     public String hello(@AuthenticationPrincipal Member member) {
-        System.out.println(member.getEmail().getEmail());
-        return "Hello, World!";
+    public Map<String, String> hello(@AuthenticationPrincipal Member member) {
+        return Map.of("email", member.getEmail().getEmail());
     }
 }
