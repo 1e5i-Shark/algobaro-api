@@ -26,8 +26,8 @@ public interface AuthControllerDoc {
     @Operation(summary = "로그인", description = "이메일, 비밀번호로 로그인을 합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "로그인 성공"),
-            @ApiResponse(responseCode = "E1300", description = "가입되지 않은 이메일입니다.", content = @Content),
-            @ApiResponse(responseCode = "E0201", description = "비밀번호가 일치하지 않습니다.", content = @Content)
+            @ApiResponse(responseCode = "E01301", description = "가입되지 않은 이메일입니다.", content = @Content),
+            @ApiResponse(responseCode = "E00202", description = "비밀번호가 일치하지 않습니다.", content = @Content)
     })
     AuthSignInResponse signIn(@RequestBody AuthSignInRequest request);
 
