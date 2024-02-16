@@ -6,6 +6,7 @@ import ei.algobaroapi.domain.auth.dto.AuthSignUpRequest;
 import ei.algobaroapi.domain.auth.service.AuthService;
 import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.global.config.swaggerdoc.AuthControllerDoc;
+import jakarta.validation.Valid;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,14 +29,14 @@ public class AuthController implements AuthControllerDoc {
     @Override
     @PostMapping("/auth/sign-up")
     @ResponseStatus(HttpStatus.CREATED)
-    public void signUp(@RequestBody AuthSignUpRequest request) {
+    public void signUp(@RequestBody @Valid AuthSignUpRequest request) {
         this.authService.signUp(request);
     }
 
     @Override
     @PostMapping("/auth/sign-in")
     @ResponseStatus(HttpStatus.OK)
-    public AuthSignInResponse signIn(@RequestBody AuthSignInRequest request) {
+    public AuthSignInResponse signIn(@RequestBody @Valid AuthSignInRequest request) {
         return this.authService.signIn(request);
     }
 
