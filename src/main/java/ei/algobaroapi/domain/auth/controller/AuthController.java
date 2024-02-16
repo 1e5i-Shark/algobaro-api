@@ -9,6 +9,7 @@ import ei.algobaroapi.global.config.swaggerdoc.AuthControllerDoc;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,6 +41,7 @@ public class AuthController implements AuthControllerDoc {
 
     @Override
     @GetMapping("/auth/test")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @ResponseStatus(HttpStatus.OK)
     public Map<String, String> hello(@AuthenticationPrincipal Member member) {
         return Map.of("email", member.getEmail().getEmail());
