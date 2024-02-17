@@ -1,0 +1,39 @@
+package ei.algobaroapi.domain.solve.dto.response;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Schema(description = "풀이 히스토리 상세 조회 응답")
+@Getter
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+public class SolveHistoryDetailResponse {
+
+    @Schema(description = "풀이 히스토리 식별 id", example = "1")
+    private final Long id;
+
+    @Schema(description = "방 식별 값", example = "123e4567-e89b-12d3-a456-426614174000")
+    private final String roomUuid;
+
+    @Schema(description = "풀이 언어", example = "java")
+    private final String language;
+
+    @Schema(description = "풀이 코드", example = "public class Main {\n    public static void main(String[] args) {\n        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));\n        String[] input = br.readLine().split(\" \");\n        int a = Integer.parseInt(input[0]);\n        int b = Integer.parseInt(input[1]);\n        System.out.println(a + b);\n    }\n}")
+    private final String code;
+
+    @Schema(description = "문제 제목", example = "A+B")
+    private final String title;
+
+    @Schema(description = "풀이 결과", example = "SUCCESS")
+    private final String solveStatus;
+
+    @Schema(description = "풀이 시간", example = "2024-01-01T00:00:00")
+    private final String solvedAt;
+
+    @Schema(description = "문제 플랫폼", example = "BOJ")
+    private final String platform;
+
+    @Schema(description = "문제 링크", example = "https://www.acmicpc.net/problem/1000")
+    private final String problemLink;
+}
