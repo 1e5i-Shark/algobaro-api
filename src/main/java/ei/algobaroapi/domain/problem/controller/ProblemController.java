@@ -1,7 +1,8 @@
-package ei.algobaroapi.global.config.swaggerdoc;
+package ei.algobaroapi.domain.problem.controller;
 
 import ei.algobaroapi.domain.problem.dto.request.ProblemFindRequest;
 import ei.algobaroapi.domain.problem.dto.response.ProblemHtmlResponse;
+import ei.algobaroapi.global.config.swaggerdoc.ProblemControllerDoc;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
