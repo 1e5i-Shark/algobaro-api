@@ -37,6 +37,15 @@ public class Member extends BaseEntity implements UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "nickname", nullable = false)
+    private String nickname;
+
+    @Column(name = "boj_id", nullable = false)
+    private String bojId;
+
+    @Column(name = "profile_image")
+    private String profileImage;
+
     @ElementCollection(fetch = FetchType.LAZY)
     private List<String> roles;
 
