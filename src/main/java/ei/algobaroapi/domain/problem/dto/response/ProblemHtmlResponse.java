@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class ProblemHtmlResponse {
 
-    @Schema(description = "문제 정보 html", example = "<h1>문제 정보</h1>")
+    @Schema(description = "문제 정보 html", example = "<p>문제 정보</p>")
     private final String problemInfoHtml;
 
     public static ProblemHtmlResponse of(String problemInfoHtml) {
