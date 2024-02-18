@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,10 +42,10 @@ public class SolveHistory extends BaseEntity {
     private String codeLanguage;
 
     @Column(name = "start_at", nullable = false)
-    private String startAt;
+    private LocalDateTime startAt;
 
     @Column(name = "end_at", nullable = false)
-    private String endAt;
+    private LocalDateTime endAt;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "solve_status", nullable = false)
