@@ -4,6 +4,7 @@ import ei.algobaroapi.domain.room.domain.RoomAccessType;
 import ei.algobaroapi.domain.room.domain.RoomStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 import lombok.Builder;
 import lombok.Getter;
@@ -44,10 +45,10 @@ public class RoomCreateRequestDto {
     private int limit;
 
     @Schema(description = "문제 레벨", example = "Gold 4")
-    private String levelTag;
+    private List<String> levelTag;
 
     @Schema(description = "문제 알고리즘 종류", example = "BFS")
-    private String algorithmTag;
+    private List<String> algorithmTag;
 
     @Schema(description = "방 UUID", example = "2ad2e9db-30af-4fa2-895c-b6b1f7e95203")
     private UUID roomUUID;
