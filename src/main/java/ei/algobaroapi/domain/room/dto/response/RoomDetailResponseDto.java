@@ -4,6 +4,7 @@ import ei.algobaroapi.domain.room.domain.Room;
 import ei.algobaroapi.domain.room.domain.RoomAccessType;
 import ei.algobaroapi.domain.room.domain.RoomStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -40,10 +41,10 @@ public class RoomDetailResponseDto {
     private int limit;
 
     @Schema(description = "문제 레벨", example = "Gold 4")
-    private String levelTag;
+    private List<String> levelTag;
 
     @Schema(description = "문제 알고리즘 종류", example = "BFS")
-    private String algorithmTag;
+    private List<String> algorithmTag;
 
     public static RoomDetailResponseDto of(Room room) {
         return new RoomDetailResponseDto(

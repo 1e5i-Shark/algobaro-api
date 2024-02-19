@@ -1,7 +1,9 @@
 package ei.algobaroapi.domain.room.domain;
 
+import ch.qos.logback.core.testUtil.StringListAppender;
 import ei.algobaroapi.global.entity.BaseEntity;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -10,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -59,10 +62,12 @@ public class Room extends BaseEntity {
     private int limit;
 
     @Column(name = "level_tag")
-    private String levelTag;
+    @Convert(converter = StringListAppender.class)
+    private List<String> levelTag;
 
     @Column(name = "algorithm_tag")
-    private String algorithmTag;
+    @Convert(converter = StringListAppender.class)
+    private List<String> algorithmTag;
 
     @Column(name = "room_uuid", nullable = false)
     private UUID roomUUID;
