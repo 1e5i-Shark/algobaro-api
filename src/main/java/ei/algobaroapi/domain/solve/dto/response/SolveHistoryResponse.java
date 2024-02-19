@@ -36,7 +36,7 @@ public class SolveHistoryResponse {
                 solveHistory.getCodeLanguage(),
                 solveHistory.getProblemName(),
                 solveHistory.getSolveStatus().name(),
-                solveHistory.getEndAt()
+                solveHistory.getEndAt().toString()
         );
     }
 }
