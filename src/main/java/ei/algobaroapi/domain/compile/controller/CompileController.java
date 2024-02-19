@@ -2,6 +2,7 @@ package ei.algobaroapi.domain.compile.controller;
 
 import ei.algobaroapi.domain.compile.dto.request.CompileExecutionRequest;
 import ei.algobaroapi.domain.compile.dto.response.CompileExecutionResponse;
+import ei.algobaroapi.domain.compile.service.CompileService;
 import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.global.config.swaggerdoc.CompileControllerDoc;
 import jakarta.validation.Valid;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1")
 public class CompileController implements CompileControllerDoc {
 
+    private final CompileService compileService;
+
     @Override
     @PostMapping("/compile")
     @ResponseStatus(HttpStatus.CREATED)
@@ -26,6 +29,6 @@ public class CompileController implements CompileControllerDoc {
             @AuthenticationPrincipal Member member,
             @RequestBody @Valid CompileExecutionRequest request
     ) {
-        return null;
+        return compileService.executeCode(request);
     }
 }
