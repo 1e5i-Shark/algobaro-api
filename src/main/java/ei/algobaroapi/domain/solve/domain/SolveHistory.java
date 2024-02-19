@@ -41,10 +41,10 @@ public class SolveHistory extends BaseEntity {
     @Column(name = "code_language", nullable = false)
     private String codeLanguage;
 
-    @Column(name = "start_at", nullable = false)
+    @Column(name = "start_at", nullable = false, columnDefinition = "datetime")
     private LocalDateTime startAt;
 
-    @Column(name = "end_at", nullable = false)
+    @Column(name = "end_at", nullable = false, columnDefinition = "datetime")
     private LocalDateTime endAt;
 
     @Enumerated(EnumType.STRING)
