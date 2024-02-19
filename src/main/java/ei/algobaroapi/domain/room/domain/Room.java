@@ -1,6 +1,6 @@
 package ei.algobaroapi.domain.room.domain;
 
-import ch.qos.logback.core.testUtil.StringListAppender;
+import ei.algobaroapi.global.util.StringListConverter;
 import ei.algobaroapi.global.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -58,15 +58,15 @@ public class Room extends BaseEntity {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "limit", nullable = false)
-    private int limit;
+    @Column(name = "room_limit", nullable = false)
+    private int roomLimit;
 
     @Column(name = "level_tag")
-    @Convert(converter = StringListAppender.class)
+    @Convert(converter = StringListConverter.class)
     private List<String> levelTag;
 
     @Column(name = "algorithm_tag")
-    @Convert(converter = StringListAppender.class)
+    @Convert(converter = StringListConverter.class)
     private List<String> algorithmTag;
 
     @Column(name = "room_uuid", nullable = false)
