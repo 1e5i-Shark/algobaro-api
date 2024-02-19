@@ -11,7 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @SuppressWarnings("unused")
 public interface CompileControllerDoc {
 
-    @Operation(summary = "코드 제출 - 작업 중", description = "사용자가 제출한 코드를 컴파일합니다.")
+    @Operation(summary = "코드 제출", description = "사용자가 제출한 코드를 컴파일합니다.")
     @ApiResponse(responseCode = "201", description = "코드 컴파일 성공")
     CompileExecutionResponse compileCode(Member member, CompileExecutionRequest request);
 }
