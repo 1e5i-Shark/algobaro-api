@@ -1,10 +1,13 @@
 package ei.algobaroapi.domain.solve.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Schema(description = "테스트 케이스 결과")
 @Getter
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class BojTestCaseResult {
 
     @Schema(description = "테스트 케이스 번호", example = "1")
@@ -22,11 +25,13 @@ public class BojTestCaseResult {
     @Schema(description = "테스트 케이스 결과", example = "true")
     private final boolean success;
 
-    public BojTestCaseResult(int caseNumber, String input, String output, String result, boolean success) {
-        this.caseNumber = caseNumber;
-        this.input = input;
-        this.output = output;
-        this.result = result;
-        this.success = success;
+    public static BojTestCaseResult of(
+            int caseNumber,
+            String input,
+            String output,
+            String result,
+            boolean success
+    ) {
+        return new BojTestCaseResult(caseNumber, input, output, result, success);
     }
 }
