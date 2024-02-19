@@ -42,7 +42,7 @@ public class RoomCreateRequestDto {
     private String password;
 
     @Schema(description = "방 최대 인원", example = "4")
-    private int limit;
+    private int roomLimit;
 
     @Schema(description = "문제 레벨", example = "Gold 4")
     private List<String> levelTag;
