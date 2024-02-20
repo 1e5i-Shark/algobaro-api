@@ -2,6 +2,7 @@ package ei.algobaroapi.domain.room.dto.request;
 
 import ei.algobaroapi.domain.room.domain.RoomAccessType;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,8 +18,14 @@ public class RoomUpdateRequestDto {
     @Schema(description = "방 소개", example = "저랑 같이 A+B 문제 푸실 분 구해요")
     private String introduce;
 
+    @Schema(description = "방 시작 시간", example = "2024-2-18T17:30:00")
+    private LocalDateTime startAt;
+
     @Schema(description = "방 접근 정보", example = "공개 방")
     private RoomAccessType roomAccessType;
+
+    @Schema(description = "문제 링크", example = "https://www.acmicpc.net/problem/1000")
+    private String problemLink;
 
     @Schema(description = "문제 플랫폼", example = "백준")
     private String problemPlatform;
@@ -36,5 +43,5 @@ public class RoomUpdateRequestDto {
     private List<String> levelTag;
 
     @Schema(description = "문제 알고리즘 종류", example = "BFS")
-    private List<String> algorithmTage;
+    private List<String> algorithmTag;
 }
