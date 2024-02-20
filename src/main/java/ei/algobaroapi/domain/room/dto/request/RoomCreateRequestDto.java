@@ -1,5 +1,6 @@
 package ei.algobaroapi.domain.room.dto.request;
 
+import ei.algobaroapi.domain.room.domain.Room;
 import ei.algobaroapi.domain.room.domain.RoomAccessType;
 import ei.algobaroapi.domain.room.domain.RoomStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -52,4 +53,22 @@ public class RoomCreateRequestDto {
 
     @Schema(description = "방 UUID", example = "2ad2e9db-30af-4fa2-895c-b6b1f7e95203")
     private UUID roomUUID;
+
+    public Room toEntity() {
+        return Room.builder()
+                .roomStatus(roomStatus)
+                .title(title)
+                .introduce(introduce)
+                .startAt(startAt)
+                .roomAccessType(roomAccessType)
+                .problemLink(problemLink)
+                .problemPlatform(problemPlatform)
+                .problemName(problemName)
+                .password(password)
+                .roomLimit(roomLimit)
+                .levelTag(levelTag)
+                .algorithmTag(algorithmTag)
+                .roomUUID(roomUUID)
+                .build();
+    }
 }
