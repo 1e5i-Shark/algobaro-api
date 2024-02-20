@@ -27,21 +27,21 @@ public class RoomControllerDocImpl implements RoomControllerDoc {
     @Override
     @GetMapping("/rooms")
     public List<RoomDetailResponseDto> getAllRooms() {
-        return null;
+        return roomService.getAllRooms();
     }
 
     @Override
     @PostMapping("/rooms")
     public RoomDetailResponseDto createRoom(
             @RequestBody @Valid RoomCreateRequestDto roomCreateRequestDto) {
-        return null;
+        return roomService.createRoom(roomCreateRequestDto);
     }
 
     @Override
     @PatchMapping("/rooms/{roomId}")
     public RoomDetailResponseDto updateRoomById(@PathVariable(name = "roomId") Long roomId,
             @RequestBody @Valid RoomUpdateRequestDto roomUpdateRequestDto) {
-        return null;
+        return roomService.updateRoomByRoomId(roomId, roomUpdateRequestDto);
     }
 
     @Override
