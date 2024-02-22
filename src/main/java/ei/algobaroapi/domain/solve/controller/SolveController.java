@@ -6,9 +6,9 @@ import ei.algobaroapi.domain.solve.dto.request.SolveHistoryListFindRequest;
 import ei.algobaroapi.domain.solve.dto.response.BojCodeSubmissionResponse;
 import ei.algobaroapi.domain.solve.dto.response.SolveHistoryDetailResponse;
 import ei.algobaroapi.domain.solve.dto.response.SolveHistoryResponse;
+import ei.algobaroapi.domain.solve.service.SolveHistoryService;
 import ei.algobaroapi.global.config.swaggerdoc.SolveControllerDoc;
 import jakarta.validation.Valid;
-import java.util.Collections;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1")
 public class SolveController implements SolveControllerDoc {
 
+    private final SolveHistoryService solveHistoryService;
+
     @Override
     @PostMapping("/solves/submission")
     public BojCodeSubmissionResponse submissionCode(
@@ -40,7 +42,7 @@ public class SolveController implements SolveControllerDoc {
             @AuthenticationPrincipal Member member,
             @ModelAttribute @Valid SolveHistoryListFindRequest request
     ) {
-        return Collections.emptyList();
+        return solveHistoryService.getHistoryList(member.getId(), request);
     }
 
     @Override
