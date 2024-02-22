@@ -11,6 +11,7 @@ import ei.algobaroapi.global.config.swaggerdoc.SolveControllerDoc;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -38,6 +39,7 @@ public class SolveController implements SolveControllerDoc {
 
     @Override
     @GetMapping("/solves/history")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public List<SolveHistoryResponse> getHistoryList(
             @AuthenticationPrincipal Member member,
             @ModelAttribute @Valid SolveHistoryListFindRequest request
