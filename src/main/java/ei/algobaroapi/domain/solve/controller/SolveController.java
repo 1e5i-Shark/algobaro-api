@@ -49,10 +49,11 @@ public class SolveController implements SolveControllerDoc {
 
     @Override
     @GetMapping("/solves/history/{solveId}")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public SolveHistoryDetailResponse getHistory(
             @AuthenticationPrincipal Member member,
             @PathVariable(name = "solveId") Long solveId
     ) {
-        return null;
+        return solveHistoryService.getHistoryDetail(member.getId(), solveId);
     }
 }

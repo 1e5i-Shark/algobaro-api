@@ -1,9 +1,13 @@
 package ei.algobaroapi.domain.solve.service;
 
+import ei.algobaroapi.domain.solve.domain.SolveHistory;
 import ei.algobaroapi.domain.solve.domain.SolveHistoryRepository;
 import ei.algobaroapi.domain.solve.dto.request.SolveHistoryListFindRequest;
 import ei.algobaroapi.domain.solve.dto.response.SolveHistoryDetailResponse;
 import ei.algobaroapi.domain.solve.dto.response.SolveHistoryResponse;
+import ei.algobaroapi.domain.solve.exception.SolveAccessException;
+import ei.algobaroapi.domain.solve.exception.SolveFoundException;
+import ei.algobaroapi.domain.solve.exception.common.SolveErrorCode;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -34,6 +38,21 @@ public class SolveHistoryServiceImpl implements SolveHistoryService {
 
     @Override
     public SolveHistoryDetailResponse getHistoryDetail(Long memberId, Long solveId) {
-        return null;
+        SolveHistory findHistory = this.getSolveHistoryById(solveId);
+
+        checkMemberId(memberId, findHistory);
+
+        return SolveHistoryDetailResponse.of(findHistory);
+    }
+
+    private void checkMemberId(Long memberId, SolveHistory findHistory) {
+        if (!findHistory.getMember().getId().equals(memberId)) {
+            throw SolveAccessException.of(SolveErrorCode.SOLVE_HISTORY_ACCESS_DENIED);
+        }
+    }
+
+    private SolveHistory getSolveHistoryById(Long solveId) {
+        return solveHistoryRepository.findByIdWithMember(solveId)
+                .orElseThrow(() -> SolveFoundException.of(SolveErrorCode.SOLVE_HISTORY_NOT_FOUND));
     }
 }
