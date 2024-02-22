@@ -27,10 +27,6 @@ public class AuthSignUpRequest {
     @Schema(description = "비밀번호", example = "password1234!")
     private String password;
 
-    @NotNull
-    @Schema(description = "비밀번호 확인", example = "password1234!")
-    private String passwordConfirmation;
-
     public Member toEntity(String encryptPassword) {
         return Member.builder()
                 .email(this.email)
