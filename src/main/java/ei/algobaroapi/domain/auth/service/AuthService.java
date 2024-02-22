@@ -1,8 +1,9 @@
 package ei.algobaroapi.domain.auth.service;
 
-import ei.algobaroapi.domain.auth.dto.AuthSignInRequest;
-import ei.algobaroapi.domain.auth.dto.AuthSignInResponse;
-import ei.algobaroapi.domain.auth.dto.AuthSignUpRequest;
+import ei.algobaroapi.domain.auth.dto.request.AuthSignInRequest;
+import ei.algobaroapi.domain.auth.dto.response.AuthSignInResponse;
+import ei.algobaroapi.domain.auth.dto.request.AuthSignUpRequest;
+import ei.algobaroapi.domain.auth.exception.AuthEmailExistenceException;
 import ei.algobaroapi.domain.auth.exception.AuthPasswordException;
 import ei.algobaroapi.domain.auth.exception.common.AuthErrorCode;
 import ei.algobaroapi.domain.auth.util.PasswordUtil;
@@ -24,6 +25,8 @@ public class AuthService {
 
     @Transactional
     public void signUp(AuthSignUpRequest request) {
+        checkMemberExistence(request.getEmail());
+
         String encryptPassword = passwordUtil.validateAndEncryptPassword(request.getPassword());
         memberService.addMember(request.toEntity(encryptPassword));
     }
@@ -38,5 +41,11 @@ public class AuthService {
         String accessToken = jwtProvider.generateToken(member.getUsername(), member.getRoles());
 
         return AuthSignInResponse.of(accessToken);
+    }
+
+    private void checkMemberExistence(String email) {
+        if (memberService.getMemberByEmail(email) != null) {
+            throw AuthEmailExistenceException.of(AuthErrorCode.EXISING_EMAIL);
+        }
     }
 }
