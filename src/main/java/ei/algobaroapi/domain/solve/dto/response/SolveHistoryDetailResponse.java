@@ -1,5 +1,6 @@
 package ei.algobaroapi.domain.solve.dto.response;
 
+import ei.algobaroapi.domain.solve.domain.SolveHistory;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -36,4 +37,18 @@ public class SolveHistoryDetailResponse {
 
     @Schema(description = "문제 링크", example = "https://www.acmicpc.net/problem/1000")
     private final String problemLink;
+
+    public static SolveHistoryDetailResponse of(SolveHistory solveHistory) {
+        return new SolveHistoryDetailResponse(
+                solveHistory.getId(),
+                solveHistory.getRoomUuid(),
+                solveHistory.getCodeLanguage(),
+                solveHistory.getInputCode(),
+                solveHistory.getProblemName(),
+                solveHistory.getSolveStatus().name(),
+                solveHistory.getStartAt().toString(),
+                solveHistory.getProblemName(),
+                solveHistory.getProblemLink()
+        );
+    }
 }
