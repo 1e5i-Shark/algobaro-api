@@ -13,6 +13,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,7 +38,7 @@ public class SolveController implements SolveControllerDoc {
     @GetMapping("/solves/history")
     public List<SolveHistoryResponse> getHistoryList(
             @AuthenticationPrincipal Member member,
-            @RequestBody @Valid SolveHistoryListFindRequest request
+            @ModelAttribute @Valid SolveHistoryListFindRequest request
     ) {
         return Collections.emptyList();
     }
