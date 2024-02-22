@@ -50,9 +50,11 @@ public class Member extends BaseEntity implements UserDetails {
     private List<String> roles;
 
     @Builder
-    public Member(String email, String password) {
+    public Member(String email, String password, String nickname, String bojId) {
         this.email = new EmailVo(email);
         this.password = password;
+        this.nickname = nickname;
+        this.bojId = bojId;
         roles = List.of("ROLE_USER");
     }
 
