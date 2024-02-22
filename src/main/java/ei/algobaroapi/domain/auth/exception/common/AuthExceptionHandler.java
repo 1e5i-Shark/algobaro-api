@@ -1,7 +1,7 @@
 package ei.algobaroapi.domain.auth.exception.common;
 
 import ei.algobaroapi.domain.auth.exception.AuthEmailExistenceException;
-import ei.algobaroapi.domain.auth.exception.AuthPasswordConfirmationException;
+import ei.algobaroapi.domain.auth.exception.AuthNicknameExistenceException;
 import ei.algobaroapi.domain.auth.exception.AuthPasswordException;
 import ei.algobaroapi.global.response.message.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -28,9 +28,10 @@ public class AuthExceptionHandler {
                 .body(ErrorResponse.of(e.getErrorCode(), e.getErrorMessage()));
     }
 
-    @ExceptionHandler(AuthPasswordConfirmationException.class)
-    public ResponseEntity<ErrorResponse> catchPasswordConfirmation(AuthPasswordConfirmationException e) {
+    @ExceptionHandler(AuthNicknameExistenceException.class)
+    public ResponseEntity<ErrorResponse> catchNonExistentNickname(AuthNicknameExistenceException e) {
         log.warn(e.getErrorCode());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ErrorResponse.of(e.getErrorCode(), e.getErrorMessage()));
-    }}
+    }
+}
