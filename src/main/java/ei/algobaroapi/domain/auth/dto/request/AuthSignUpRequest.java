@@ -1,4 +1,4 @@
-package ei.algobaroapi.domain.auth.dto;
+package ei.algobaroapi.domain.auth.dto.request;
 
 import ei.algobaroapi.domain.member.domain.Member;
 import io.swagger.v3.oas.annotations.media.Schema;
