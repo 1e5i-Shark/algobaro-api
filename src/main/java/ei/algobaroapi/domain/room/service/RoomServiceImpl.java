@@ -6,6 +6,8 @@ import ei.algobaroapi.domain.room.dto.request.RoomCreateRequestDto;
 import ei.algobaroapi.domain.room.dto.request.RoomUpdateRequestDto;
 import ei.algobaroapi.domain.room.dto.response.RoomDetailResponseDto;
 import ei.algobaroapi.domain.room.dto.response.RoomSubmitCodeResponseDto;
+import ei.algobaroapi.domain.room.exception.RoomNotFoundException;
+import ei.algobaroapi.domain.room.exception.common.RoomErrorCode;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +39,7 @@ public class RoomServiceImpl implements RoomService {
     public RoomDetailResponseDto updateRoomByRoomId(Long roomId,
             RoomUpdateRequestDto roomUpdateRequestDto) {
         Room room = roomRepository.findById(roomId)
-                .orElseThrow(() -> new EntityNotFoundException("방을 찾지 못했습니다."));
+                .orElseThrow(() -> RoomNotFoundException.of(RoomErrorCode.ROOM_NOT_FOUND));
 
         room.update(roomUpdateRequestDto);
 
