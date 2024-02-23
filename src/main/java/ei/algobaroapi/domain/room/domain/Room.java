@@ -59,11 +59,11 @@ public class Room extends BaseEntity {
     private String password;
 
     @Column(name = "room_limit", nullable = false)
-    private int roomLimit;
+    private int roomLimit; // TODO: Integer
 
     @Column(name = "level_tag")
     @Convert(converter = StringListConverter.class)
-    private List<String> levelTag;
+    private List<String> levelTag; // TODO: tag 하나로 통일
 
     @Column(name = "algorithm_tag")
     @Convert(converter = StringListConverter.class)
