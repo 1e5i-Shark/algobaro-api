@@ -4,7 +4,6 @@ import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.solve.dto.request.BojCodeSubmissionRequest;
 import ei.algobaroapi.domain.solve.dto.request.SolveHistoryListFindRequest;
 import ei.algobaroapi.domain.solve.dto.response.BojCodeSubmissionResponse;
-import ei.algobaroapi.domain.solve.dto.response.SolveHistoryDetailResponse;
 import ei.algobaroapi.domain.solve.dto.response.SolveHistoryResponse;
 import ei.algobaroapi.domain.solve.service.SolveHistoryService;
 import ei.algobaroapi.global.config.swaggerdoc.SolveControllerDoc;
@@ -15,7 +14,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,15 +43,5 @@ public class SolveController implements SolveControllerDoc {
             @ModelAttribute @Valid SolveHistoryListFindRequest request
     ) {
         return solveHistoryService.getHistoryList(member.getId(), request);
-    }
-
-    @Override
-    @GetMapping("/solves/history/{solveId}")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public SolveHistoryDetailResponse getHistory(
-            @AuthenticationPrincipal Member member,
-            @PathVariable(name = "solveId") Long solveId
-    ) {
-        return solveHistoryService.getHistoryDetail(member.getId(), solveId);
     }
 }
