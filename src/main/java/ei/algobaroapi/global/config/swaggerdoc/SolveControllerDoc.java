@@ -28,5 +28,4 @@ public interface SolveControllerDoc {
     @ApiResponse(responseCode = "200", description = "문제 풀이 히스토리 상세 조회 성공")
     @ApiResponse(responseCode = "E02301", description = "존재하지 않는 풀이 내역입니다.", content = @Content)
     @ApiResponse(responseCode = "E02201", description = "해당 풀이 내역에 접근할 수 없습니다.", content = @Content)
-    SolveHistoryDetailResponse getHistory(Member member, Long solveId);
 }
