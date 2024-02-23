@@ -46,6 +46,8 @@ public class RoomDetailResponseDto {
     @Schema(description = "문제 알고리즘 종류", example = "BFS")
     private List<String> algorithmTag;
 
+    // TODO: short UUID 전달
+
     public static RoomDetailResponseDto of(Room room) {
         return new RoomDetailResponseDto(
                 room.getId(),
