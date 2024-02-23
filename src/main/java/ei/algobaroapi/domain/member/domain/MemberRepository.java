@@ -11,4 +11,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     @Query("SELECT m FROM Member m LEFT JOIN FETCH m.roles WHERE m.email = :email AND m.deletedAt IS NULL")
     Optional<Member> findByEmailAndDeletedAtIsNull(EmailVo email);
+
+    boolean existsByNickname(String nickname);
+
+    boolean existsByEmail(EmailVo email);
 }
