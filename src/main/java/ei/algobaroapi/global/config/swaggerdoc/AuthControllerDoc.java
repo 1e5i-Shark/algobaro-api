@@ -17,6 +17,8 @@ public interface AuthControllerDoc {
 
     @Operation(summary = "회원 가입", description = "회원가입을 합니다.")
     @ApiResponse(responseCode = "201", description = "회원가입 성공")
+    @ApiResponse(responseCode = "E00101", description = "이미 존재하는 이메일으로 회원가입 시도", content = @Content)
+    @ApiResponse(responseCode = "E00102", description = "이미 존재하는 닉네임으로 회원가입 시도", content = @Content)
     AuthSignUpResponse signUp(AuthSignUpRequest request);
 
     @Operation(summary = "로그인", description = "이메일, 비밀번호로 로그인을 합니다.")
