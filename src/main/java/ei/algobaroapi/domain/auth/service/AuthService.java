@@ -5,6 +5,7 @@ import ei.algobaroapi.domain.auth.dto.request.AuthSignUpRequest;
 import ei.algobaroapi.domain.auth.dto.response.AuthSignInResponse;
 import ei.algobaroapi.domain.auth.dto.response.AuthSignUpResponse;
 import ei.algobaroapi.domain.auth.exception.AuthEmailExistenceException;
+import ei.algobaroapi.domain.auth.exception.AuthNicknameExistenceException;
 import ei.algobaroapi.domain.auth.exception.AuthPasswordException;
 import ei.algobaroapi.domain.auth.exception.common.AuthErrorCode;
 import ei.algobaroapi.domain.auth.util.PasswordUtil;
@@ -26,8 +27,8 @@ public class AuthService {
 
     @Transactional
     public AuthSignUpResponse signUp(AuthSignUpRequest request) {
-        checkMemberIsExisting(request.getEmail()); // 해당 이메일로 가입한 회원이 있는지 확인
-        checkNicknameIsExisting(request.getNickname()); // 이미 존재하는 닉네임인지 확인
+        checkMemberIsExistingByEmail(request.getEmail()); // 해당 이메일로 가입한 회원이 있는지 확인
+        checkMemberIsExistingByNickname(request.getNickname()); // 이미 존재하는 닉네임인지 확인
 
         String encryptPassword = passwordUtil.validateAndEncryptPassword(request.getPassword());
 
@@ -48,12 +49,15 @@ public class AuthService {
         return AuthSignInResponse.of(accessToken);
     }
 
-    private void checkMemberIsExisting(String email) {
-        if (memberService.getMemberByEmail(email) != null) {
+    private void checkMemberIsExistingByEmail(String email) {
+        if (memberService.isExistingMemberByEmail(email)) {
             throw AuthEmailExistenceException.of(AuthErrorCode.EXISTING_EMAIL);
         }
     }
 
-    private void checkNicknameIsExisting(String nickname) {
+    private void checkMemberIsExistingByNickname(String nickname) {
+        if (memberService.isExistingMemberByNickname(nickname)) {
+            throw AuthNicknameExistenceException.of(AuthErrorCode.ALREADY_EXIST_NICKNAME);
+        }
     }
 }
