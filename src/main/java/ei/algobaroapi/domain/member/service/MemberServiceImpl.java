@@ -3,8 +3,8 @@ package ei.algobaroapi.domain.member.service;
 import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.member.domain.MemberRepository;
 import ei.algobaroapi.domain.member.domain.vo.EmailVo;
-import ei.algobaroapi.domain.member.dto.response.MemberDetailResponse;
 import ei.algobaroapi.domain.member.dto.request.MemberDetailUpdateRequest;
+import ei.algobaroapi.domain.member.dto.response.MemberDetailResponse;
 import ei.algobaroapi.domain.member.exception.MemberFoundException;
 import ei.algobaroapi.domain.member.exception.common.MemberErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -42,5 +42,15 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void updateMemberDetail(Long id, MemberDetailUpdateRequest request) {
+    }
+
+    @Override
+    public boolean isExistingMemberByEmail(String email) {
+        return memberRepository.existsByEmail(new EmailVo(email));
+    }
+
+    @Override
+    public boolean isExistingMemberByNickname(String nickname) {
+        return memberRepository.existsByNickname(nickname);
     }
 }
