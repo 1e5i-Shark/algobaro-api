@@ -1,6 +1,7 @@
 package ei.algobaroapi.global.config.swaggerdoc;
 
 import ei.algobaroapi.domain.room.dto.request.RoomCreateRequestDto;
+import ei.algobaroapi.domain.room.dto.request.RoomListRequestDto;
 import ei.algobaroapi.domain.room.dto.request.RoomUpdateRequestDto;
 import ei.algobaroapi.domain.room.dto.response.RoomDetailResponseDto;
 import ei.algobaroapi.domain.room.dto.response.RoomSubmitCodeResponseDto;
@@ -13,16 +14,17 @@ import java.util.List;
 @SuppressWarnings("unused")
 public interface RoomControllerDoc {
 
-    @Operation(summary = "모든 방 정보 조회 - 작업 중", description = "현재 존재하는 모든 방 정보를 조회합니다.")
+    @Operation(summary = "모든 방 정보 조회", description = "현재 존재하는 모든 방 정보를 조회합니다.")
     @ApiResponse(responseCode = "200", description = "방 정보 조회 성공")
-    List<RoomDetailResponseDto> getAllRooms();
+    List<RoomDetailResponseDto> getAllRooms(RoomListRequestDto roomListRequestDto);
 
-    @Operation(summary = "방 생성 - 작업 중", description = "새로운 방을 생성합니다.")
+    @Operation(summary = "방 생성", description = "새로운 방을 생성합니다.")
     @ApiResponse(responseCode = "200", description = "방 생성 성공")
     RoomDetailResponseDto createRoom(RoomCreateRequestDto roomCreateRequestDto);
 
-    @Operation(summary = "방 수정 - 작업 중", description = "방 정보를 수정합니다.")
+    @Operation(summary = "방 수정", description = "방 정보를 수정합니다.")
     @ApiResponse(responseCode = "200", description = "방 수정 성공")
+    @ApiResponse(responseCode = "E03301", description = "수정하려는 방 정보를 찾지 못했습니다.")
     RoomDetailResponseDto updateRoomById(Long roomId, RoomUpdateRequestDto roomUpdateRequestDto);
 
     @Operation(summary = "문제 풀이 시작 - 작업 중", description = "코딩테스트를 시작합니다.")
