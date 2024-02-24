@@ -15,4 +15,8 @@ public interface MemberService {
     MemberDetailResponse getMemberDetailById(Long id);
 
     void updateMemberDetail(Long id, MemberDetailUpdateRequest request);
+
+    boolean isExistingMemberByEmail(String email);
+
+    boolean isExistingMemberByNickname(String nickname);
 }

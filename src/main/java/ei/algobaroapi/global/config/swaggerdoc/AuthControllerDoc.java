@@ -1,8 +1,9 @@
 package ei.algobaroapi.global.config.swaggerdoc;
 
-import ei.algobaroapi.domain.auth.dto.AuthSignInRequest;
-import ei.algobaroapi.domain.auth.dto.AuthSignInResponse;
-import ei.algobaroapi.domain.auth.dto.AuthSignUpRequest;
+import ei.algobaroapi.domain.auth.dto.request.AuthSignInRequest;
+import ei.algobaroapi.domain.auth.dto.response.AuthSignInResponse;
+import ei.algobaroapi.domain.auth.dto.request.AuthSignUpRequest;
+import ei.algobaroapi.domain.auth.dto.response.AuthSignUpResponse;
 import ei.algobaroapi.domain.member.domain.Member;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -16,7 +17,9 @@ public interface AuthControllerDoc {
 
     @Operation(summary = "회원 가입", description = "회원가입을 합니다.")
     @ApiResponse(responseCode = "201", description = "회원가입 성공")
-    void signUp(AuthSignUpRequest request);
+    @ApiResponse(responseCode = "E00101", description = "이미 존재하는 이메일으로 회원가입 시도", content = @Content)
+    @ApiResponse(responseCode = "E00102", description = "이미 존재하는 닉네임으로 회원가입 시도", content = @Content)
+    AuthSignUpResponse signUp(AuthSignUpRequest request);
 
     @Operation(summary = "로그인", description = "이메일, 비밀번호로 로그인을 합니다.")
     @ApiResponse(responseCode = "200", description = "로그인 성공")

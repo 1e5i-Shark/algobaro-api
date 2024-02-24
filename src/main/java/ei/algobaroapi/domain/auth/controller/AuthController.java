@@ -1,8 +1,9 @@
 package ei.algobaroapi.domain.auth.controller;
 
-import ei.algobaroapi.domain.auth.dto.AuthSignInRequest;
-import ei.algobaroapi.domain.auth.dto.AuthSignInResponse;
-import ei.algobaroapi.domain.auth.dto.AuthSignUpRequest;
+import ei.algobaroapi.domain.auth.dto.request.AuthSignInRequest;
+import ei.algobaroapi.domain.auth.dto.response.AuthSignInResponse;
+import ei.algobaroapi.domain.auth.dto.request.AuthSignUpRequest;
+import ei.algobaroapi.domain.auth.dto.response.AuthSignUpResponse;
 import ei.algobaroapi.domain.auth.service.AuthService;
 import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.global.config.swaggerdoc.AuthControllerDoc;
@@ -29,8 +30,8 @@ public class AuthController implements AuthControllerDoc {
     @Override
     @PostMapping("/auth/sign-up")
     @ResponseStatus(HttpStatus.CREATED)
-    public void signUp(@RequestBody @Valid AuthSignUpRequest request) {
-        this.authService.signUp(request);
+    public AuthSignUpResponse signUp(@RequestBody @Valid AuthSignUpRequest request) {
+        return this.authService.signUp(request);
     }
 
     @Override

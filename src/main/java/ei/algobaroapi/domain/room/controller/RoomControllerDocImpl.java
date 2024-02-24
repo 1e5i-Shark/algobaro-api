@@ -1,6 +1,7 @@
 package ei.algobaroapi.domain.room.controller;
 
 import ei.algobaroapi.domain.room.dto.request.RoomCreateRequestDto;
+import ei.algobaroapi.domain.room.dto.request.RoomListRequestDto;
 import ei.algobaroapi.domain.room.dto.request.RoomUpdateRequestDto;
 import ei.algobaroapi.domain.room.dto.response.RoomDetailResponseDto;
 import ei.algobaroapi.domain.room.dto.response.RoomSubmitCodeResponseDto;
@@ -10,6 +11,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,22 +28,23 @@ public class RoomControllerDocImpl implements RoomControllerDoc {
 
     @Override
     @GetMapping("/rooms")
-    public List<RoomDetailResponseDto> getAllRooms() {
-        return null;
+    public List<RoomDetailResponseDto> getAllRooms(
+            @ModelAttribute @Valid RoomListRequestDto roomListRequestDto) {
+        return roomService.getAllRooms(roomListRequestDto);
     }
 
     @Override
     @PostMapping("/rooms")
     public RoomDetailResponseDto createRoom(
             @RequestBody @Valid RoomCreateRequestDto roomCreateRequestDto) {
-        return null;
+        return roomService.createRoom(roomCreateRequestDto);
     }
 
     @Override
     @PatchMapping("/rooms/{roomId}")
     public RoomDetailResponseDto updateRoomById(@PathVariable(name = "roomId") Long roomId,
             @RequestBody @Valid RoomUpdateRequestDto roomUpdateRequestDto) {
-        return null;
+        return roomService.updateRoomByRoomId(roomId, roomUpdateRequestDto);
     }
 
     @Override
@@ -52,7 +55,8 @@ public class RoomControllerDocImpl implements RoomControllerDoc {
 
     @Override
     @GetMapping("/rooms/codes/{roomId}")
-    public List<RoomSubmitCodeResponseDto> getSubmitCodesByRoomId(@PathVariable(name = "roomId") Long roomId) {
+    public List<RoomSubmitCodeResponseDto> getSubmitCodesByRoomId(
+            @PathVariable(name = "roomId") Long roomId) {
         return null;
     }
 }

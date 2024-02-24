@@ -1,7 +1,8 @@
 package ei.algobaroapi.domain.room.domain;
 
-import ei.algobaroapi.global.util.StringListConverter;
+import ei.algobaroapi.domain.room.dto.request.RoomUpdateRequestDto;
 import ei.algobaroapi.global.entity.BaseEntity;
+import ei.algobaroapi.global.util.StringListConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -59,11 +61,11 @@ public class Room extends BaseEntity {
     private String password;
 
     @Column(name = "room_limit", nullable = false)
-    private int roomLimit;
+    private int roomLimit; // TODO: Integer
 
     @Column(name = "level_tag")
     @Convert(converter = StringListConverter.class)
-    private List<String> levelTag;
+    private List<String> levelTag; // TODO: tag 하나로 통일
 
     @Column(name = "algorithm_tag")
     @Convert(converter = StringListConverter.class)
@@ -71,4 +73,60 @@ public class Room extends BaseEntity {
 
     @Column(name = "room_uuid", nullable = false)
     private UUID roomUUID;
+
+    @Builder
+    public Room(RoomStatus roomStatus, String title, String introduce, LocalDateTime startAt,
+            RoomAccessType roomAccessType, String problemLink, String problemPlatform,
+            String problemName, String password, int roomLimit, List<String> levelTag,
+            List<String> algorithmTag, UUID roomUUID) {
+        this.roomStatus = roomStatus;
+        this.title = title;
+        this.introduce = introduce;
+        this.startAt = startAt;
+        this.roomAccessType = roomAccessType;
+        this.problemLink = problemLink;
+        this.problemPlatform = problemPlatform;
+        this.problemName = problemName;
+        this.password = password;
+        this.roomLimit = roomLimit;
+        this.levelTag = levelTag;
+        this.algorithmTag = algorithmTag;
+        this.roomUUID = roomUUID;
+    }
+
+    public void update(RoomUpdateRequestDto roomUpdateRequestDto) {
+        if (roomUpdateRequestDto.getTitle() != null) {
+            this.title = roomUpdateRequestDto.getTitle();
+        }
+        if (roomUpdateRequestDto.getIntroduce() != null) {
+            this.introduce = roomUpdateRequestDto.getIntroduce();
+        }
+        if (roomUpdateRequestDto.getStartAt() != null) {
+            this.startAt = roomUpdateRequestDto.getStartAt();
+        }
+        if (roomUpdateRequestDto.getRoomAccessType() != null) {
+            this.roomAccessType = roomUpdateRequestDto.getRoomAccessType();
+        }
+        if (roomUpdateRequestDto.getProblemLink() != null) {
+            this.problemLink = roomUpdateRequestDto.getProblemLink();
+        }
+        if (roomUpdateRequestDto.getProblemPlatform() != null) {
+            this.problemPlatform = roomUpdateRequestDto.getProblemPlatform();
+        }
+        if (roomUpdateRequestDto.getProblemName() != null) {
+            this.problemName = roomUpdateRequestDto.getProblemName();
+        }
+        if (roomUpdateRequestDto.getPassword() != null) {
+            this.password = roomUpdateRequestDto.getPassword();
+        }
+        if (roomUpdateRequestDto.getRoomLimit() > 0) {
+            this.roomLimit = roomUpdateRequestDto.getRoomLimit();
+        }
+        if (roomUpdateRequestDto.getLevelTag() != null) {
+            this.levelTag = roomUpdateRequestDto.getLevelTag();
+        }
+        if (roomUpdateRequestDto.getAlgorithmTag() != null) {
+            this.algorithmTag = roomUpdateRequestDto.getAlgorithmTag();
+        }
+    }
 }
