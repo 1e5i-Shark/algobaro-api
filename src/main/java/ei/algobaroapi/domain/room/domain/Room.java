@@ -61,15 +61,11 @@ public class Room extends BaseEntity {
     private String password;
 
     @Column(name = "room_limit", nullable = false)
-    private int roomLimit; // TODO: Integer
+    private Integer roomLimit;
 
-    @Column(name = "level_tag")
+    @Column(name = "tags")
     @Convert(converter = StringListConverter.class)
-    private List<String> levelTag; // TODO: tag 하나로 통일
-
-    @Column(name = "algorithm_tag")
-    @Convert(converter = StringListConverter.class)
-    private List<String> algorithmTag;
+    private List<String> tags;
 
     @Column(name = "room_uuid", nullable = false)
     private UUID roomUUID;
@@ -77,8 +73,8 @@ public class Room extends BaseEntity {
     @Builder
     public Room(RoomStatus roomStatus, String title, String introduce, LocalDateTime startAt,
             RoomAccessType roomAccessType, String problemLink, String problemPlatform,
-            String problemName, String password, int roomLimit, List<String> levelTag,
-            List<String> algorithmTag, UUID roomUUID) {
+            String problemName, String password, Integer roomLimit, List<String> tags,
+            UUID roomUUID) {
         this.roomStatus = roomStatus;
         this.title = title;
         this.introduce = introduce;
@@ -89,8 +85,7 @@ public class Room extends BaseEntity {
         this.problemName = problemName;
         this.password = password;
         this.roomLimit = roomLimit;
-        this.levelTag = levelTag;
-        this.algorithmTag = algorithmTag;
+        this.tags = tags;
         this.roomUUID = roomUUID;
     }
 
@@ -122,11 +117,8 @@ public class Room extends BaseEntity {
         if (roomUpdateRequestDto.getRoomLimit() > 0) {
             this.roomLimit = roomUpdateRequestDto.getRoomLimit();
         }
-        if (roomUpdateRequestDto.getLevelTag() != null) {
-            this.levelTag = roomUpdateRequestDto.getLevelTag();
-        }
-        if (roomUpdateRequestDto.getAlgorithmTag() != null) {
-            this.algorithmTag = roomUpdateRequestDto.getAlgorithmTag();
+        if (roomUpdateRequestDto.getTags() != null) {
+            this.tags = roomUpdateRequestDto.getTags();
         }
     }
 }

@@ -52,13 +52,10 @@ public class RoomCreateRequestDto {
 
     @NotNull
     @Schema(description = "방 최대 인원", example = "4")
-    private int roomLimit;
+    private Integer roomLimit;
 
-    @Schema(description = "문제 레벨", example = "Gold 4")
-    private List<String> levelTag;
-
-    @Schema(description = "문제 알고리즘 종류", example = "BFS")
-    private List<String> algorithmTag;
+    @Schema(description = "태그", example = "{백준, 1레벨}")
+    private List<String> tags;
 
     @NotNull
     @Schema(description = "방 UUID", example = "2ad2e9db-30af-4fa2-895c-b6b1f7e95203")
@@ -76,8 +73,7 @@ public class RoomCreateRequestDto {
                 .problemName(problemName)
                 .password(password)
                 .roomLimit(roomLimit)
-                .levelTag(levelTag)
-                .algorithmTag(algorithmTag)
+                .tags(tags)
                 .roomUUID(roomUUID)
                 .build();
     }
