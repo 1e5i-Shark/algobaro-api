@@ -3,14 +3,16 @@ package ei.algobaroapi.domain.room.service;
 import ei.algobaroapi.domain.room.domain.Room;
 import ei.algobaroapi.domain.room.domain.RoomRepository;
 import ei.algobaroapi.domain.room.dto.request.RoomCreateRequestDto;
+import ei.algobaroapi.domain.room.dto.request.RoomListRequestDto;
 import ei.algobaroapi.domain.room.dto.request.RoomUpdateRequestDto;
 import ei.algobaroapi.domain.room.dto.response.RoomDetailResponseDto;
 import ei.algobaroapi.domain.room.dto.response.RoomSubmitCodeResponseDto;
 import ei.algobaroapi.domain.room.exception.RoomNotFoundException;
 import ei.algobaroapi.domain.room.exception.common.RoomErrorCode;
-import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,8 +24,11 @@ public class RoomServiceImpl implements RoomService {
     private final RoomRepository roomRepository;
 
     @Override
-    public List<RoomDetailResponseDto> getAllRooms() {
-        return roomRepository.findAll().stream()
+    public List<RoomDetailResponseDto> getAllRooms(RoomListRequestDto roomListRequestDto) {
+        Pageable pageable = PageRequest.of(roomListRequestDto.getPage(),
+                roomListRequestDto.getSize());
+
+        return roomRepository.findAll(pageable).getContent().stream()
                 .map(RoomDetailResponseDto::of)
                 .toList();
     }
