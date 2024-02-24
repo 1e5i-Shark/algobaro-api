@@ -54,8 +54,8 @@ public class WebSecurityConfig {
 
                 // api 별 권한 처리
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/v1/members/sign-up").permitAll()
-                        .requestMatchers("/api/v1/members/sign-in").permitAll()
+                        .requestMatchers("/api/v1/auth/sign-up").permitAll()
+                        .requestMatchers("/api/v1/auth/sign-in").permitAll()
                         .requestMatchers("/api/v1/members/test").hasRole("USER")
                         .anyRequest().permitAll())
 
