@@ -7,6 +7,7 @@ import ei.algobaroapi.domain.solve.dto.response.BojCodeSubmissionResponse;
 import ei.algobaroapi.domain.solve.dto.response.SolveHistoryResponse;
 import ei.algobaroapi.domain.solve.dto.response.SolveResultResponse;
 import ei.algobaroapi.domain.solve.service.SolveHistoryService;
+import ei.algobaroapi.domain.solve.service.SolveService;
 import ei.algobaroapi.global.config.swaggerdoc.SolveControllerDoc;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -26,15 +27,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1")
 public class SolveController implements SolveControllerDoc {
 
+    private final SolveService solveService;
     private final SolveHistoryService solveHistoryService;
 
     @Override
     @PostMapping("/solves/submission")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public BojCodeSubmissionResponse submissionCode(
             @AuthenticationPrincipal Member member,
             @RequestBody @Valid BojCodeSubmissionRequest request
     ) {
-        return null;
+        return solveService.submitCode(member.getId(), request);
     }
 
     @Override
