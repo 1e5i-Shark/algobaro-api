@@ -63,4 +63,9 @@ public class SolveHistory extends BaseEntity {
 
     @Column(name = "problem_level", nullable = false)
     private String problemLevel;
+
+    public void updateCodeAndLanguage(String code, String language) {
+        this.inputCode = code;
+        this.codeLanguage = language;
+    }
 }

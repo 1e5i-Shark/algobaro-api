@@ -11,4 +11,6 @@ public interface SolveHistoryService {
     List<SolveHistoryResponse> getHistoryList(Long memberId, SolveHistoryListFindRequest request);
 
     SolveHistoryDetailResponse getHistoryDetail(Long memberId, Long solveId);
+
+    void updateSolveHistoryCode(Long memberId, String roomUuid, String language, String code);
 }
