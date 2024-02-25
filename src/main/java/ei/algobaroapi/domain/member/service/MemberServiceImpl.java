@@ -32,7 +32,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Member getMemberById(Long id) {
-        return null;
+        return memberRepository.findById(id)
+                .orElseThrow(() -> MemberFoundException.of(MemberErrorCode.EMAIL_NOT_FOUND));
     }
 
     @Override
