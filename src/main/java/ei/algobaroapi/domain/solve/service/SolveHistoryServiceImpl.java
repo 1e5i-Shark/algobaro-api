@@ -1,5 +1,7 @@
 package ei.algobaroapi.domain.solve.service;
 
+import ei.algobaroapi.domain.member.domain.Member;
+import ei.algobaroapi.domain.member.service.MemberService;
 import ei.algobaroapi.domain.problem.dto.request.ProblemSolveRequest;
 import ei.algobaroapi.domain.problem.service.ProblemService;
 import ei.algobaroapi.domain.solve.domain.SolveHistory;
@@ -17,6 +19,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -25,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class SolveHistoryServiceImpl implements SolveHistoryService {
 
     private final ProblemService problemService;
+    private final MemberService memberService;
     private final SolveHistoryRepository solveHistoryRepository;
 
     @Override
@@ -49,6 +53,25 @@ public class SolveHistoryServiceImpl implements SolveHistoryService {
         checkMemberId(memberId, findHistory);
 
         return SolveHistoryDetailResponse.of(findHistory);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void updateSolveHistoryCode(
+            Long memberId,
+            String roomUuid,
+            String language,
+            String code
+    ) {
+        Member findMember = memberService.getMemberById(memberId);
+        SolveHistory findSolveHistory = getSolveHistoryByMemberAndRoomUuid(roomUuid, findMember);
+
+        findSolveHistory.updateCodeAndLanguage(code, language);
+    }
+
+    private SolveHistory getSolveHistoryByMemberAndRoomUuid(String roomUuid, Member findMember) {
+        return solveHistoryRepository.findByMemberAndRoomUuid(findMember, roomUuid)
+                .orElseThrow(() -> SolveFoundException.of(SolveErrorCode.SOLVE_HISTORY_NOT_FOUND));
     }
 
     private void checkMemberId(Long memberId, SolveHistory findHistory) {
