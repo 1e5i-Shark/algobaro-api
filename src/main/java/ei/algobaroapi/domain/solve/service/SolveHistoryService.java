@@ -17,7 +17,5 @@ public interface SolveHistoryService {
 
     void updateSolveHistoryCode(Long memberId, String roomUuid, String language, String code);
 
-    void completeSolveHistory(String roomUuid);
-
     SolveResultResponse getSolveResultInRoom(String roomUuid);
 }
