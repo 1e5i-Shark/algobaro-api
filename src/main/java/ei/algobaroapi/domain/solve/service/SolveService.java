@@ -5,5 +5,5 @@ import ei.algobaroapi.domain.solve.dto.response.BojCodeSubmissionResponse;
 
 public interface SolveService {
 
-    BojCodeSubmissionResponse submitCode(BojCodeSubmissionRequest request);
+    BojCodeSubmissionResponse submitCode(Long memberId, BojCodeSubmissionRequest request);
 }
