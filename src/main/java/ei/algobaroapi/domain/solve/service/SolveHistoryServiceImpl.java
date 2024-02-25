@@ -8,6 +8,8 @@ import ei.algobaroapi.domain.solve.domain.SolveStatus;
 import ei.algobaroapi.domain.solve.dto.request.SolveHistoryListFindRequest;
 import ei.algobaroapi.domain.solve.dto.response.SolveHistoryDetailResponse;
 import ei.algobaroapi.domain.solve.dto.response.SolveHistoryResponse;
+import ei.algobaroapi.domain.solve.dto.response.SolveResult;
+import ei.algobaroapi.domain.solve.dto.response.SolveResultResponse;
 import ei.algobaroapi.domain.solve.exception.SolveAccessException;
 import ei.algobaroapi.domain.solve.exception.SolveFoundException;
 import ei.algobaroapi.domain.solve.exception.common.SolveErrorCode;
@@ -76,5 +78,26 @@ public class SolveHistoryServiceImpl implements SolveHistoryService {
 
             solveHistory.complete(solveStatus);
         });
+    }
+
+    @Override
+    public SolveResultResponse getSolveResultInRoom(String roomUuid) {
+        List<SolveHistory> solveHistoryList = this.getSolveHistoryList(roomUuid);
+
+        List<SolveResult> solveResults = solveHistoryList.stream()
+                .map(solveHistory ->
+                        SolveResult.builder()
+                                .memberId(solveHistory.getMember().getId())
+                                .language(solveHistory.getCodeLanguage())
+                                .code(solveHistory.getInputCode())
+                                .solveStatus(solveHistory.getSolveStatus())
+                                .build())
+                .toList();
+
+        return SolveResultResponse.of(solveResults);
+    }
+
+    private List<SolveHistory> getSolveHistoryList(String roomUuid) {
+        return solveHistoryRepository.findByRoomUuidWithMember(roomUuid);
     }
 }

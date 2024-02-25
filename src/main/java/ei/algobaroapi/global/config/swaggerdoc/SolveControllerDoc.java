@@ -5,6 +5,7 @@ import ei.algobaroapi.domain.solve.dto.request.BojCodeSubmissionRequest;
 import ei.algobaroapi.domain.solve.dto.request.SolveHistoryListFindRequest;
 import ei.algobaroapi.domain.solve.dto.response.BojCodeSubmissionResponse;
 import ei.algobaroapi.domain.solve.dto.response.SolveHistoryResponse;
+import ei.algobaroapi.domain.solve.dto.response.SolveResultResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -28,4 +29,8 @@ public interface SolveControllerDoc {
     @Operation(summary = "문제 풀이 종료", description = "문제 풀이를 종료합니다.")
     @ApiResponse(responseCode = "201", description = "문제 풀이 종료 성공")
     void completeSolveHistory(String roomUuid);
+
+    @Operation(summary = "문제 풀이 결과 조회", description = "문제 풀이 결과를 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "문제 풀이 결과 조회 성공")
+    SolveResultResponse getSolveResultInRoom(String roomUuid);
 }

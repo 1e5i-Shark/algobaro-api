@@ -5,6 +5,7 @@ import ei.algobaroapi.domain.solve.dto.request.BojCodeSubmissionRequest;
 import ei.algobaroapi.domain.solve.dto.request.SolveHistoryListFindRequest;
 import ei.algobaroapi.domain.solve.dto.response.BojCodeSubmissionResponse;
 import ei.algobaroapi.domain.solve.dto.response.SolveHistoryResponse;
+import ei.algobaroapi.domain.solve.dto.response.SolveResultResponse;
 import ei.algobaroapi.domain.solve.service.SolveHistoryService;
 import ei.algobaroapi.global.config.swaggerdoc.SolveControllerDoc;
 import jakarta.validation.Valid;
@@ -50,5 +51,11 @@ public class SolveController implements SolveControllerDoc {
     @PostMapping("/solves/complete/{roomUuid}")
     public void completeSolveHistory(@PathVariable("roomUuid") String roomUuid) {
         solveHistoryService.completeSolveHistory(roomUuid);
+    }
+
+    @Override
+    @GetMapping("/solves/result/{roomUuid}")
+    public SolveResultResponse getSolveResultInRoom(@PathVariable("roomUuid") String roomUuid) {
+        return solveHistoryService.getSolveResultInRoom(roomUuid);
     }
 }
