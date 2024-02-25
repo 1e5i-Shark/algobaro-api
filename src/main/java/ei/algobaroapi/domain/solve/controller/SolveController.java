@@ -50,6 +50,7 @@ public class SolveController implements SolveControllerDoc {
     @Override
     @PostMapping("/solves/complete/{roomUuid}")
     public void completeSolveHistory(@PathVariable("roomUuid") String roomUuid) {
+        // TODO: 권한 체크 필요
         solveHistoryService.completeSolveHistory(roomUuid);
     }
 
