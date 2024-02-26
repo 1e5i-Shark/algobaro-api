@@ -38,7 +38,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberDetailResponse getMemberDetailById(Long id) {
-        return null;
+        return MemberDetailResponse.of(this.getMemberById(id));
     }
 
     @Override
