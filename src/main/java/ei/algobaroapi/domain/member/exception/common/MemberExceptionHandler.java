@@ -1,6 +1,7 @@
 package ei.algobaroapi.domain.member.exception.common;
 
 import ei.algobaroapi.domain.member.exception.MemberFoundException;
+import ei.algobaroapi.domain.member.exception.MemberPasswordException;
 import ei.algobaroapi.global.response.message.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,13 @@ public class MemberExceptionHandler {
     public ResponseEntity<ErrorResponse> catchMemberFoundException(MemberFoundException e) {
         log.warn(e.getErrorMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(ErrorResponse.of(e.getErrorCode(), e.getErrorMessage()));
+    }
+
+    @ExceptionHandler(MemberPasswordException.class)
+    public ResponseEntity<ErrorResponse> catchMemberPasswordException(MemberPasswordException e) {
+        log.warn(e.getErrorMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ErrorResponse.of(e.getErrorCode(), e.getErrorMessage()));
     }
 }
