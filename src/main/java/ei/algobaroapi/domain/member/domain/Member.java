@@ -1,6 +1,7 @@
 package ei.algobaroapi.domain.member.domain;
 
 import ei.algobaroapi.domain.member.domain.vo.EmailVo;
+import ei.algobaroapi.domain.member.dto.request.MemberDetailUpdateRequest;
 import ei.algobaroapi.global.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -88,5 +89,11 @@ public class Member extends BaseEntity implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public void updateDetail(MemberDetailUpdateRequest request) {
+        this.nickname = request.getNickname();
+        this.bojId = request.getBojId();
+        this.password = request.getNewPassword();
     }
 }
