@@ -1,8 +1,8 @@
 package ei.algobaroapi.domain.member.service;
 
 import ei.algobaroapi.domain.member.domain.Member;
-import ei.algobaroapi.domain.member.dto.response.MemberDetailResponse;
 import ei.algobaroapi.domain.member.dto.request.MemberDetailUpdateRequest;
+import ei.algobaroapi.domain.member.dto.response.MemberDetailResponse;
 
 public interface MemberService {
 

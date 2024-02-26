@@ -5,6 +5,7 @@ import ei.algobaroapi.domain.solve.dto.request.BojCodeSubmissionRequest;
 import ei.algobaroapi.domain.solve.dto.request.SolveHistoryListFindRequest;
 import ei.algobaroapi.domain.solve.dto.response.BojCodeSubmissionResponse;
 import ei.algobaroapi.domain.solve.dto.response.SolveHistoryResponse;
+import ei.algobaroapi.domain.solve.dto.response.SolveResultResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -24,4 +25,12 @@ public interface SolveControllerDoc {
     @ApiResponse(responseCode = "E02301", description = "존재하지 않는 풀이 내역입니다.", content = @Content)
     @ApiResponse(responseCode = "E02201", description = "해당 풀이 내역에 접근할 수 없습니다.", content = @Content)
     List<SolveHistoryResponse> getHistoryList(Member member, SolveHistoryListFindRequest request);
+
+    @Operation(summary = "문제 풀이 종료", description = "문제 풀이를 종료합니다.")
+    @ApiResponse(responseCode = "201", description = "문제 풀이 종료 성공")
+    void completeSolveHistory(String roomUuid);
+
+    @Operation(summary = "문제 풀이 결과 조회", description = "문제 풀이 결과를 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "문제 풀이 결과 조회 성공")
+    SolveResultResponse getSolveResultInRoom(String roomUuid);
 }

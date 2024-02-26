@@ -29,7 +29,8 @@ public class AuthExceptionHandler {
     }
 
     @ExceptionHandler(AuthNicknameExistenceException.class)
-    public ResponseEntity<ErrorResponse> catchNonExistentNickname(AuthNicknameExistenceException e) {
+    public ResponseEntity<ErrorResponse> catchNonExistentNickname(
+            AuthNicknameExistenceException e) {
         log.warn(e.getErrorCode());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ErrorResponse.of(e.getErrorCode(), e.getErrorMessage()));
