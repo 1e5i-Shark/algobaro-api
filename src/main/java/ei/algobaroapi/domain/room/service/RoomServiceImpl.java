@@ -52,6 +52,12 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    public RoomDetailResponseDto getRoomByRoomUuid(String roomUuid) {
+        return RoomDetailResponseDto.of(roomRepository.findByRoomUuidWithRoomMember(roomUuid)
+                .orElseThrow(() -> RoomNotFoundException.of(RoomErrorCode.ROOM_NOT_FOUND)));
+    }
+
+    @Override
     public void startCodingTest(Long roomId) {
         // TODO: RoomStatus Running 으로 변환
     }
