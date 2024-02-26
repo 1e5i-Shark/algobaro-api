@@ -4,6 +4,7 @@ import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.solve.dto.request.BojCodeSubmissionRequest;
 import ei.algobaroapi.domain.solve.dto.request.SolveHistoryListFindRequest;
 import ei.algobaroapi.domain.solve.dto.response.BojCodeSubmissionResponse;
+import ei.algobaroapi.domain.solve.dto.response.SolveHistoryDetailResponse;
 import ei.algobaroapi.domain.solve.dto.response.SolveHistoryResponse;
 import ei.algobaroapi.domain.solve.dto.response.SolveResultResponse;
 import ei.algobaroapi.domain.solve.service.SolveHistoryService;
@@ -48,6 +49,16 @@ public class SolveController implements SolveControllerDoc {
             @ModelAttribute @Valid SolveHistoryListFindRequest request
     ) {
         return solveHistoryService.getHistoryList(member.getId(), request);
+    }
+
+    @Override
+    @GetMapping("/solves/history/{solveId}")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public SolveHistoryDetailResponse getHistoryDetail(
+            @AuthenticationPrincipal Member member,
+            @PathVariable("solveId") Long solveId
+    ) {
+        return solveHistoryService.getHistoryDetail(member.getId(), solveId);
     }
 
     @Override
