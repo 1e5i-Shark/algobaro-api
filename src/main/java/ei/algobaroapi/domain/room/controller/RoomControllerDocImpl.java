@@ -48,6 +48,12 @@ public class RoomControllerDocImpl implements RoomControllerDoc {
     }
 
     @Override
+    @GetMapping("/rooms/{roomUuid}")
+    public RoomDetailResponseDto getRoomByUUID(@PathVariable(name = "roomUuid") String roomUuid) {
+        return roomService.getRoomByRoomUuid(roomUuid);
+    }
+
+    @Override
     @PostMapping("rooms/codes/{roomId}")
     public void startCodingTest(@PathVariable(name = "roomId") Long roomId) {
 
