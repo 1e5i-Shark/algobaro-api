@@ -63,6 +63,9 @@ public class Room extends BaseEntity {
     @Column(name = "room_limit", nullable = false)
     private Integer roomLimit;
 
+    @Column(name = "time_limit", nullable = false)
+    private Integer timeLimit;
+
     @Column(name = "tags")
     @Convert(converter = StringListConverter.class)
     private List<String> tags;
@@ -74,7 +77,7 @@ public class Room extends BaseEntity {
     public Room(RoomStatus roomStatus, String title, String introduce, LocalDateTime startAt,
             RoomAccessType roomAccessType, String problemLink, String problemPlatform,
             String problemName, String password, Integer roomLimit, List<String> tags,
-            UUID roomUUID) {
+            Integer timeLimit, UUID roomUUID) {
         this.roomStatus = roomStatus;
         this.title = title;
         this.introduce = introduce;
@@ -86,6 +89,7 @@ public class Room extends BaseEntity {
         this.password = password;
         this.roomLimit = roomLimit;
         this.tags = tags;
+        this.timeLimit = timeLimit;
         this.roomUUID = roomUUID;
     }
 
@@ -119,6 +123,9 @@ public class Room extends BaseEntity {
         }
         if (roomUpdateRequestDto.getTags() != null) {
             this.tags = roomUpdateRequestDto.getTags();
+        }
+        if (roomUpdateRequestDto.getRoomLimit() != 0) {
+            this.roomLimit = roomUpdateRequestDto.getRoomLimit();
         }
     }
 }
