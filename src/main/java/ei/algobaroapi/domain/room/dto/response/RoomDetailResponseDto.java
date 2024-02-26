@@ -44,7 +44,7 @@ public class RoomDetailResponseDto {
     @Schema(description = "태그", example = "BFS")
     private List<String> tags;
 
-    @Schema(description = "타이머", example = "20")
+    @Schema(description = "타이머(Minute)", example = "20")
     private Integer timeLimit;
 
     @Schema(description = "방 UUID", example = "2ad2e9db-30af-4fa2-895c-b6b1f7e95203")

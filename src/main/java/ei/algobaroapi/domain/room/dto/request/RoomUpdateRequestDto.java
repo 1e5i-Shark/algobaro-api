@@ -42,6 +42,6 @@ public class RoomUpdateRequestDto {
     @Schema(description = "태그", example = "Gold 4")
     private List<String> tags;
 
-    @Schema(description = "타이머", example = "20")
+    @Schema(description = "타이머(Minute)", example = "20")
     private Integer timeLimit;
 }
