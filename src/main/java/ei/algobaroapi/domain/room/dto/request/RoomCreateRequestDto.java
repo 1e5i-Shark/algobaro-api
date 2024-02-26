@@ -57,6 +57,9 @@ public class RoomCreateRequestDto {
     @Schema(description = "태그", example = "{백준, 1레벨}")
     private List<String> tags;
 
+    @Schema(description = "타이머", example = "20")
+    private Integer timeLimit;
+
     @NotNull
     @Schema(description = "방 UUID", example = "2ad2e9db-30af-4fa2-895c-b6b1f7e95203")
     private UUID roomUUID;
@@ -74,6 +77,7 @@ public class RoomCreateRequestDto {
                 .password(password)
                 .roomLimit(roomLimit)
                 .tags(tags)
+                .timeLimit(timeLimit)
                 .roomUUID(roomUUID)
                 .build();
     }
