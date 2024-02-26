@@ -73,9 +73,4 @@ public class SolveHistory extends BaseEntity {
         this.inputCode = code;
         this.codeLanguage = language;
     }
-
-    public void complete(SolveStatus solveStatus) {
-        this.solveStatus = solveStatus;
-        this.endAt = LocalDateTime.now();
-    }
 }
