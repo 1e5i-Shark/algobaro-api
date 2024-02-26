@@ -11,11 +11,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @SuppressWarnings("unused")
 public interface MemberControllerDoc {
 
-    @Operation(summary = "내 정보 조회 - 작업 중", description = "로그인 한 사용자의 정보를 조회합니다.")
+    @Operation(summary = "내 정보 조회", description = "로그인 한 사용자의 정보를 조회합니다.")
     @ApiResponse(responseCode = "200", description = "사용자 정보 조회 성공")
     MemberDetailResponse getMyInfo(Member member);
 
-    @Operation(summary = "내 정보 수정 - 작업 중", description = "로그인 한 사용자의 정보를 수정합니다.")
+    @Operation(summary = "내 정보 수정", description = "로그인 한 사용자의 정보를 수정합니다.")
     @ApiResponse(responseCode = "200", description = "사용자 정보 수정 성공")
+    @ApiResponse(responseCode = "E01201", description = "비밀번호가 일치하지 않습니다.")
     void updateMemberInfo(Member member, MemberDetailUpdateRequest memberUpdateRequest);
 }
