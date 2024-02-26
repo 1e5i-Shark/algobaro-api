@@ -56,7 +56,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/v1/auth/sign-up").permitAll()
                         .requestMatchers("/api/v1/auth/sign-in").permitAll()
-                        .requestMatchers("/api/v1/members/test").hasRole("USER")
+                        .requestMatchers("/api/v1/auth/test").hasRole("USER")
                         .anyRequest().permitAll())
 
                 // JWT 권한 필터 적용

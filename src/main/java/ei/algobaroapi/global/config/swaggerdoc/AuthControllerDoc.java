@@ -1,8 +1,8 @@
 package ei.algobaroapi.global.config.swaggerdoc;
 
 import ei.algobaroapi.domain.auth.dto.request.AuthSignInRequest;
-import ei.algobaroapi.domain.auth.dto.response.AuthSignInResponse;
 import ei.algobaroapi.domain.auth.dto.request.AuthSignUpRequest;
+import ei.algobaroapi.domain.auth.dto.response.AuthSignInResponse;
 import ei.algobaroapi.domain.auth.dto.response.AuthSignUpResponse;
 import ei.algobaroapi.domain.member.domain.Member;
 import io.swagger.v3.oas.annotations.Operation;

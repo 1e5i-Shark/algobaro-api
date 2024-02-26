@@ -15,6 +15,8 @@ public interface RoomService {
 
     RoomDetailResponseDto updateRoomByRoomId(Long roomId, RoomUpdateRequestDto roomUpdateRequestDto);
 
+    RoomDetailResponseDto getRoomByRoomUuid(String roomUuid);
+
     void startCodingTest(Long roomId);
 
     List<RoomSubmitCodeResponseDto> getSubmitCodesByRoomId(Long roomId);

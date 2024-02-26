@@ -1,6 +1,6 @@
-package ei.algobaroapi.domain.room.exception.common;
+package ei.algobaroapi.domain.problem.exception.common;
 
-import ei.algobaroapi.domain.room.exception.RoomNotFoundException;
+import ei.algobaroapi.domain.problem.exception.CrawlingAccessException;
 import ei.algobaroapi.global.response.message.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
 @RestControllerAdvice
-public class RoomExceptionHandler {
+public class ProblemExceptionHandler {
 
-    @ExceptionHandler(RoomNotFoundException.class)
-    public ResponseEntity<ErrorResponse> catchRoomNotFountException(RoomNotFoundException e) {
+    @ExceptionHandler(CrawlingAccessException.class)
+    public ResponseEntity<ErrorResponse> catchCrawlingAccessException(CrawlingAccessException e) {
         log.warn(e.getErrorMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(ErrorResponse.of(e.getErrorCode(), e.getErrorMessage()));

@@ -1,8 +1,8 @@
 package ei.algobaroapi.domain.auth.controller;
 
 import ei.algobaroapi.domain.auth.dto.request.AuthSignInRequest;
-import ei.algobaroapi.domain.auth.dto.response.AuthSignInResponse;
 import ei.algobaroapi.domain.auth.dto.request.AuthSignUpRequest;
+import ei.algobaroapi.domain.auth.dto.response.AuthSignInResponse;
 import ei.algobaroapi.domain.auth.dto.response.AuthSignUpResponse;
 import ei.algobaroapi.domain.auth.service.AuthService;
 import ei.algobaroapi.domain.member.domain.Member;

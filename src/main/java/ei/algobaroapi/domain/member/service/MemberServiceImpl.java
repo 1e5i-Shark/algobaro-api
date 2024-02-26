@@ -1,5 +1,6 @@
 package ei.algobaroapi.domain.member.service;
 
+import ei.algobaroapi.domain.auth.util.PasswordUtil;
 import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.member.domain.MemberRepository;
 import ei.algobaroapi.domain.member.domain.vo.EmailVo;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
+    private final PasswordUtil passwordUtil;
     private final MemberRepository memberRepository;
 
     @Override
@@ -32,16 +34,24 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Member getMemberById(Long id) {
-        return null;
+        return memberRepository.findById(id)
+                .orElseThrow(() -> MemberFoundException.of(MemberErrorCode.EMAIL_NOT_FOUND));
     }
 
     @Override
     public MemberDetailResponse getMemberDetailById(Long id) {
-        return null;
+        return MemberDetailResponse.of(this.getMemberById(id));
     }
 
     @Override
     public void updateMemberDetail(Long id, MemberDetailUpdateRequest request) {
+        Member findMember = this.getMemberById(id);
+
+        if (!passwordUtil.isPasswordMatch(request.getCurrentPassword(), findMember.getPassword())) {
+            throw MemberFoundException.of(MemberErrorCode.PASSWORD_NOT_MATCH);
+        }
+
+        findMember.updateDetail(request);
     }
 
     @Override

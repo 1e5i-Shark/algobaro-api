@@ -37,11 +37,11 @@ public class RoomUpdateRequestDto {
     private String password;
 
     @Schema(description = "방 최대 인원", example = "4")
-    private int roomLimit;
+    private Integer roomLimit;
 
-    @Schema(description = "문제 레벨", example = "Gold 4")
-    private List<String> levelTag;
+    @Schema(description = "태그", example = "Gold 4")
+    private List<String> tags;
 
-    @Schema(description = "문제 알고리즘 종류", example = "BFS")
-    private List<String> algorithmTag;
+    @Schema(description = "타이머(Minute)", example = "20")
+    private Integer timeLimit;
 }
