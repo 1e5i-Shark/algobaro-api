@@ -20,7 +20,7 @@ public class RoomMemberControllerDocImpl implements RoomMemberControllerDoc {
     private final RoomMemberService roomMemberService;
 
     @Override
-    @GetMapping("/rooms/{roomId}")
+    @GetMapping("/roomsTemp/{roomId}") // TODO: getRoomByUUID 와 Path가 겹쳐서 문제 발생, 임시로 변경 추후에 변경해야 함.
     public void joinRoomByRoomId(@PathVariable(name = "roomId") Long roomId,
             @AuthenticationPrincipal Member member) {
 
