@@ -47,8 +47,8 @@ public class RoomDetailResponseDto {
     @Schema(description = "타이머(Minute)", example = "20")
     private Integer timeLimit;
 
-    @Schema(description = "방 UUID", example = "2ad2e9db")
-    private UUID roomUuid;
+    @Schema(description = "방 short UUID", example = "2ad2e9db")
+    private String roomShortUuid;
 
     public static RoomDetailResponseDto of(Room room) {
         return new RoomDetailResponseDto(
@@ -63,7 +63,7 @@ public class RoomDetailResponseDto {
                 room.getRoomLimit(),
                 room.getTags(),
                 room.getTimeLimit(),
-                room.getRoomUuid()
+                room.getRoomUuid().split("-")[0]
         );
     }
 }
