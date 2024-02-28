@@ -41,7 +41,7 @@ public class RoomDetailResponseDto {
     @Schema(description = "방 최대 인원", example = "4")
     private Integer roomLimit;
 
-    @Schema(description = "태그", example = "BFS")
+    @Schema(description = "태그", example = "[\"BFS\", \"Level 1\"]")
     private List<String> tags;
 
     @Schema(description = "타이머(Minute)", example = "20")
