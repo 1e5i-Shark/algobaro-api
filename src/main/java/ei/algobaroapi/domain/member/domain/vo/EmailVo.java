@@ -1,5 +1,7 @@
 package ei.algobaroapi.domain.member.domain.vo;
 
+import ei.algobaroapi.domain.member.exception.MemberInputException;
+import ei.algobaroapi.domain.member.exception.common.MemberErrorCode;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
@@ -17,7 +19,7 @@ public class EmailVo {
 
     public EmailVo(String email) {
         if (!isValidEmail(email)) {
-            throw new IllegalArgumentException("Invalid email");
+            throw MemberInputException.of(MemberErrorCode.INVALID_EMAIL);
         }
         this.email = email;
     }
