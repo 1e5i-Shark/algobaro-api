@@ -1,5 +1,7 @@
 package ei.algobaroapi.domain.auth.util;
 
+import ei.algobaroapi.domain.auth.exception.AuthInputException;
+import ei.algobaroapi.domain.auth.exception.common.AuthErrorCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,7 +19,7 @@ public class PasswordUtil {
 
     public String validateAndEncryptPassword(String rawPassword) {
         if (!isValidPassword(rawPassword)) {
-            throw new IllegalArgumentException("Invalid password");
+            throw AuthInputException.of(AuthErrorCode.INVALID_PASSWORD);
         }
         return passwordEncoder.encode(rawPassword);
     }
