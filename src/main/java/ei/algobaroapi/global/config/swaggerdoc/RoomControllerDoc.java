@@ -27,9 +27,9 @@ public interface RoomControllerDoc {
     @ApiResponse(responseCode = "E03301", description = "수정하려는 방 정보를 찾지 못했습니다.")
     RoomDetailResponseDto updateRoomById(Long roomId, RoomUpdateRequestDto roomUpdateRequestDto);
 
-    @Operation(summary = "개별 방 정보 조회", description = "UUID를 통해 방을 조회합니다.")
+    @Operation(summary = "개별 방 정보 조회", description = "short UUID를 통해 방을 조회합니다.")
     @ApiResponse(responseCode = "200", description = "방 정보 조회 성공")
-    RoomDetailResponseDto getRoomByUuid(String roomUuid);
+    RoomDetailResponseDto getRoomByShortUuid(String roomShortUuid);
 
     @Operation(summary = "문제 풀이 시작 - 작업 중", description = "코딩테스트를 시작합니다.")
     @ApiResponse(responseCode = "200", description = "풀이 시작 성공")
