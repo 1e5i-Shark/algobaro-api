@@ -1,5 +1,7 @@
 package ei.algobaroapi.global.entity;
 
+import ei.algobaroapi.global.exception.GlobalEntityException;
+import ei.algobaroapi.global.exception.common.GlobalErrorCode;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
@@ -33,7 +35,7 @@ public abstract class BaseEntity {
 
     protected void delete() {
         if (isDeleted()) {
-            throw new IllegalArgumentException("이미 삭제된 엔티티 입니다.");
+            throw GlobalEntityException.of(GlobalErrorCode.ALREADY_DELETED_ENTITY);
         }
         this.deletedAt = LocalDateTime.now();
     }
