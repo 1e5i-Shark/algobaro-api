@@ -10,7 +10,6 @@ import ei.algobaroapi.domain.room.dto.response.RoomSubmitCodeResponseDto;
 import ei.algobaroapi.domain.room.exception.RoomNotFoundException;
 import ei.algobaroapi.domain.room.exception.common.RoomErrorCode;
 import java.util.List;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -53,9 +52,8 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public RoomDetailResponseDto getRoomByRoomUuid(String roomUuid) {
-        return RoomDetailResponseDto.of(roomRepository.findByRoomUuidWithRoomMember(
-                        UUID.fromString(roomUuid))
+    public RoomDetailResponseDto getRoomByRoomUuid(String roomShortUuid) {
+        return RoomDetailResponseDto.of(roomRepository.findByRoomUuidStartingWith(roomShortUuid)
                 .orElseThrow(() -> RoomNotFoundException.of(RoomErrorCode.ROOM_NOT_FOUND)));
     }
 
