@@ -71,7 +71,7 @@ public class Room extends BaseEntity {
     private List<String> tags;
 
     @Column(name = "room_uuid", nullable = false)
-    private UUID roomUuid;
+    private String roomUuid;
 
     @Builder
     public Room(RoomStatus roomStatus, String title, String introduce, LocalDateTime startAt,
@@ -90,7 +90,7 @@ public class Room extends BaseEntity {
         this.roomLimit = roomLimit;
         this.tags = tags;
         this.timeLimit = timeLimit;
-        this.roomUuid = UUID.randomUUID();
+        this.roomUuid = UUID.randomUUID().toString();
     }
 
     public void update(RoomUpdateRequestDto roomUpdateRequestDto) {
