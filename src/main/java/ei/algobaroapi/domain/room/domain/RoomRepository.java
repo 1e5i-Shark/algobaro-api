@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Long> {
 
-    @Query("SELECT r from Room r where r.roomUUID = :roomUuid")
+    @Query("SELECT r from Room r where r.roomUuid = :roomUuid")
     Optional<Room> findByRoomUuidWithRoomMember(UUID roomUuid); // TODO: 방 참여 기능 구현 후 쿼리 수정
 }

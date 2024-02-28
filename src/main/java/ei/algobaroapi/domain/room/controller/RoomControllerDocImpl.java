@@ -49,7 +49,7 @@ public class RoomControllerDocImpl implements RoomControllerDoc {
 
     @Override
     @GetMapping("/rooms/{roomUuid}")
-    public RoomDetailResponseDto getRoomByUUID(@PathVariable(name = "roomUuid") String roomUuid) {
+    public RoomDetailResponseDto getRoomByUuid(@PathVariable(name = "roomUuid") String roomUuid) {
         return roomService.getRoomByRoomUuid(roomUuid);
     }
 
