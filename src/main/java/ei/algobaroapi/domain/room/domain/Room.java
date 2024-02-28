@@ -77,7 +77,7 @@ public class Room extends BaseEntity {
     public Room(RoomStatus roomStatus, String title, String introduce, LocalDateTime startAt,
             RoomAccessType roomAccessType, String problemLink, String problemPlatform,
             String problemName, String password, Integer roomLimit, List<String> tags,
-            Integer timeLimit, UUID roomUUID) {
+            Integer timeLimit) {
         this.roomStatus = roomStatus;
         this.title = title;
         this.introduce = introduce;
@@ -90,7 +90,7 @@ public class Room extends BaseEntity {
         this.roomLimit = roomLimit;
         this.tags = tags;
         this.timeLimit = timeLimit;
-        this.roomUUID = roomUUID;
+        this.roomUUID = UUID.randomUUID();
     }
 
     public void update(RoomUpdateRequestDto roomUpdateRequestDto) {
