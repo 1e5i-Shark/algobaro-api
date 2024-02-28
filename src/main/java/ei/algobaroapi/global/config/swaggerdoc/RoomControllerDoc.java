@@ -29,7 +29,7 @@ public interface RoomControllerDoc {
 
     @Operation(summary = "개별 방 정보 조회", description = "UUID를 통해 방을 조회합니다.")
     @ApiResponse(responseCode = "200", description = "방 정보 조회 성공")
-    RoomDetailResponseDto getRoomByUUID(String roomUuid);
+    RoomDetailResponseDto getRoomByUuid(String roomUuid);
 
     @Operation(summary = "문제 풀이 시작 - 작업 중", description = "코딩테스트를 시작합니다.")
     @ApiResponse(responseCode = "200", description = "풀이 시작 성공")
