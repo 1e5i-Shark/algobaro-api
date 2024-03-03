@@ -1,5 +1,6 @@
 package ei.algobaroapi.global.config.swaggerdoc;
 
+import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.room.dto.request.RoomCreateRequestDto;
 import ei.algobaroapi.domain.room.dto.request.RoomListRequestDto;
 import ei.algobaroapi.domain.room.dto.request.RoomUpdateRequestDto;
@@ -20,7 +21,7 @@ public interface RoomControllerDoc {
 
     @Operation(summary = "방 생성", description = "새로운 방을 생성합니다.")
     @ApiResponse(responseCode = "200", description = "방 생성 성공")
-    RoomDetailResponseDto createRoom(RoomCreateRequestDto roomCreateRequestDto);
+    RoomDetailResponseDto createRoom(RoomCreateRequestDto roomCreateRequestDto, Member member);
 
     @Operation(summary = "방 수정", description = "방 정보를 수정합니다.")
     @ApiResponse(responseCode = "200", description = "방 수정 성공")
