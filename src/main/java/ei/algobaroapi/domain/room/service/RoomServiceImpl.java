@@ -1,5 +1,6 @@
 package ei.algobaroapi.domain.room.service;
 
+import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.room.domain.Room;
 import ei.algobaroapi.domain.room.domain.RoomRepository;
 import ei.algobaroapi.domain.room.dto.request.RoomCreateRequestDto;
@@ -9,6 +10,8 @@ import ei.algobaroapi.domain.room.dto.response.RoomDetailResponseDto;
 import ei.algobaroapi.domain.room.dto.response.RoomSubmitCodeResponseDto;
 import ei.algobaroapi.domain.room.exception.RoomNotFoundException;
 import ei.algobaroapi.domain.room.exception.common.RoomErrorCode;
+import ei.algobaroapi.domain.room_member.dto.response.RoomMemberResponseDto;
+import ei.algobaroapi.domain.room_member.service.RoomMemberService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -22,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class RoomServiceImpl implements RoomService {
 
     private final RoomRepository roomRepository;
+    private final RoomMemberService roomMemberService;
 
     @Override
     public List<RoomDetailResponseDto> getAllRooms(RoomListRequestDto roomListRequestDto) {
@@ -35,8 +39,14 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     @Transactional
-    public RoomDetailResponseDto createRoom(RoomCreateRequestDto roomCreateRequestDto) {
-        return RoomDetailResponseDto.of(roomRepository.save(roomCreateRequestDto.toEntity()));
+    public RoomDetailResponseDto createRoom(RoomCreateRequestDto roomCreateRequestDto,
+            Member member) {
+        Room createdRoom = roomRepository.save(roomCreateRequestDto.toEntity()); // DB 방 생성
+
+        List<RoomMemberResponseDto> roomMembers = roomMemberService.createRoomByRoomId(createdRoom,
+                member);// DB RoomMember 방장 정보 생성
+
+        return RoomDetailResponseDto.of(createdRoom, roomMembers);
     }
 
     @Override
@@ -53,8 +63,10 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public RoomDetailResponseDto getRoomByRoomUuid(String roomShortUuid) {
-        return RoomDetailResponseDto.of(roomRepository.findByRoomUuidStartingWith(roomShortUuid)
-                .orElseThrow(() -> RoomNotFoundException.of(RoomErrorCode.ROOM_NOT_FOUND)));
+        Room findRoom = roomRepository.findByRoomUuidStartingWith(roomShortUuid)
+                .orElseThrow(() -> RoomNotFoundException.of(RoomErrorCode.ROOM_NOT_FOUND));
+
+        return RoomDetailResponseDto.of(findRoom, getRoomMembersByRoomId(findRoom.getId()));
     }
 
     @Override
@@ -66,5 +78,9 @@ public class RoomServiceImpl implements RoomService {
     public List<RoomSubmitCodeResponseDto> getSubmitCodesByRoomId(Long roomId) {
         // TODO: RoomMember 필드의 submitCode를 List로 반환
         return null;
+    }
+
+    private List<RoomMemberResponseDto> getRoomMembersByRoomId(Long roomId) {
+        return roomMemberService.getRoomMembersByRoomId(roomId);
     }
 }
