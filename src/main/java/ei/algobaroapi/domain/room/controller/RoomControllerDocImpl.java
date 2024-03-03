@@ -1,5 +1,6 @@
 package ei.algobaroapi.domain.room.controller;
 
+import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.room.dto.request.RoomCreateRequestDto;
 import ei.algobaroapi.domain.room.dto.request.RoomListRequestDto;
 import ei.algobaroapi.domain.room.dto.request.RoomUpdateRequestDto;
@@ -10,6 +11,8 @@ import ei.algobaroapi.global.config.swaggerdoc.RoomControllerDoc;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -35,9 +38,11 @@ public class RoomControllerDocImpl implements RoomControllerDoc {
 
     @Override
     @PostMapping("/rooms")
+    @PreAuthorize("hasRole('USER')")
     public RoomDetailResponseDto createRoom(
-            @RequestBody @Valid RoomCreateRequestDto roomCreateRequestDto) {
-        return roomService.createRoom(roomCreateRequestDto);
+            @RequestBody @Valid RoomCreateRequestDto roomCreateRequestDto,
+            @AuthenticationPrincipal Member member) {
+        return roomService.createRoom(roomCreateRequestDto, member);
     }
 
     @Override
@@ -49,7 +54,8 @@ public class RoomControllerDocImpl implements RoomControllerDoc {
 
     @Override
     @GetMapping("/rooms/{roomShortUuid}")
-    public RoomDetailResponseDto getRoomByShortUuid(@PathVariable(name = "roomShortUuid") String roomShortUuid) {
+    public RoomDetailResponseDto getRoomByShortUuid(
+            @PathVariable(name = "roomShortUuid") String roomShortUuid) {
         return roomService.getRoomByRoomUuid(roomShortUuid);
     }
 
