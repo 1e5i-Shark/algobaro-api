@@ -15,6 +15,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -46,4 +47,13 @@ public class RoomMember extends BaseEntity {
 
     @Column(name = "submit_code")
     private String submitCode;
+
+    @Builder
+    public RoomMember(Room room, Member member, RoomMemberRole roomMemberRole, boolean isReady) {
+        this.room = room;
+        this.member = member;
+        this.roomMemberRole = roomMemberRole;
+        this.isReady = isReady;
+        this.submitCode = null;
+    }
 }
