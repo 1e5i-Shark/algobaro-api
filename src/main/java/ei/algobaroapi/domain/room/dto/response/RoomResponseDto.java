@@ -13,7 +13,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @Schema(description = "메인 화면에 보여지는 방 정보")
-public class RoomDetailResponseDto {
+public class RoomResponseDto {
 
     @Schema(description = "방 번호", example = "1")
     private Long roomId;
@@ -73,9 +73,8 @@ public class RoomDetailResponseDto {
                     ]""")
     private List<RoomMemberResponseDto> roomMembers;
 
-
-    public static RoomDetailResponseDto of(Room room) {
-        return new RoomDetailResponseDto(
+    public static RoomResponseDto of(Room room) {
+        return new RoomResponseDto(
                 room.getId(),
                 room.getRoomStatus(),
                 room.getTitle(),
@@ -92,8 +91,8 @@ public class RoomDetailResponseDto {
         );
     }
 
-    public static RoomDetailResponseDto of(Room room, List<RoomMemberResponseDto> roomMembers) {
-        return new RoomDetailResponseDto(
+    public static RoomResponseDto of(Room room, List<RoomMemberResponseDto> roomMembers) {
+        return new RoomResponseDto(
                 room.getId(),
                 room.getRoomStatus(),
                 room.getTitle(),

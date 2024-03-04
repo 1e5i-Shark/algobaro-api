@@ -6,7 +6,7 @@ import ei.algobaroapi.domain.room.domain.RoomRepository;
 import ei.algobaroapi.domain.room.dto.request.RoomCreateRequestDto;
 import ei.algobaroapi.domain.room.dto.request.RoomListRequestDto;
 import ei.algobaroapi.domain.room.dto.request.RoomUpdateRequestDto;
-import ei.algobaroapi.domain.room.dto.response.RoomDetailResponseDto;
+import ei.algobaroapi.domain.room.dto.response.RoomResponseDto;
 import ei.algobaroapi.domain.room.dto.response.RoomSubmitCodeResponseDto;
 import ei.algobaroapi.domain.room.exception.RoomNotFoundException;
 import ei.algobaroapi.domain.room.exception.common.RoomErrorCode;
@@ -28,45 +28,45 @@ public class RoomServiceImpl implements RoomService {
     private final RoomMemberService roomMemberService;
 
     @Override
-    public List<RoomDetailResponseDto> getAllRooms(RoomListRequestDto roomListRequestDto) {
+    public List<RoomResponseDto> getAllRooms(RoomListRequestDto roomListRequestDto) {
         Pageable pageable = PageRequest.of(roomListRequestDto.getPage(),
                 roomListRequestDto.getSize());
 
         return roomRepository.findAll(pageable).getContent().stream()
-                .map(RoomDetailResponseDto::of)
+                .map(RoomResponseDto::of)
                 .toList();
     }
 
     @Override
     @Transactional
-    public RoomDetailResponseDto createRoom(RoomCreateRequestDto roomCreateRequestDto,
+    public RoomResponseDto createRoom(RoomCreateRequestDto roomCreateRequestDto,
             Member member) {
         Room createdRoom = roomRepository.save(roomCreateRequestDto.toEntity()); // DB 방 생성
 
         List<RoomMemberResponseDto> roomMembers = roomMemberService.createRoomByRoomId(createdRoom,
                 member);// DB RoomMember 방장 정보 생성
 
-        return RoomDetailResponseDto.of(createdRoom, roomMembers);
+        return RoomResponseDto.of(createdRoom, roomMembers);
     }
 
     @Override
     @Transactional
-    public RoomDetailResponseDto updateRoomByRoomId(Long roomId,
+    public RoomResponseDto updateRoomByRoomId(Long roomId,
             RoomUpdateRequestDto roomUpdateRequestDto) {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> RoomNotFoundException.of(RoomErrorCode.ROOM_NOT_FOUND));
 
         room.update(roomUpdateRequestDto);
 
-        return RoomDetailResponseDto.of(room);
+        return RoomResponseDto.of(room);
     }
 
     @Override
-    public RoomDetailResponseDto getRoomByRoomUuid(String roomShortUuid) {
+    public RoomResponseDto getRoomByRoomUuid(String roomShortUuid) {
         Room findRoom = roomRepository.findByRoomUuidStartingWith(roomShortUuid)
                 .orElseThrow(() -> RoomNotFoundException.of(RoomErrorCode.ROOM_NOT_FOUND));
 
-        return RoomDetailResponseDto.of(findRoom, getRoomMembersByRoomId(findRoom.getId()));
+        return RoomResponseDto.of(findRoom, getRoomMembersByRoomId(findRoom.getId()));
     }
 
     @Override

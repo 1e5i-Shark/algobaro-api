@@ -4,7 +4,7 @@ import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.room.dto.request.RoomCreateRequestDto;
 import ei.algobaroapi.domain.room.dto.request.RoomListRequestDto;
 import ei.algobaroapi.domain.room.dto.request.RoomUpdateRequestDto;
-import ei.algobaroapi.domain.room.dto.response.RoomDetailResponseDto;
+import ei.algobaroapi.domain.room.dto.response.RoomResponseDto;
 import ei.algobaroapi.domain.room.dto.response.RoomSubmitCodeResponseDto;
 import ei.algobaroapi.domain.room.service.RoomService;
 import ei.algobaroapi.global.config.swaggerdoc.RoomControllerDoc;
@@ -31,7 +31,7 @@ public class RoomControllerDocImpl implements RoomControllerDoc {
 
     @Override
     @GetMapping("/rooms")
-    public List<RoomDetailResponseDto> getAllRooms(
+    public List<RoomResponseDto> getAllRooms(
             @ModelAttribute @Valid RoomListRequestDto roomListRequestDto) {
         return roomService.getAllRooms(roomListRequestDto);
     }
@@ -39,7 +39,7 @@ public class RoomControllerDocImpl implements RoomControllerDoc {
     @Override
     @PostMapping("/rooms")
     @PreAuthorize("hasRole('USER')")
-    public RoomDetailResponseDto createRoom(
+    public RoomResponseDto createRoom(
             @RequestBody @Valid RoomCreateRequestDto roomCreateRequestDto,
             @AuthenticationPrincipal Member member) {
         return roomService.createRoom(roomCreateRequestDto, member);
@@ -47,14 +47,14 @@ public class RoomControllerDocImpl implements RoomControllerDoc {
 
     @Override
     @PatchMapping("/rooms/{roomId}")
-    public RoomDetailResponseDto updateRoomById(@PathVariable(name = "roomId") Long roomId,
+    public RoomResponseDto updateRoomById(@PathVariable(name = "roomId") Long roomId,
             @RequestBody @Valid RoomUpdateRequestDto roomUpdateRequestDto) {
         return roomService.updateRoomByRoomId(roomId, roomUpdateRequestDto);
     }
 
     @Override
     @GetMapping("/rooms/{roomShortUuid}")
-    public RoomDetailResponseDto getRoomByShortUuid(
+    public RoomResponseDto getRoomByShortUuid(
             @PathVariable(name = "roomShortUuid") String roomShortUuid) {
         return roomService.getRoomByRoomUuid(roomShortUuid);
     }
