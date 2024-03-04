@@ -6,6 +6,7 @@ import ei.algobaroapi.domain.room.domain.RoomRepository;
 import ei.algobaroapi.domain.room.dto.request.RoomCreateRequestDto;
 import ei.algobaroapi.domain.room.dto.request.RoomListRequestDto;
 import ei.algobaroapi.domain.room.dto.request.RoomUpdateRequestDto;
+import ei.algobaroapi.domain.room.dto.response.RoomDetailResponseDto;
 import ei.algobaroapi.domain.room.dto.response.RoomResponseDto;
 import ei.algobaroapi.domain.room.dto.response.RoomSubmitCodeResponseDto;
 import ei.algobaroapi.domain.room.exception.RoomNotFoundException;
@@ -39,14 +40,14 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     @Transactional
-    public RoomResponseDto createRoom(RoomCreateRequestDto roomCreateRequestDto,
+    public RoomDetailResponseDto createRoom(RoomCreateRequestDto roomCreateRequestDto,
             Member member) {
         Room createdRoom = roomRepository.save(roomCreateRequestDto.toEntity()); // DB 방 생성
 
         List<RoomMemberResponseDto> roomMembers = roomMemberService.createRoomByRoomId(createdRoom,
                 member);// DB RoomMember 방장 정보 생성
 
-        return RoomResponseDto.of(createdRoom, roomMembers);
+        return RoomDetailResponseDto.of(createdRoom, roomMembers);
     }
 
     @Override
@@ -62,11 +63,11 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public RoomResponseDto getRoomByRoomUuid(String roomShortUuid) {
+    public RoomDetailResponseDto getRoomByRoomUuid(String roomShortUuid) {
         Room findRoom = roomRepository.findByRoomUuidStartingWith(roomShortUuid)
                 .orElseThrow(() -> RoomNotFoundException.of(RoomErrorCode.ROOM_NOT_FOUND));
 
-        return RoomResponseDto.of(findRoom, getRoomMembersByRoomId(findRoom.getId()));
+        return RoomDetailResponseDto.of(findRoom, getRoomMembersByRoomId(findRoom.getId()));
     }
 
     @Override

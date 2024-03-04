@@ -4,6 +4,7 @@ import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.room.dto.request.RoomCreateRequestDto;
 import ei.algobaroapi.domain.room.dto.request.RoomListRequestDto;
 import ei.algobaroapi.domain.room.dto.request.RoomUpdateRequestDto;
+import ei.algobaroapi.domain.room.dto.response.RoomDetailResponseDto;
 import ei.algobaroapi.domain.room.dto.response.RoomResponseDto;
 import ei.algobaroapi.domain.room.dto.response.RoomSubmitCodeResponseDto;
 import ei.algobaroapi.domain.room.service.RoomService;
@@ -39,7 +40,7 @@ public class RoomControllerDocImpl implements RoomControllerDoc {
     @Override
     @PostMapping("/rooms")
     @PreAuthorize("hasRole('USER')")
-    public RoomResponseDto createRoom(
+    public RoomDetailResponseDto createRoom(
             @RequestBody @Valid RoomCreateRequestDto roomCreateRequestDto,
             @AuthenticationPrincipal Member member) {
         return roomService.createRoom(roomCreateRequestDto, member);
@@ -54,7 +55,7 @@ public class RoomControllerDocImpl implements RoomControllerDoc {
 
     @Override
     @GetMapping("/rooms/{roomShortUuid}")
-    public RoomResponseDto getRoomByShortUuid(
+    public RoomDetailResponseDto getRoomByShortUuid(
             @PathVariable(name = "roomShortUuid") String roomShortUuid) {
         return roomService.getRoomByRoomUuid(roomShortUuid);
     }
