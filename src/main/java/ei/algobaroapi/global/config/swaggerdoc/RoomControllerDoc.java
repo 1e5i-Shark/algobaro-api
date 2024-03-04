@@ -4,6 +4,7 @@ import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.room.dto.request.RoomCreateRequestDto;
 import ei.algobaroapi.domain.room.dto.request.RoomListRequestDto;
 import ei.algobaroapi.domain.room.dto.request.RoomUpdateRequestDto;
+import ei.algobaroapi.domain.room.dto.response.RoomDetailResponseDto;
 import ei.algobaroapi.domain.room.dto.response.RoomResponseDto;
 import ei.algobaroapi.domain.room.dto.response.RoomSubmitCodeResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,7 +22,7 @@ public interface RoomControllerDoc {
 
     @Operation(summary = "방 생성", description = "새로운 방을 생성합니다.")
     @ApiResponse(responseCode = "200", description = "방 생성 성공")
-    RoomResponseDto createRoom(RoomCreateRequestDto roomCreateRequestDto, Member member);
+    RoomDetailResponseDto createRoom(RoomCreateRequestDto roomCreateRequestDto, Member member);
 
     @Operation(summary = "방 수정", description = "방 정보를 수정합니다.")
     @ApiResponse(responseCode = "200", description = "방 수정 성공")
@@ -30,7 +31,7 @@ public interface RoomControllerDoc {
 
     @Operation(summary = "개별 방 정보 조회", description = "short UUID를 통해 방을 조회합니다.")
     @ApiResponse(responseCode = "200", description = "방 정보 조회 성공")
-    RoomResponseDto getRoomByShortUuid(String roomShortUuid);
+    RoomDetailResponseDto getRoomByShortUuid(String roomShortUuid);
 
     @Operation(summary = "문제 풀이 시작 - 작업 중", description = "코딩테스트를 시작합니다.")
     @ApiResponse(responseCode = "200", description = "풀이 시작 성공")

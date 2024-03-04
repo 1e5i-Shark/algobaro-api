@@ -4,6 +4,7 @@ import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.room.dto.request.RoomCreateRequestDto;
 import ei.algobaroapi.domain.room.dto.request.RoomListRequestDto;
 import ei.algobaroapi.domain.room.dto.request.RoomUpdateRequestDto;
+import ei.algobaroapi.domain.room.dto.response.RoomDetailResponseDto;
 import ei.algobaroapi.domain.room.dto.response.RoomResponseDto;
 import ei.algobaroapi.domain.room.dto.response.RoomSubmitCodeResponseDto;
 import java.util.List;
@@ -12,12 +13,12 @@ public interface RoomService {
 
     List<RoomResponseDto> getAllRooms(RoomListRequestDto roomListRequestDto);
 
-    RoomResponseDto createRoom(RoomCreateRequestDto roomCreateRequestDto, Member member);
+    RoomDetailResponseDto createRoom(RoomCreateRequestDto roomCreateRequestDto, Member member);
 
     RoomResponseDto updateRoomByRoomId(Long roomId,
             RoomUpdateRequestDto roomUpdateRequestDto);
 
-    RoomResponseDto getRoomByRoomUuid(String roomUuid);
+    RoomDetailResponseDto getRoomByRoomUuid(String roomUuid);
 
     void startCodingTest(Long roomId);
 
