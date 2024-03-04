@@ -24,6 +24,10 @@ public class RoomCreateRequestDto {
     private String title;
 
     @NotNull
+    @Schema(description = "사용 가능 언어", example = "[\"JAVA\", \"C++\"]")
+    private List<String> languages;
+
+    @NotNull
     @Schema(description = "방 시작 시간", example = "2024-2-18T17:30:00")
     private LocalDateTime startAt;
 
@@ -56,6 +60,7 @@ public class RoomCreateRequestDto {
         return Room.builder()
                 .roomStatus(roomStatus)
                 .title(title)
+                .languages(languages)
                 .startAt(startAt)
                 .roomAccessType(roomAccessType)
                 .problemLink(problemLink)
