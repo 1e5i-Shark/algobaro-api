@@ -17,7 +17,7 @@ public class RoomDetailResponseDto {
     @Schema(description = "방 번호", example = "1")
     private Long roomId;
 
-    @Schema(description = "방 상태", example = "문제 푸는 중")
+    @Schema(description = "방 상태", example = "RECRUITING")
     private RoomStatus roomStatus;
 
     @Schema(description = "방 제목", example = "같이 푸실분~")
@@ -26,10 +26,10 @@ public class RoomDetailResponseDto {
     @Schema(description = "사용 가능 언어", example = "[\"JAVA\", \"C++\"]")
     private List<String> languages;
 
-    @Schema(description = "방 접근 정보", example = "공개 방")
+    @Schema(description = "방 접근 정보", example = "PRIVATE")
     private RoomAccessType roomAccessType;
 
-    @Schema(description = "문제 플랫폼", example = "백준")
+    @Schema(description = "문제 플랫폼", example = "BOJ")
     private String problemPlatform;
 
     @Schema(description = "방 비밀번호", example = "password1234")

@@ -21,13 +21,13 @@ public class RoomUpdateRequestDto {
     @Schema(description = "사용 가능 언어", example = "[\"JAVA\", \"C++\"]")
     private List<String> languages;
 
-    @Schema(description = "방 접근 정보", example = "공개 방")
+    @Schema(description = "방 접근 정보", example = "PRIVATE")
     private RoomAccessType roomAccessType;
 
     @Schema(description = "문제 링크", example = "https://www.acmicpc.net/problem/1000")
     private String problemLink;
 
-    @Schema(description = "문제 플랫폼", example = "백준")
+    @Schema(description = "문제 플랫폼", example = "BOJ")
     private String problemPlatform;
 
     @Schema(description = "방 비밀번호", example = "password1234")
