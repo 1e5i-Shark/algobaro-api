@@ -23,17 +23,11 @@ public class RoomDetailResponseDto {
     @Schema(description = "방 제목", example = "같이 푸실분~")
     private String title;
 
-    @Schema(description = "방 소개", example = "저랑 같이 A+B 문제 푸실 분 구해요")
-    private String introduce;
-
     @Schema(description = "방 접근 정보", example = "공개 방")
     private RoomAccessType roomAccessType;
 
     @Schema(description = "문제 플랫폼", example = "백준")
     private String problemPlatform;
-
-    @Schema(description = "문제 이름", example = "A+B")
-    private String problemName;
 
     @Schema(description = "방 비밀번호", example = "password1234")
     private String password;
@@ -77,10 +71,8 @@ public class RoomDetailResponseDto {
                 room.getId(),
                 room.getRoomStatus(),
                 room.getTitle(),
-                room.getIntroduce(),
                 room.getRoomAccessType(),
                 room.getProblemPlatform(),
-                room.getProblemName(),
                 room.getPassword(),
                 room.getRoomLimit(),
                 room.getTags(),
