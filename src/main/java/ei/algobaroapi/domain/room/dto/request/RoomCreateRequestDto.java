@@ -32,7 +32,7 @@ public class RoomCreateRequestDto {
     private LocalDateTime startAt;
 
     @NotNull
-    @Schema(description = "방 접근 정보", example = "PUBLIC")
+    @Schema(description = "방 접근 정보", example = "PRIVATE")
     private RoomAccessType roomAccessType;
 
     @NotNull
@@ -40,7 +40,7 @@ public class RoomCreateRequestDto {
     private String problemLink;
 
     @NotNull
-    @Schema(description = "문제 플랫폼", example = "백준")
+    @Schema(description = "문제 플랫폼", example = "BOJ")
     private String problemPlatform;
 
     @Schema(description = "방 비밀번호", example = "password1234")

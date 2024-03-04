@@ -16,7 +16,7 @@ public class RoomResponseDto {
     @Schema(description = "방 번호", example = "1")
     private Long roomId;
 
-    @Schema(description = "방 상태", example = "문제 푸는 중")
+    @Schema(description = "방 상태", example = "RECRUITING")
     private RoomStatus roomStatus;
 
     @Schema(description = "방 제목", example = "같이 푸실분~")
@@ -25,23 +25,17 @@ public class RoomResponseDto {
     @Schema(description = "사용 가능 언어", example = "[\"JAVA\", \"C++\"]")
     private List<String> languages;
 
-    @Schema(description = "방 접근 정보", example = "공개 방")
+    @Schema(description = "방 접근 정보", example = "PRIVATE")
     private RoomAccessType roomAccessType;
 
-    @Schema(description = "문제 플랫폼", example = "백준")
+    @Schema(description = "문제 플랫폼", example = "BOJ")
     private String problemPlatform;
-
-    @Schema(description = "방 비밀번호", example = "password1234")
-    private String password;
 
     @Schema(description = "방 최대 인원", example = "4")
     private Integer roomLimit;
 
     @Schema(description = "태그", example = "[\"BFS\", \"Level 1\"]")
     private List<String> tags;
-
-    @Schema(description = "타이머(Minute)", example = "20")
-    private Integer timeLimit;
 
     @Schema(description = "방 short UUID", example = "2ad2e9db")
     private String roomShortUuid;
@@ -54,10 +48,8 @@ public class RoomResponseDto {
                 room.getLanguages(),
                 room.getRoomAccessType(),
                 room.getProblemPlatform(),
-                room.getPassword(),
                 room.getRoomLimit(),
                 room.getTags(),
-                room.getTimeLimit(),
                 room.getRoomUuid().split("-")[0]
         );
     }
