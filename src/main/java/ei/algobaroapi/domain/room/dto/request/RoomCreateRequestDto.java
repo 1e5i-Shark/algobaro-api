@@ -23,9 +23,6 @@ public class RoomCreateRequestDto {
     @Schema(description = "방 제목", example = "같이 푸실분~")
     private String title;
 
-    @Schema(description = "방 소개", example = "저랑 같이 A+B 문제 푸실 분 구해요")
-    private String introduce;
-
     @NotNull
     @Schema(description = "방 시작 시간", example = "2024-2-18T17:30:00")
     private LocalDateTime startAt;
@@ -41,10 +38,6 @@ public class RoomCreateRequestDto {
     @NotNull
     @Schema(description = "문제 플랫폼", example = "백준")
     private String problemPlatform;
-
-    @NotNull
-    @Schema(description = "문제 이름", example = "A+B")
-    private String problemName;
 
     @Schema(description = "방 비밀번호", example = "password1234")
     private String password;
@@ -63,12 +56,10 @@ public class RoomCreateRequestDto {
         return Room.builder()
                 .roomStatus(roomStatus)
                 .title(title)
-                .introduce(introduce)
                 .startAt(startAt)
                 .roomAccessType(roomAccessType)
                 .problemLink(problemLink)
                 .problemPlatform(problemPlatform)
-                .problemName(problemName)
                 .password(password)
                 .roomLimit(roomLimit)
                 .tags(tags)
