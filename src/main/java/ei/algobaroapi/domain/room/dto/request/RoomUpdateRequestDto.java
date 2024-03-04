@@ -18,6 +18,9 @@ public class RoomUpdateRequestDto {
     @Schema(description = "방 시작 시간", example = "2024-2-18T17:30:00")
     private LocalDateTime startAt;
 
+    @Schema(description = "사용 가능 언어", example = "[\"JAVA\", \"C++\"]")
+    private List<String> languages;
+
     @Schema(description = "방 접근 정보", example = "공개 방")
     private RoomAccessType roomAccessType;
 

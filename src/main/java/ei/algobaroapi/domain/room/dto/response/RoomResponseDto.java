@@ -22,6 +22,9 @@ public class RoomResponseDto {
     @Schema(description = "방 제목", example = "같이 푸실분~")
     private String title;
 
+    @Schema(description = "사용 가능 언어", example = "[\"JAVA\", \"C++\"]")
+    private List<String> languages;
+
     @Schema(description = "방 접근 정보", example = "공개 방")
     private RoomAccessType roomAccessType;
 
@@ -48,6 +51,7 @@ public class RoomResponseDto {
                 room.getId(),
                 room.getRoomStatus(),
                 room.getTitle(),
+                room.getLanguages(),
                 room.getRoomAccessType(),
                 room.getProblemPlatform(),
                 room.getPassword(),

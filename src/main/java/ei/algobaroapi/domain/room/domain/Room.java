@@ -38,6 +38,10 @@ public class Room extends BaseEntity {
     @Column(name = "title", nullable = false)
     private String title;
 
+    @Column(name = "languages")
+    @Convert(converter = StringListConverter.class)
+    private List<String> languages;
+
     @Column(name = "start_at", columnDefinition = "datetime")
     private LocalDateTime startAt;
 
@@ -68,12 +72,13 @@ public class Room extends BaseEntity {
     private String roomUuid;
 
     @Builder
-    public Room(RoomStatus roomStatus, String title, LocalDateTime startAt,
+    public Room(RoomStatus roomStatus, String title, List<String> languages , LocalDateTime startAt,
             RoomAccessType roomAccessType, String problemLink, String problemPlatform,
             String password, Integer roomLimit, List<String> tags,
             Integer timeLimit) {
         this.roomStatus = roomStatus;
         this.title = title;
+        this.languages = languages;
         this.startAt = startAt;
         this.roomAccessType = roomAccessType;
         this.problemLink = problemLink;
@@ -88,6 +93,9 @@ public class Room extends BaseEntity {
     public void update(RoomUpdateRequestDto roomUpdateRequestDto) {
         if (roomUpdateRequestDto.getTitle() != null) {
             this.title = roomUpdateRequestDto.getTitle();
+        }
+        if (roomUpdateRequestDto.getLanguages() != null) {
+            this.languages = roomUpdateRequestDto.getLanguages();
         }
         if (roomUpdateRequestDto.getStartAt() != null) {
             this.startAt = roomUpdateRequestDto.getStartAt();
