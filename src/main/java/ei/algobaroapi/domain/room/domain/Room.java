@@ -38,8 +38,9 @@ public class Room extends BaseEntity {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "introduce", nullable = false)
-    private String introduce;
+    @Column(name = "languages")
+    @Convert(converter = StringListConverter.class)
+    private List<String> languages;
 
     @Column(name = "start_at", columnDefinition = "datetime")
     private LocalDateTime startAt;
@@ -53,9 +54,6 @@ public class Room extends BaseEntity {
 
     @Column(name = "problem_platform")
     private String problemPlatform;
-
-    @Column(name = "problem_name")
-    private String problemName;
 
     @Column(name = "password")
     private String password;
@@ -74,18 +72,17 @@ public class Room extends BaseEntity {
     private String roomUuid;
 
     @Builder
-    public Room(RoomStatus roomStatus, String title, String introduce, LocalDateTime startAt,
+    public Room(RoomStatus roomStatus, String title, List<String> languages, LocalDateTime startAt,
             RoomAccessType roomAccessType, String problemLink, String problemPlatform,
-            String problemName, String password, Integer roomLimit, List<String> tags,
+            String password, Integer roomLimit, List<String> tags,
             Integer timeLimit) {
         this.roomStatus = roomStatus;
         this.title = title;
-        this.introduce = introduce;
+        this.languages = languages;
         this.startAt = startAt;
         this.roomAccessType = roomAccessType;
         this.problemLink = problemLink;
         this.problemPlatform = problemPlatform;
-        this.problemName = problemName;
         this.password = password;
         this.roomLimit = roomLimit;
         this.tags = tags;
@@ -97,8 +94,8 @@ public class Room extends BaseEntity {
         if (roomUpdateRequestDto.getTitle() != null) {
             this.title = roomUpdateRequestDto.getTitle();
         }
-        if (roomUpdateRequestDto.getIntroduce() != null) {
-            this.introduce = roomUpdateRequestDto.getIntroduce();
+        if (roomUpdateRequestDto.getLanguages() != null) {
+            this.languages = roomUpdateRequestDto.getLanguages();
         }
         if (roomUpdateRequestDto.getStartAt() != null) {
             this.startAt = roomUpdateRequestDto.getStartAt();
@@ -112,9 +109,6 @@ public class Room extends BaseEntity {
         if (roomUpdateRequestDto.getProblemPlatform() != null) {
             this.problemPlatform = roomUpdateRequestDto.getProblemPlatform();
         }
-        if (roomUpdateRequestDto.getProblemName() != null) {
-            this.problemName = roomUpdateRequestDto.getProblemName();
-        }
         if (roomUpdateRequestDto.getPassword() != null) {
             this.password = roomUpdateRequestDto.getPassword();
         }
@@ -127,5 +121,9 @@ public class Room extends BaseEntity {
         if (roomUpdateRequestDto.getRoomLimit() != 0) {
             this.roomLimit = roomUpdateRequestDto.getRoomLimit();
         }
+    }
+
+    public String getRoomShortUuid() {
+        return this.roomUuid.split("-")[0];
     }
 }

@@ -9,6 +9,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @SuppressWarnings("unused")
 public interface ProblemControllerDoc {
 
-    @Operation(summary = "문제 정보 조회 - 작업 중", description = "문제 사이트의 내용을 HTML로 가져옵니다.")
+    @Operation(summary = "문제 정보 조회", description = "문제 사이트의 내용을 HTML로 가져옵니다.")
     ProblemHtmlResponse getProblemHtml(ProblemFindRequest request);
 }
