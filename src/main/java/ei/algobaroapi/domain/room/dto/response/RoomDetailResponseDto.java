@@ -81,7 +81,7 @@ public class RoomDetailResponseDto {
                 room.getRoomLimit(),
                 room.getTags(),
                 room.getTimeLimit(),
-                room.getRoomUuid().split("-")[0],
+                room.getRoomShortUuid(),
                 roomMembers
         );
     }

@@ -72,7 +72,7 @@ public class Room extends BaseEntity {
     private String roomUuid;
 
     @Builder
-    public Room(RoomStatus roomStatus, String title, List<String> languages , LocalDateTime startAt,
+    public Room(RoomStatus roomStatus, String title, List<String> languages, LocalDateTime startAt,
             RoomAccessType roomAccessType, String problemLink, String problemPlatform,
             String password, Integer roomLimit, List<String> tags,
             Integer timeLimit) {
@@ -121,5 +121,9 @@ public class Room extends BaseEntity {
         if (roomUpdateRequestDto.getRoomLimit() != 0) {
             this.roomLimit = roomUpdateRequestDto.getRoomLimit();
         }
+    }
+
+    public String getRoomShortUuid() {
+        return this.roomUuid.split("-")[0];
     }
 }
