@@ -50,7 +50,7 @@ public class RoomResponseDto {
                 room.getProblemPlatform(),
                 room.getRoomLimit(),
                 room.getTags(),
-                room.getRoomUuid().split("-")[0]
+                room.getRoomShortUuid()
         );
     }
 }
