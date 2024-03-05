@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -60,10 +59,6 @@ public class RoomCreateRequestDto {
     @Schema(description = "타이머(Minute)", example = "20")
     private Integer timeLimit;
 
-    @NotNull
-    @Schema(description = "방 UUID", example = "2ad2e9db-30af-4fa2-895c-b6b1f7e95203")
-    private UUID roomUUID;
-
     public Room toEntity() {
         return Room.builder()
                 .roomStatus(roomStatus)
@@ -78,7 +73,6 @@ public class RoomCreateRequestDto {
                 .roomLimit(roomLimit)
                 .tags(tags)
                 .timeLimit(timeLimit)
-                .roomUUID(roomUUID)
                 .build();
     }
 }

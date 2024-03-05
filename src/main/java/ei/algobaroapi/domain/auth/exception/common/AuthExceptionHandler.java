@@ -1,6 +1,7 @@
 package ei.algobaroapi.domain.auth.exception.common;
 
 import ei.algobaroapi.domain.auth.exception.AuthEmailExistenceException;
+import ei.algobaroapi.domain.auth.exception.AuthInputException;
 import ei.algobaroapi.domain.auth.exception.AuthNicknameExistenceException;
 import ei.algobaroapi.domain.auth.exception.AuthPasswordException;
 import ei.algobaroapi.global.response.message.ErrorResponse;
@@ -23,6 +24,13 @@ public class AuthExceptionHandler {
 
     @ExceptionHandler(AuthEmailExistenceException.class)
     public ResponseEntity<ErrorResponse> catchNonExistentEmail(AuthEmailExistenceException e) {
+        log.warn(e.getErrorCode());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ErrorResponse.of(e.getErrorCode(), e.getErrorMessage()));
+    }
+
+    @ExceptionHandler(AuthInputException.class)
+    public ResponseEntity<ErrorResponse> catchAuthInputException(AuthInputException e) {
         log.warn(e.getErrorCode());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ErrorResponse.of(e.getErrorCode(), e.getErrorMessage()));

@@ -71,13 +71,13 @@ public class Room extends BaseEntity {
     private List<String> tags;
 
     @Column(name = "room_uuid", nullable = false)
-    private UUID roomUUID;
+    private String roomUuid;
 
     @Builder
     public Room(RoomStatus roomStatus, String title, String introduce, LocalDateTime startAt,
             RoomAccessType roomAccessType, String problemLink, String problemPlatform,
             String problemName, String password, Integer roomLimit, List<String> tags,
-            Integer timeLimit, UUID roomUUID) {
+            Integer timeLimit) {
         this.roomStatus = roomStatus;
         this.title = title;
         this.introduce = introduce;
@@ -90,7 +90,7 @@ public class Room extends BaseEntity {
         this.roomLimit = roomLimit;
         this.tags = tags;
         this.timeLimit = timeLimit;
-        this.roomUUID = roomUUID;
+        this.roomUuid = UUID.randomUUID().toString();
     }
 
     public void update(RoomUpdateRequestDto roomUpdateRequestDto) {

@@ -55,6 +55,9 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 
+    // Websocket
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
     // Crawling
     implementation 'org.jsoup:jsoup:1.17.2'
 }

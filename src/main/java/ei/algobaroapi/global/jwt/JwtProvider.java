@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtProvider {
 
-    private static final long TOKEN_VALID_TIME = 30 * 60 * 1000L;  // 토큰 유효시간 30분
+    private static final long TOKEN_VALID_TIME = 30 * 60 * 60 * 24 * 1000L; // 30일
     private final Key secretKey;
     private final UserDetailsService userDetailsService;
 
