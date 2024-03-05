@@ -11,6 +11,9 @@ import ei.algobaroapi.domain.room_member.domain.RoomMemberRole;
 import ei.algobaroapi.domain.room_member.dto.request.HostChangeRequestDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomHostResponseDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomMemberResponseDto;
+import ei.algobaroapi.domain.room_member.exception.HostValidationException;
+import ei.algobaroapi.domain.room_member.exception.OrganizerValidationException;
+import ei.algobaroapi.domain.room_member.exception.common.RoomMemberErrorCode;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -79,6 +82,8 @@ public class RoomMemberServiceImpl implements RoomMemberService {
                 .orElseThrow(() -> new EntityNotFoundException(
                         "해당 방에 참여한 회원이 없습니다.")); // TODO: 만들어 놓은 예외로 변경
 
+        validateIsHostAndOrganizer(host, organizer);
+
         host.changeRole(RoomMemberRole.PARTICIPANT);
 
         organizer.changeRole(RoomMemberRole.HOST);
@@ -89,5 +94,15 @@ public class RoomMemberServiceImpl implements RoomMemberService {
     @Override
     public RoomHostResponseDto changeHostAutomatically(RoomMember roomMember) {
         return null;
+    }
+
+    private void validateIsHostAndOrganizer(RoomMember host, RoomMember organizer) {
+        if (host.getRoomMemberRole() != RoomMemberRole.HOST) {
+            throw HostValidationException.of(RoomMemberErrorCode.ROOM_MEMBER_IS_NOT_HOST);
+        }
+
+        if (organizer.getRoomMemberRole() != RoomMemberRole.PARTICIPANT) {
+            throw OrganizerValidationException.of(RoomMemberErrorCode.ROOM_MEMBER_IS_NOT_PARTICIPANT);
+        }
     }
 }
