@@ -15,6 +15,8 @@ public interface RoomMemberService {
 
     List<RoomMemberResponseDto> getRoomMembersByRoomId(Long roomId);
 
+    RoomMemberResponseDto changeReadyStatus(Long roomId, Long memberId);
+
     RoomHostResponseDto changeHostManually(Long hostId, Long organizerId);
 
     RoomHostResponseDto changeHostAutomatically(RoomMember roomMember);
