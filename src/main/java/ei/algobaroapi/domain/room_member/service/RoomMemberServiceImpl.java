@@ -91,7 +91,9 @@ public class RoomMemberServiceImpl implements RoomMemberService {
 
         return RoomHostResponseDto.of(hostChangeRequestDto.getRoomId(),host, organizer);
     }
-  
+
+    @Override
+    @Transactional
     public RoomMemberResponseDto changeReadyStatus(Long roomId, Long memberId) {
         RoomMember roomMember = roomMemberRepository.findRoomMemberByRoomIdAndMemberId(roomId,
                         memberId)
