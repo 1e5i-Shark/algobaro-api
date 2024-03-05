@@ -2,6 +2,7 @@ package ei.algobaroapi.domain.room_member.controller;
 
 import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.room_member.domain.RoomMember;
+import ei.algobaroapi.domain.room_member.dto.request.HostChangeRequestDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomHostResponseDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomMemberResponseDto;
 import ei.algobaroapi.domain.room_member.service.RoomMemberService;
@@ -13,6 +14,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,18 +34,16 @@ public class RoomMemberControllerDocImpl implements RoomMemberControllerDoc {
     }
 
     @Override
+    @PostMapping("/rooms/host/manually") // TODO: API URL 변경 필요
+    public RoomHostResponseDto changeHostManually(@RequestBody HostChangeRequestDto hostChangeRequestDto) {
+        return roomMemberService.changeHostManually(hostChangeRequestDto);
+    }
+
     @PostMapping("/rooms-ready/{roomId}")
     @PreAuthorize("hasRole('USER')")
     public RoomMemberResponseDto changeReadyStatus(@PathVariable(name = "roomId") Long roomId,
             @AuthenticationPrincipal Member member) {
         return roomMemberService.changeReadyStatus(roomId, member.getId());
-    }
-
-    @Override
-    @GetMapping("/rooms/host/{hostId}/{organizerId}")
-    public RoomHostResponseDto changeHostManually(@PathVariable(name = "hostId") Long hostId,
-            @PathVariable(name = "organizerId") Long organizerId) {
-        return null;
     }
 
     @Override
