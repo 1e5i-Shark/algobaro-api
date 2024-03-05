@@ -10,6 +10,8 @@ import ei.algobaroapi.domain.room_member.domain.RoomMemberRepository;
 import ei.algobaroapi.domain.room_member.domain.RoomMemberRole;
 import ei.algobaroapi.domain.room_member.dto.response.RoomHostResponseDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomMemberResponseDto;
+import ei.algobaroapi.domain.room_member.exception.RoomMemberNotFoundException;
+import ei.algobaroapi.domain.room_member.exception.common.RoomMemberErrorCode;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -63,6 +65,19 @@ public class RoomMemberServiceImpl implements RoomMemberService {
         return roomMemberRepository.findByRoomId(roomId).stream()
                 .map(RoomMemberResponseDto::of)
                 .toList();
+    }
+
+    @Override
+    @Transactional
+    public RoomMemberResponseDto changeReadyStatus(Long roomId, Long memberId) {
+        RoomMember roomMember = roomMemberRepository.findRoomMemberByRoomIdAndMemberId(roomId,
+                        memberId)
+                .orElseThrow(() -> RoomMemberNotFoundException.of(
+                        RoomMemberErrorCode.ROOM_MEMBER_ERROR_CODE));
+
+        roomMember.changeReadyStatus();
+
+        return RoomMemberResponseDto.of(roomMember);
     }
 
     @Override
