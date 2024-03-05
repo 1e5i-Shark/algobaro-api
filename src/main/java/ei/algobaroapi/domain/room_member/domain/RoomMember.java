@@ -56,4 +56,8 @@ public class RoomMember extends BaseEntity {
         this.isReady = isReady;
         this.submitCode = null;
     }
+
+    public void changeReadyStatus() {
+        this.isReady = !this.isReady;
+    }
 }
