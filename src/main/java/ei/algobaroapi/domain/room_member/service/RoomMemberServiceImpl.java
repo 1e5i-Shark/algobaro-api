@@ -15,6 +15,7 @@ import ei.algobaroapi.domain.room_member.exception.HostValidationException;
 import ei.algobaroapi.domain.room_member.exception.OrganizerValidationException;
 import ei.algobaroapi.domain.room_member.exception.common.RoomMemberErrorCode;
 import jakarta.persistence.EntityNotFoundException;
+import ei.algobaroapi.domain.room_member.exception.RoomMemberNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -89,6 +90,17 @@ public class RoomMemberServiceImpl implements RoomMemberService {
         organizer.changeRole(RoomMemberRole.HOST);
 
         return RoomHostResponseDto.of(hostChangeRequestDto.getRoomId(),host, organizer);
+    }
+  
+    public RoomMemberResponseDto changeReadyStatus(Long roomId, Long memberId) {
+        RoomMember roomMember = roomMemberRepository.findRoomMemberByRoomIdAndMemberId(roomId,
+                        memberId)
+                .orElseThrow(() -> RoomMemberNotFoundException.of(
+                        RoomMemberErrorCode.ROOM_MEMBER_ERROR_CODE));
+
+        roomMember.changeReadyStatus();
+
+        return RoomMemberResponseDto.of(roomMember);
     }
 
     @Override

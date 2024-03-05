@@ -39,6 +39,13 @@ public class RoomMemberControllerDocImpl implements RoomMemberControllerDoc {
         return roomMemberService.changeHostManually(hostChangeRequestDto);
     }
 
+    @PostMapping("/rooms-ready/{roomId}")
+    @PreAuthorize("hasRole('USER')")
+    public RoomMemberResponseDto changeReadyStatus(@PathVariable(name = "roomId") Long roomId,
+            @AuthenticationPrincipal Member member) {
+        return roomMemberService.changeReadyStatus(roomId, member.getId());
+    }
+
     @Override
     @GetMapping("/rooms/host")
     public RoomHostResponseDto changeHostAutomatically(RoomMember roomMember) {

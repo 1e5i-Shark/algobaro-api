@@ -18,6 +18,8 @@ public interface RoomMemberService {
 
     RoomHostResponseDto changeHostManually(HostChangeRequestDto hostChangeRequestDto);
 
+    RoomMemberResponseDto changeReadyStatus(Long roomId, Long memberId);
+
     RoomHostResponseDto changeHostAutomatically(RoomMember roomMember);
 
 }
