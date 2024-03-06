@@ -6,7 +6,6 @@ import ei.algobaroapi.domain.room.dto.request.RoomListRequestDto;
 import ei.algobaroapi.domain.room.dto.request.RoomUpdateRequestDto;
 import ei.algobaroapi.domain.room.dto.response.RoomDetailResponseDto;
 import ei.algobaroapi.domain.room.dto.response.RoomResponseDto;
-import ei.algobaroapi.domain.room.dto.response.RoomSubmitCodeResponseDto;
 import ei.algobaroapi.domain.room.service.RoomService;
 import ei.algobaroapi.global.config.swaggerdoc.RoomControllerDoc;
 import jakarta.validation.Valid;
@@ -64,12 +63,5 @@ public class RoomControllerDocImpl implements RoomControllerDoc {
     @PostMapping("rooms/codes/{roomId}")
     public void startCodingTest(@PathVariable(name = "roomId") Long roomId) {
 
-    }
-
-    @Override
-    @GetMapping("/rooms/codes/{roomId}")
-    public List<RoomSubmitCodeResponseDto> getSubmitCodesByRoomId(
-            @PathVariable(name = "roomId") Long roomId) {
-        return null;
     }
 }

@@ -8,7 +8,6 @@ import ei.algobaroapi.domain.room.dto.request.RoomListRequestDto;
 import ei.algobaroapi.domain.room.dto.request.RoomUpdateRequestDto;
 import ei.algobaroapi.domain.room.dto.response.RoomDetailResponseDto;
 import ei.algobaroapi.domain.room.dto.response.RoomResponseDto;
-import ei.algobaroapi.domain.room.dto.response.RoomSubmitCodeResponseDto;
 import ei.algobaroapi.domain.room.exception.RoomNotFoundException;
 import ei.algobaroapi.domain.room.exception.common.RoomErrorCode;
 import ei.algobaroapi.domain.room_member.dto.response.RoomMemberResponseDto;
@@ -73,12 +72,6 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public void startCodingTest(Long roomId) {
         // TODO: RoomStatus Running 으로 변환
-    }
-
-    @Override
-    public List<RoomSubmitCodeResponseDto> getSubmitCodesByRoomId(Long roomId) {
-        // TODO: RoomMember 필드의 submitCode를 List로 반환
-        return null;
     }
 
     private List<RoomMemberResponseDto> getRoomMembersByRoomId(Long roomId) {
