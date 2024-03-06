@@ -33,17 +33,18 @@ public class RoomMemberControllerDocImpl implements RoomMemberControllerDoc {
         return roomMemberService.joinRoomByRoomId(roomId, member);
     }
 
-    @Override
-    @PostMapping("/rooms/host/manually") // TODO: API URL 변경 필요
-    public RoomHostResponseDto changeHostManually(@RequestBody HostChangeRequestDto hostChangeRequestDto) {
-        return roomMemberService.changeHostManually(hostChangeRequestDto);
-    }
-
     @PostMapping("/rooms-ready/{roomId}")
     @PreAuthorize("hasRole('USER')")
     public RoomMemberResponseDto changeReadyStatus(@PathVariable(name = "roomId") Long roomId,
             @AuthenticationPrincipal Member member) {
         return roomMemberService.changeReadyStatus(roomId, member.getId());
+    }
+
+    @Override
+    @PostMapping("/rooms/host/manually") // TODO: API URL 변경 필요
+    public RoomHostResponseDto changeHostManually(
+            @RequestBody HostChangeRequestDto hostChangeRequestDto) {
+        return roomMemberService.changeHostManually(hostChangeRequestDto);
     }
 
     @Override
