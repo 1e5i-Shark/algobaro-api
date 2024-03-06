@@ -41,14 +41,14 @@ public class RoomMemberControllerDocImpl implements RoomMemberControllerDoc {
     }
 
     @Override
-    @PostMapping("/rooms/host/manually") // TODO: API URL 변경 필요
+    @PostMapping("/rooms/manual-change-host")
     public RoomHostResponseDto changeHostManually(
             @RequestBody HostChangeRequestDto hostChangeRequestDto) {
         return roomMemberService.changeHostManually(hostChangeRequestDto);
     }
 
     @Override
-    @GetMapping("/rooms/host")
+    @PostMapping("/rooms/auto-change-host")
     public RoomHostResponseDto changeHostAutomatically(RoomMember roomMember) {
         return null;
     }
