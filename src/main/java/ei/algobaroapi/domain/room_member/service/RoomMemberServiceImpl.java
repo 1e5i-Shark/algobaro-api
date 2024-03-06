@@ -13,9 +13,8 @@ import ei.algobaroapi.domain.room_member.dto.response.RoomHostResponseDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomMemberResponseDto;
 import ei.algobaroapi.domain.room_member.exception.HostValidationException;
 import ei.algobaroapi.domain.room_member.exception.OrganizerValidationException;
-import ei.algobaroapi.domain.room_member.exception.common.RoomMemberErrorCode;
-import jakarta.persistence.EntityNotFoundException;
 import ei.algobaroapi.domain.room_member.exception.RoomMemberNotFoundException;
+import ei.algobaroapi.domain.room_member.exception.common.RoomMemberErrorCode;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -74,14 +73,13 @@ public class RoomMemberServiceImpl implements RoomMemberService {
     @Override
     @Transactional
     public RoomHostResponseDto changeHostManually(HostChangeRequestDto hostChangeRequestDto) {
-
         RoomMember host = roomMemberRepository.findById(hostChangeRequestDto.getHostId())
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "해당 방에 참여한 회원이 없습니다.")); // TODO: 만들어 놓은 예외로 변경
+                .orElseThrow(() -> RoomMemberNotFoundException.of(
+                        RoomMemberErrorCode.ROOM_MEMBER_ERROR_CODE));
 
         RoomMember organizer = roomMemberRepository.findById(hostChangeRequestDto.getOrganizerId())
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "해당 방에 참여한 회원이 없습니다.")); // TODO: 만들어 놓은 예외로 변경
+                .orElseThrow(() -> RoomMemberNotFoundException.of(
+                        RoomMemberErrorCode.ROOM_MEMBER_ERROR_CODE));
 
         validateIsHostAndOrganizer(host, organizer);
 
@@ -89,7 +87,7 @@ public class RoomMemberServiceImpl implements RoomMemberService {
 
         organizer.changeRole(RoomMemberRole.HOST);
 
-        return RoomHostResponseDto.of(hostChangeRequestDto.getRoomId(),host, organizer);
+        return RoomHostResponseDto.of(hostChangeRequestDto.getRoomId(), host, organizer);
     }
 
     @Override
@@ -116,7 +114,8 @@ public class RoomMemberServiceImpl implements RoomMemberService {
         }
 
         if (organizer.getRoomMemberRole() != RoomMemberRole.PARTICIPANT) {
-            throw OrganizerValidationException.of(RoomMemberErrorCode.ROOM_MEMBER_IS_NOT_PARTICIPANT);
+            throw OrganizerValidationException.of(
+                    RoomMemberErrorCode.ROOM_MEMBER_IS_NOT_PARTICIPANT);
         }
     }
 }
