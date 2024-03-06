@@ -35,7 +35,7 @@ public interface SolveControllerDoc {
     @ApiResponse(responseCode = "201", description = "문제 풀이 종료 성공")
     void completeSolveHistory(String roomUuid);
 
-    @Operation(summary = "문제 풀이 결과 조회", description = "문제 풀이 결과를 조회합니다.")
+    @Operation(summary = "문제 풀이 결과 조회", description = "문제 풀이 종료 후 풀이 결과를 조회합니다.")
     @ApiResponse(responseCode = "200", description = "문제 풀이 결과 조회 성공")
     SolveResultResponse getSolveResultInRoom(String roomUuid);
 }
