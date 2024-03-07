@@ -6,7 +6,6 @@ import ei.algobaroapi.domain.room.dto.request.RoomListRequestDto;
 import ei.algobaroapi.domain.room.dto.request.RoomUpdateRequestDto;
 import ei.algobaroapi.domain.room.dto.response.RoomDetailResponseDto;
 import ei.algobaroapi.domain.room.dto.response.RoomResponseDto;
-import ei.algobaroapi.domain.room.dto.response.RoomSubmitCodeResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,8 +35,4 @@ public interface RoomControllerDoc {
     @Operation(summary = "문제 풀이 시작 - 작업 중", description = "코딩테스트를 시작합니다.")
     @ApiResponse(responseCode = "200", description = "풀이 시작 성공")
     void startCodingTest(Long roomId);
-
-    @Operation(summary = "제출 코드 조회 - 작업 중", description = "해당 방에서 제출한 코드를 조회합니다.")
-    @ApiResponse(responseCode = "200", description = "코드 조회 성공")
-    List<RoomSubmitCodeResponseDto> getSubmitCodesByRoomId(Long roomId);
 }

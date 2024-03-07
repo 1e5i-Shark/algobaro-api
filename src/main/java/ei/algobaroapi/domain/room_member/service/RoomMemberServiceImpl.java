@@ -8,8 +8,13 @@ import ei.algobaroapi.domain.room.exception.common.RoomErrorCode;
 import ei.algobaroapi.domain.room_member.domain.RoomMember;
 import ei.algobaroapi.domain.room_member.domain.RoomMemberRepository;
 import ei.algobaroapi.domain.room_member.domain.RoomMemberRole;
+import ei.algobaroapi.domain.room_member.dto.request.HostChangeRequestDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomHostResponseDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomMemberResponseDto;
+import ei.algobaroapi.domain.room_member.exception.HostValidationException;
+import ei.algobaroapi.domain.room_member.exception.OrganizerValidationException;
+import ei.algobaroapi.domain.room_member.exception.RoomMemberNotFoundException;
+import ei.algobaroapi.domain.room_member.exception.common.RoomMemberErrorCode;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -66,12 +71,51 @@ public class RoomMemberServiceImpl implements RoomMemberService {
     }
 
     @Override
-    public RoomHostResponseDto changeHostManually(Long hostId, Long organizerId) {
-        return null;
+    @Transactional
+    public RoomHostResponseDto changeHostManually(HostChangeRequestDto hostChangeRequestDto) {
+        RoomMember host = roomMemberRepository.findById(hostChangeRequestDto.getHostId())
+                .orElseThrow(() -> RoomMemberNotFoundException.of(
+                        RoomMemberErrorCode.ROOM_MEMBER_ERROR_CODE));
+
+        RoomMember organizer = roomMemberRepository.findById(hostChangeRequestDto.getOrganizerId())
+                .orElseThrow(() -> RoomMemberNotFoundException.of(
+                        RoomMemberErrorCode.ROOM_MEMBER_ERROR_CODE));
+
+        validateIsHostAndOrganizer(host, organizer);
+
+        host.changeRole(RoomMemberRole.PARTICIPANT);
+
+        organizer.changeRole(RoomMemberRole.HOST);
+
+        return RoomHostResponseDto.of(hostChangeRequestDto.getRoomId(), host, organizer);
+    }
+
+    @Override
+    @Transactional
+    public RoomMemberResponseDto changeReadyStatus(Long roomId, Long memberId) {
+        RoomMember roomMember = roomMemberRepository.findRoomMemberByRoomIdAndMemberId(roomId,
+                        memberId)
+                .orElseThrow(() -> RoomMemberNotFoundException.of(
+                        RoomMemberErrorCode.ROOM_MEMBER_ERROR_CODE));
+
+        roomMember.changeReadyStatus();
+
+        return RoomMemberResponseDto.of(roomMember);
     }
 
     @Override
     public RoomHostResponseDto changeHostAutomatically(RoomMember roomMember) {
         return null;
+    }
+
+    private void validateIsHostAndOrganizer(RoomMember host, RoomMember organizer) {
+        if (host.getRoomMemberRole() != RoomMemberRole.HOST) {
+            throw HostValidationException.of(RoomMemberErrorCode.ROOM_MEMBER_IS_NOT_HOST);
+        }
+
+        if (organizer.getRoomMemberRole() != RoomMemberRole.PARTICIPANT) {
+            throw OrganizerValidationException.of(
+                    RoomMemberErrorCode.ROOM_MEMBER_IS_NOT_PARTICIPANT);
+        }
     }
 }

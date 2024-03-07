@@ -56,4 +56,18 @@ public class RoomMember extends BaseEntity {
         this.isReady = isReady;
         this.submitCode = null;
     }
+
+    public void changeRole(RoomMemberRole roomMemberRole) {
+        if (roomMemberRole == RoomMemberRole.HOST) {
+            this.roomMemberRole = roomMemberRole;
+            this.isReady = true; // 방장은 언제나 준비 상태
+        } else {
+            this.roomMemberRole = roomMemberRole;
+            this.isReady = false; // 참여자 기본값은 준비 안됨
+        }
+    }
+
+    public void changeReadyStatus() {
+        this.isReady = !this.isReady;
+    }
 }
