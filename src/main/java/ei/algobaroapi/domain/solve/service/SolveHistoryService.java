@@ -18,4 +18,6 @@ public interface SolveHistoryService {
     void updateSolveHistoryCode(Long memberId, String roomUuid, String language, String code);
 
     SolveResultResponse getSolveResultInRoom(String roomUuid);
+
+    void setUpSolveHistory(Long memberId, String roomUuid, String problemLink);
 }
