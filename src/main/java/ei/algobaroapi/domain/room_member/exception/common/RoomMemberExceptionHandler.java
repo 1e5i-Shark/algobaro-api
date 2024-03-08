@@ -2,6 +2,7 @@ package ei.algobaroapi.domain.room_member.exception.common;
 
 import ei.algobaroapi.domain.room_member.exception.HostValidationException;
 import ei.algobaroapi.domain.room_member.exception.OrganizerValidationException;
+import ei.algobaroapi.domain.room_member.exception.RoomMemberNotEnterException;
 import ei.algobaroapi.domain.room_member.exception.RoomMemberNotFoundException;
 import ei.algobaroapi.domain.room_member.exception.RoomMemberNotReadyException;
 import ei.algobaroapi.global.response.message.ErrorResponse;
@@ -39,6 +40,13 @@ public class RoomMemberExceptionHandler {
 
     @ExceptionHandler(RoomMemberNotReadyException.class)
     public ResponseEntity<ErrorResponse> catchRoomMemberNotReadyException(RoomMemberNotReadyException e) {
+        log.warn(e.getErrorMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ErrorResponse.of(e.getErrorCode(), e.getErrorMessage()));
+    }
+
+    @ExceptionHandler(RoomMemberNotEnterException.class)
+    public ResponseEntity<ErrorResponse> catchRoomMemberNotEnterException(RoomMemberNotEnterException e) {
         log.warn(e.getErrorMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ErrorResponse.of(e.getErrorCode(), e.getErrorMessage()));

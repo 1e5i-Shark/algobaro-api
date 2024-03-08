@@ -3,6 +3,7 @@ package ei.algobaroapi.domain.room_member.controller;
 import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.room_member.domain.RoomMember;
 import ei.algobaroapi.domain.room_member.dto.request.HostChangeRequestDto;
+import ei.algobaroapi.domain.room_member.dto.request.JoinRoomRequestDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomHostResponseDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomMemberResponseDto;
 import ei.algobaroapi.domain.room_member.service.RoomMemberService;
@@ -28,8 +29,9 @@ public class RoomMemberControllerDocImpl implements RoomMemberControllerDoc {
     @PostMapping("/rooms-join/{roomId}")
     @PreAuthorize("hasRole('USER')")
     public List<RoomMemberResponseDto> joinRoomByRoomId(@PathVariable(name = "roomId") Long roomId,
+            @RequestBody JoinRoomRequestDto joinRoomRequestDto,
             @AuthenticationPrincipal Member member) {
-        return roomMemberService.joinRoomByRoomId(roomId, member);
+        return roomMemberService.joinRoomByRoomId(roomId, joinRoomRequestDto.getPassword(), member);
     }
 
     @PostMapping("/rooms-ready/{roomId}")

@@ -134,6 +134,18 @@ public class Room extends BaseEntity {
         return this.roomUuid.split("-")[0];
     }
 
+    public boolean isRecruiting() {
+        return this.roomStatus == RoomStatus.RECRUITING;
+    }
+
+    public boolean passwordIsCorrect(String password) {
+        return this.password.equals(password);
+    }
+
+    public boolean isHeadCountFull(int roomSize) {
+        return this.roomLimit <= roomSize;
+    }
+
     public void updateRoomStatusRunning() {
         this.roomStatus = RoomStatus.RUNNING;
     }
