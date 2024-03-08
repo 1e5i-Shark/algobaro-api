@@ -120,6 +120,17 @@ public class SolveHistoryServiceImpl implements SolveHistoryService {
         return SolveResultResponse.of(solveResults);
     }
 
+    @Override
+    public void setUpSolveHistory(Long memberId, String roomUuid, String problemLink) {
+        SolveHistory createSolveHistory = SolveHistory.builder()
+                .member(memberService.getMemberById(memberId))
+                .roomUuid(roomUuid)
+                .problemLink(problemLink)
+                .build();
+
+        solveHistoryRepository.save(createSolveHistory);
+    }
+
     private List<SolveHistory> getSolveHistoryList(String roomUuid) {
         return solveHistoryRepository.findByRoomUuidWithMember(roomUuid);
     }

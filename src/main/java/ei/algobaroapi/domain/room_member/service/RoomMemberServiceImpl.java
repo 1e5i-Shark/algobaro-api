@@ -14,6 +14,7 @@ import ei.algobaroapi.domain.room_member.dto.response.RoomMemberResponseDto;
 import ei.algobaroapi.domain.room_member.exception.HostValidationException;
 import ei.algobaroapi.domain.room_member.exception.OrganizerValidationException;
 import ei.algobaroapi.domain.room_member.exception.RoomMemberNotFoundException;
+import ei.algobaroapi.domain.room_member.exception.RoomMemberNotReadyException;
 import ei.algobaroapi.domain.room_member.exception.common.RoomMemberErrorCode;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -108,6 +109,19 @@ public class RoomMemberServiceImpl implements RoomMemberService {
         return null;
     }
 
+    @Override
+    public List<RoomMember> getByRoomIdAllReady(Long roomId) {
+        List<RoomMember> findRoomMembers = roomMemberRepository.findByRoomId(roomId);
+
+        for (RoomMember roomMember : findRoomMembers) {
+            if (!checkRoomMemberIsReady(roomMember)) {
+                throw RoomMemberNotReadyException.of(RoomMemberErrorCode.ROOM_MEMBER_IS_NOT_READY);
+            }
+        }
+
+        return findRoomMembers;
+    }
+
     private void validateIsHostAndOrganizer(RoomMember host, RoomMember organizer) {
         if (host.getRoomMemberRole() != RoomMemberRole.HOST) {
             throw HostValidationException.of(RoomMemberErrorCode.ROOM_MEMBER_IS_NOT_HOST);
@@ -117,5 +131,9 @@ public class RoomMemberServiceImpl implements RoomMemberService {
             throw OrganizerValidationException.of(
                     RoomMemberErrorCode.ROOM_MEMBER_IS_NOT_PARTICIPANT);
         }
+    }
+
+    private boolean checkRoomMemberIsReady(RoomMember roomMember) {
+        return roomMember.isReady();
     }
 }
