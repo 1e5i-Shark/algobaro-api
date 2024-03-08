@@ -18,8 +18,13 @@ public class SolveHistoryRepositoryQueryImpl implements SolveHistoryRepositoryQu
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Page<SolveHistory> findListPage(SolveHistoryListFindRequest request, Pageable pageable, Long memberId) {
-        BooleanExpression booleanExpression = memberIdEq(memberId);
+    public Page<SolveHistory> findListPage(
+            SolveHistoryListFindRequest request,
+            Pageable pageable,
+            Long memberId
+    ) {
+        BooleanExpression booleanExpression = solveHistory.deletedAt.isNull()
+                .and(memberIdEq(memberId));
 
         List<SolveHistory> content = jpaQueryFactory
                 .selectFrom(solveHistory)
