@@ -34,5 +34,5 @@ public interface RoomControllerDoc {
 
     @Operation(summary = "문제 풀이 시작 - 작업 중", description = "코딩테스트를 시작합니다.")
     @ApiResponse(responseCode = "200", description = "풀이 시작 성공")
-    void startCodingTest(Long roomId);
+    RoomDetailResponseDto startCodingTest(String roomShortUuid);
 }
