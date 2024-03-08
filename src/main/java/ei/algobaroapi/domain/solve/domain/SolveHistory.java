@@ -15,6 +15,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -35,7 +36,7 @@ public class SolveHistory extends BaseEntity {
     @Column(name = "room_uuid", nullable = false)
     private String roomUuid;
 
-    @Column(name = "input_code", nullable = false, columnDefinition = "TEXT")
+    @Column(name = "input_code", columnDefinition = "TEXT")
     private String inputCode;
 
     @Column(name = "code_language", nullable = false)
@@ -54,15 +55,23 @@ public class SolveHistory extends BaseEntity {
     @Column(name = "problem_link", nullable = false)
     private String problemLink;
 
-    @Column(name = "problem_name", nullable = false)
-    private String problemName;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "problem_platform", nullable = false)
     private ProblemPlatform problemPlatform;
 
-    @Column(name = "problem_level", nullable = false)
-    private String problemLevel;
+    @Builder
+    public SolveHistory(Member member, String roomUuid, String codeLanguage, LocalDateTime startAt,
+            LocalDateTime endAt, String problemLink) {
+        this.member = member;
+        this.roomUuid = roomUuid;
+        this.inputCode = null;
+        this.codeLanguage = codeLanguage;
+        this.startAt = startAt;
+        this.endAt = endAt;
+        this.solveStatus = SolveStatus.FAIL;
+        this.problemLink = problemLink;
+        this.problemPlatform = ProblemPlatform.BOJ;
+    }
 
     public void complete(SolveStatus solveStatus) {
         this.solveStatus = solveStatus;
