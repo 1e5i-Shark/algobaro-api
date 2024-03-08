@@ -126,4 +126,8 @@ public class Room extends BaseEntity {
     public String getRoomShortUuid() {
         return this.roomUuid.split("-")[0];
     }
+
+    public void updateRoomStatusRunning() {
+        this.roomStatus = RoomStatus.RUNNING;
+    }
 }
