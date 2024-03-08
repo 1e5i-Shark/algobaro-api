@@ -49,9 +49,13 @@ public class RoomMemberServiceImpl implements RoomMemberService {
     @Override
     @Transactional
     public List<RoomMemberResponseDto> joinRoomByRoomId(Long roomId, Member member) {
+        Room room = roomRepository.findById(roomId).orElseThrow(() -> RoomNotFoundException.of(
+                RoomErrorCode.ROOM_NOT_FOUND));
+
+        checkRoomIsAccessible(room);
+
         RoomMember roomMember = RoomMember.builder()
-                .room(roomRepository.findById(roomId).orElseThrow(() -> RoomNotFoundException.of(
-                        RoomErrorCode.ROOM_NOT_FOUND)))
+                .room(room)
                 .member(member)
                 .roomMemberRole(RoomMemberRole.PARTICIPANT)
                 .isReady(false)
@@ -120,6 +124,15 @@ public class RoomMemberServiceImpl implements RoomMemberService {
         }
 
         return findRoomMembers;
+    }
+
+    private void checkRoomIsAccessible(Room room) {
+        int roomSize = roomMemberRepository.findByRoomId(room.getId()).size();
+        int roomLimit = room.getRoomLimit();
+
+        if (roomSize >= roomLimit) {
+            throw RoomMemberNotFoundException.of(RoomMemberErrorCode.ROOM_MEMBER_CANNOT_ENTER);
+        }
     }
 
     private void validateIsHostAndOrganizer(RoomMember host, RoomMember organizer) {
