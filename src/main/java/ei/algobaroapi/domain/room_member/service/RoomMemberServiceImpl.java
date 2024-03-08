@@ -138,6 +138,11 @@ public class RoomMemberServiceImpl implements RoomMemberService {
         // roomMember 삭제
         roomMemberRepository.delete(roomMember);
 
+        // 방에 남아있는 roomMember 조회 후 아무도 없다면 방 삭제
+        if (checkRoomMemberExistInRoom(findRoom)) {
+            roomRepository.delete(findRoom);
+        }
+
         // 방에 남아있는 roomMember 조회 <- 잘 삭제됐는지 확인용
         return roomMemberRepository.findByRoomId(findRoom.getId()).stream()
                 .map(RoomMemberResponseDto::of)
@@ -157,5 +162,9 @@ public class RoomMemberServiceImpl implements RoomMemberService {
 
     private boolean checkRoomMemberIsReady(RoomMember roomMember) {
         return roomMember.isReady();
+    }
+
+    private boolean checkRoomMemberExistInRoom(Room findRoom) {
+        return roomMemberRepository.findByRoomId(findRoom.getId()).isEmpty();
     }
 }
