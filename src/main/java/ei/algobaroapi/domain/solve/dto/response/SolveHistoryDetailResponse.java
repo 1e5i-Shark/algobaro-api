@@ -23,9 +23,6 @@ public class SolveHistoryDetailResponse {
     @Schema(description = "풀이 코드", example = "import java.io.BufferedReader;\nimport java.io.IOException;\nimport java.io.InputStreamReader;\n\npublic class Main {\n    public static void main(String[] args) throws IOException {\n        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));\n        String[] input = br.readLine().split(\" \");\n        int a = Integer.parseInt(input[0]);\n        int b = Integer.parseInt(input[1]);\n        System.out.println(a + b);\n    }\n}")
     private final String code;
 
-    @Schema(description = "문제 제목", example = "A+B")
-    private final String title;
-
     @Schema(description = "풀이 결과", example = "SUCCESS")
     private final String solveStatus;
 
@@ -44,10 +41,9 @@ public class SolveHistoryDetailResponse {
                 solveHistory.getRoomUuid(),
                 solveHistory.getCodeLanguage(),
                 solveHistory.getInputCode(),
-                solveHistory.getProblemName(),
                 solveHistory.getSolveStatus().name(),
                 solveHistory.getStartAt().toString(),
-                solveHistory.getProblemName(),
+                solveHistory.getProblemPlatform().name(),
                 solveHistory.getProblemLink()
         );
     }
