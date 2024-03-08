@@ -10,12 +10,15 @@ import ei.algobaroapi.domain.room.dto.response.RoomDetailResponseDto;
 import ei.algobaroapi.domain.room.dto.response.RoomResponseDto;
 import ei.algobaroapi.domain.room.exception.RoomNotFoundException;
 import ei.algobaroapi.domain.room.exception.common.RoomErrorCode;
+import ei.algobaroapi.domain.room_member.domain.RoomMember;
 import ei.algobaroapi.domain.room_member.dto.response.RoomMemberResponseDto;
 import ei.algobaroapi.domain.room_member.service.RoomMemberService;
+import ei.algobaroapi.domain.solve.service.SolveHistoryService;
+import ei.algobaroapi.global.dto.PageResponse;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,25 +29,31 @@ public class RoomServiceImpl implements RoomService {
 
     private final RoomRepository roomRepository;
     private final RoomMemberService roomMemberService;
+    private final SolveHistoryService solveHistoryService;
+
 
     @Override
-    public List<RoomResponseDto> getAllRooms(RoomListRequestDto roomListRequestDto) {
-        Pageable pageable = PageRequest.of(roomListRequestDto.getPage(),
-                roomListRequestDto.getSize());
-
-        return roomRepository.findAll(pageable).getContent().stream()
-                .map(RoomResponseDto::of)
-                .toList();
+    public PageResponse<Room, RoomResponseDto> getAllRooms(RoomListRequestDto request) {
+        return PageResponse.of(
+                roomRepository.findListPage(
+                        request,
+                        PageRequest.of(
+                                Optional.ofNullable(request.getPage()).orElse(0),
+                                Optional.ofNullable(request.getSize()).orElse(6)
+                        )
+                ),
+                RoomResponseDto::of
+        );
     }
 
     @Override
     @Transactional
     public RoomDetailResponseDto createRoom(RoomCreateRequestDto roomCreateRequestDto,
             Member member) {
-        Room createdRoom = roomRepository.save(roomCreateRequestDto.toEntity()); // DB 방 생성
+        Room createdRoom = roomRepository.save(roomCreateRequestDto.toEntity());
 
         List<RoomMemberResponseDto> roomMembers = roomMemberService.createRoomByRoomId(createdRoom,
-                member);// DB RoomMember 방장 정보 생성
+                member);
 
         return RoomDetailResponseDto.of(createdRoom, roomMembers);
     }
@@ -70,8 +79,23 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public void startCodingTest(Long roomId) {
-        // TODO: RoomStatus Running 으로 변환
+    @Transactional
+    public RoomDetailResponseDto startCodingTest(String roomShortUuid) {
+        Room room = roomRepository.findByRoomUuidStartingWith(roomShortUuid)
+                .orElseThrow(() -> RoomNotFoundException.of(RoomErrorCode.ROOM_NOT_FOUND));
+        Long roomId = room.getId();
+
+        List<RoomMember> roomMembers = roomMemberService.getByRoomIdAllReady(roomId);
+
+        for (RoomMember roomMember : roomMembers) {
+            solveHistoryService.setUpSolveHistory(roomMember.getMember().getId(),
+                    roomMember.getRoom().getRoomUuid(), roomMember.getRoom().getProblemLink());
+        }
+
+        room.updateRoomStatusRunning();
+
+        return RoomDetailResponseDto.of(room,
+                roomMembers.stream().map(RoomMemberResponseDto::of).toList());
     }
 
     private List<RoomMemberResponseDto> getRoomMembersByRoomId(Long roomId) {

@@ -12,7 +12,7 @@ public interface RoomMemberService {
 
     List<RoomMemberResponseDto> createRoomByRoomId(Room room, Member member);
 
-    List<RoomMemberResponseDto> joinRoomByRoomId(Long roomId, Member member);
+    List<RoomMemberResponseDto> joinRoomByRoomId(Long roomId, String password, Member member);
 
     List<RoomMemberResponseDto> getRoomMembersByRoomId(Long roomId);
 
@@ -22,4 +22,7 @@ public interface RoomMemberService {
 
     RoomHostResponseDto changeHostAutomatically(RoomMember roomMember);
 
+    List<RoomMember> getByRoomIdAllReady(Long roomId);
+
+    List<RoomMemberResponseDto> exitRoomByMemberId(Long memberId);
 }

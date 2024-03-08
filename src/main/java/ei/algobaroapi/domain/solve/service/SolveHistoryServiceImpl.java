@@ -15,6 +15,7 @@ import ei.algobaroapi.domain.solve.dto.response.SolveResultResponse;
 import ei.algobaroapi.domain.solve.exception.SolveAccessException;
 import ei.algobaroapi.domain.solve.exception.SolveFoundException;
 import ei.algobaroapi.domain.solve.exception.common.SolveErrorCode;
+import ei.algobaroapi.global.dto.PageResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -32,18 +33,18 @@ public class SolveHistoryServiceImpl implements SolveHistoryService {
     private final SolveHistoryRepository solveHistoryRepository;
 
     @Override
-    public List<SolveHistoryResponse> getHistoryList(
+    public PageResponse<SolveHistory, SolveHistoryResponse> getHistoryList(
             Long memberId,
             SolveHistoryListFindRequest request
     ) {
-        PageRequest pageable = PageRequest.of(request.getPage(), request.getSize());
-        return solveHistoryRepository.findListPage(
+        return PageResponse.of(
+                solveHistoryRepository.findListPage(
                         request,
-                        pageable,
+                        PageRequest.of(request.getPage(), request.getSize()),
                         memberId
-                )
-                .map(SolveHistoryResponse::of)
-                .getContent();
+                ),
+                SolveHistoryResponse::of
+        );
     }
 
     @Override
@@ -118,6 +119,17 @@ public class SolveHistoryServiceImpl implements SolveHistoryService {
                 .toList();
 
         return SolveResultResponse.of(solveResults);
+    }
+
+    @Override
+    public void setUpSolveHistory(Long memberId, String roomUuid, String problemLink) {
+        SolveHistory createSolveHistory = SolveHistory.builder()
+                .member(memberService.getMemberById(memberId))
+                .roomUuid(roomUuid)
+                .problemLink(problemLink)
+                .build();
+
+        solveHistoryRepository.save(createSolveHistory);
     }
 
     private List<SolveHistory> getSolveHistoryList(String roomUuid) {

@@ -18,8 +18,12 @@ public class SolveHistoryRepositoryQueryImpl implements SolveHistoryRepositoryQu
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Page<SolveHistory> findListPage(SolveHistoryListFindRequest request, Pageable pageable, Long memberId) {
-        BooleanExpression booleanExpression = solveStatusEq(request.getStatus())
+    public Page<SolveHistory> findListPage(
+            SolveHistoryListFindRequest request,
+            Pageable pageable,
+            Long memberId
+    ) {
+        BooleanExpression booleanExpression = solveHistory.deletedAt.isNull()
                 .and(memberIdEq(memberId));
 
         List<SolveHistory> content = jpaQueryFactory
@@ -31,20 +35,14 @@ public class SolveHistoryRepositoryQueryImpl implements SolveHistoryRepositoryQu
                 .fetch();
 
         JPAQuery<Long> countQuery = jpaQueryFactory
-                .select(solveHistory.id)
+                .select(solveHistory.count())
                 .from(solveHistory)
                 .where(booleanExpression);
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
 
-    private static BooleanExpression memberIdEq(Long memberId) {
+    private BooleanExpression memberIdEq(Long memberId) {
         return solveHistory.member.id.eq(memberId);
-    }
-
-    private BooleanExpression solveStatusEq(SolveStatus solveStatus) {
-        return solveStatus == null
-                ? solveHistory.solveStatus.isNotNull()
-                : solveHistory.solveStatus.eq(solveStatus);
     }
 }

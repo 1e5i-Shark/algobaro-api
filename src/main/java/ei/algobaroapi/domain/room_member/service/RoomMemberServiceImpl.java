@@ -13,7 +13,9 @@ import ei.algobaroapi.domain.room_member.dto.response.RoomHostResponseDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomMemberResponseDto;
 import ei.algobaroapi.domain.room_member.exception.HostValidationException;
 import ei.algobaroapi.domain.room_member.exception.OrganizerValidationException;
+import ei.algobaroapi.domain.room_member.exception.RoomMemberNotEnterException;
 import ei.algobaroapi.domain.room_member.exception.RoomMemberNotFoundException;
+import ei.algobaroapi.domain.room_member.exception.RoomMemberNotReadyException;
 import ei.algobaroapi.domain.room_member.exception.common.RoomMemberErrorCode;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -47,10 +49,15 @@ public class RoomMemberServiceImpl implements RoomMemberService {
 
     @Override
     @Transactional
-    public List<RoomMemberResponseDto> joinRoomByRoomId(Long roomId, Member member) {
+    public List<RoomMemberResponseDto> joinRoomByRoomId(Long roomId, String password,
+            Member member) {
+        Room room = roomRepository.findById(roomId).orElseThrow(() -> RoomNotFoundException.of(
+                RoomErrorCode.ROOM_NOT_FOUND));
+
+        validateConditionToJoinRoom(room, password);
+
         RoomMember roomMember = RoomMember.builder()
-                .room(roomRepository.findById(roomId).orElseThrow(() -> RoomNotFoundException.of(
-                        RoomErrorCode.ROOM_NOT_FOUND)))
+                .room(room)
                 .member(member)
                 .roomMemberRole(RoomMemberRole.PARTICIPANT)
                 .isReady(false)
@@ -108,6 +115,78 @@ public class RoomMemberServiceImpl implements RoomMemberService {
         return null;
     }
 
+    @Override
+    public List<RoomMember> getByRoomIdAllReady(Long roomId) {
+        List<RoomMember> findRoomMembers = roomMemberRepository.findByRoomId(roomId);
+
+        for (RoomMember roomMember : findRoomMembers) {
+            if (!checkRoomMemberIsReady(roomMember)) {
+                throw RoomMemberNotReadyException.of(RoomMemberErrorCode.ROOM_MEMBER_IS_NOT_READY);
+            }
+        }
+
+        return findRoomMembers;
+    }
+
+    @Override
+    @Transactional
+    public List<RoomMemberResponseDto> exitRoomByMemberId(Long memberId) {
+        // 멤버가 있는 방 조회
+        Room findRoom = roomMemberRepository.findRoomByMemberId(memberId)
+                .orElseThrow(() -> RoomNotFoundException.of(RoomErrorCode.ROOM_NOT_FOUND));
+
+        // 방 번호와 멤버 번호로 roomMember 조회
+        RoomMember roomMember = roomMemberRepository.findRoomMemberByRoomIdAndMemberId(
+                        findRoom.getId(), memberId)
+                .orElseThrow(() -> RoomMemberNotFoundException.of(
+                        RoomMemberErrorCode.ROOM_MEMBER_ERROR_CODE));
+
+        // roomMember 삭제
+        roomMemberRepository.delete(roomMember);
+
+        // 방에 남아있는 roomMember 조회 후 아무도 없다면 방 삭제
+        if (checkRoomMemberExistInRoom(findRoom)) {
+            roomRepository.delete(findRoom);
+        }
+
+        // 방에 남아있는 roomMember 조회 <- 잘 삭제됐는지 확인용
+        return roomMemberRepository.findByRoomId(findRoom.getId()).stream()
+                .map(RoomMemberResponseDto::of)
+                .toList();
+    }
+  
+    private void validateConditionToJoinRoom(Room room, String password) {
+        // 방에 참여할 수 있는지 확인 - 모집 중인지 체크
+        checkRoomIsRecruiting(room);
+
+        // 방에 참여할 수 있는지 확인 - 방 비밀번호 체크
+        checkRoomPassword(room, password);
+
+        // 방에 참여할 수 있는지 확인 - 인원 수 체크
+        checkRoomHeadCount(room);
+    }
+
+    private void checkRoomIsRecruiting(Room room) {
+        if (!room.isRecruiting()) {
+            throw RoomMemberNotEnterException.of(RoomMemberErrorCode.ROOM_MEMBER_CANNOT_ENTER_NOT_RECRUITING);
+        }
+    }
+
+    private void checkRoomPassword(Room room, String password) {
+        if (!room.passwordIsCorrect(password)) {
+            throw RoomMemberNotEnterException.of(RoomMemberErrorCode.ROOM_MEMBER_CANNOT_ENTER_PASSWORD);
+        }
+    }
+
+    private void checkRoomHeadCount(Room room) {
+        int roomSize = roomMemberRepository.findByRoomId(room.getId()).size();
+
+        if (room.isHeadCountFull(roomSize)) {
+            throw RoomMemberNotFoundException.of(RoomMemberErrorCode.ROOM_MEMBER_CANNOT_ENTER_HEADCOUNT);
+        }
+    }
+
+
     private void validateIsHostAndOrganizer(RoomMember host, RoomMember organizer) {
         if (host.getRoomMemberRole() != RoomMemberRole.HOST) {
             throw HostValidationException.of(RoomMemberErrorCode.ROOM_MEMBER_IS_NOT_HOST);
@@ -117,5 +196,13 @@ public class RoomMemberServiceImpl implements RoomMemberService {
             throw OrganizerValidationException.of(
                     RoomMemberErrorCode.ROOM_MEMBER_IS_NOT_PARTICIPANT);
         }
+    }
+
+    private boolean checkRoomMemberIsReady(RoomMember roomMember) {
+        return roomMember.isReady();
+    }
+
+    private boolean checkRoomMemberExistInRoom(Room findRoom) {
+        return roomMemberRepository.findByRoomId(findRoom.getId()).isEmpty();
     }
 }
