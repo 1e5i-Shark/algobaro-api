@@ -1,7 +1,6 @@
 package ei.algobaroapi.domain.room.service;
 
 import ei.algobaroapi.domain.member.domain.Member;
-import ei.algobaroapi.domain.member.service.MemberService;
 import ei.algobaroapi.domain.room.domain.Room;
 import ei.algobaroapi.domain.room.domain.RoomRepository;
 import ei.algobaroapi.domain.room.dto.request.RoomCreateRequestDto;
@@ -12,11 +11,9 @@ import ei.algobaroapi.domain.room.dto.response.RoomResponseDto;
 import ei.algobaroapi.domain.room.exception.RoomNotFoundException;
 import ei.algobaroapi.domain.room.exception.common.RoomErrorCode;
 import ei.algobaroapi.domain.room_member.domain.RoomMember;
-import ei.algobaroapi.domain.room_member.domain.RoomMemberRepository;
 import ei.algobaroapi.domain.room_member.dto.response.RoomMemberResponseDto;
 import ei.algobaroapi.domain.room_member.service.RoomMemberService;
-import ei.algobaroapi.domain.solve.domain.SolveHistory;
-import ei.algobaroapi.domain.solve.domain.SolveHistoryRepository;
+import ei.algobaroapi.domain.solve.service.SolveHistoryService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -31,10 +28,8 @@ public class RoomServiceImpl implements RoomService {
 
     private final RoomRepository roomRepository;
     private final RoomMemberService roomMemberService;
+    private final SolveHistoryService solveHistoryService;
 
-    private final MemberService memberService;
-    private final SolveHistoryRepository solveHistoryRepository;
-    private final RoomMemberRepository roomMemberRepository;
 
     @Override
     public List<RoomResponseDto> getAllRooms(RoomListRequestDto roomListRequestDto) {
@@ -50,10 +45,10 @@ public class RoomServiceImpl implements RoomService {
     @Transactional
     public RoomDetailResponseDto createRoom(RoomCreateRequestDto roomCreateRequestDto,
             Member member) {
-        Room createdRoom = roomRepository.save(roomCreateRequestDto.toEntity()); // DB 방 생성
+        Room createdRoom = roomRepository.save(roomCreateRequestDto.toEntity());
 
         List<RoomMemberResponseDto> roomMembers = roomMemberService.createRoomByRoomId(createdRoom,
-                member);// DB RoomMember 방장 정보 생성
+                member);
 
         return RoomDetailResponseDto.of(createdRoom, roomMembers);
     }
@@ -81,44 +76,21 @@ public class RoomServiceImpl implements RoomService {
     @Override
     @Transactional
     public RoomDetailResponseDto startCodingTest(String roomShortUuid) {
-        // Room 찾기
         Room room = roomRepository.findByRoomUuidStartingWith(roomShortUuid)
                 .orElseThrow(() -> RoomNotFoundException.of(RoomErrorCode.ROOM_NOT_FOUND));
-
         Long roomId = room.getId();
 
-//        // RoomMember 찾기
-        List<RoomMember> findRoomMembers = roomMemberRepository.findByRoomId(roomId);
+        List<RoomMember> roomMembers = roomMemberService.getByRoomIdAllReady(roomId);
 
-        // RoomMember 들이 준비 상태 인지 확인
-        for (RoomMember roomMember : findRoomMembers) {
-            if (!checkRoomMemberIsReady(roomMember)) {
-                throw RoomNotFoundException.of(RoomErrorCode.ROOM_NOT_READY);
-            }
+        for (RoomMember roomMember : roomMembers) {
+            solveHistoryService.setUpSolveHistory(roomMember.getMember().getId(),
+                    roomMember.getRoom().getRoomUuid(), roomMember.getRoom().getProblemLink());
         }
 
-        // SolveHistory 에 RoomMember 정보 저장
-        for (RoomMember roomMember : findRoomMembers) {
-            SolveHistory createSolveHistory = SolveHistory.builder()
-                    .member(memberService.getMemberById(
-                            roomMember.getMember().getId()))
-                    .roomUuid(roomShortUuid)
-                    .problemLink(room.getProblemLink())
-                    .build();
-
-            solveHistoryRepository.save(createSolveHistory);
-        }
-
-        // 방 상태 변경
         room.updateRoomStatusRunning();
 
-        // 방 정보 반환
         return RoomDetailResponseDto.of(room,
-                findRoomMembers.stream().map(RoomMemberResponseDto::of).toList());
-    }
-
-    private boolean checkRoomMemberIsReady(RoomMember roomMember) {
-        return roomMember.isReady();
+                roomMembers.stream().map(RoomMemberResponseDto::of).toList());
     }
 
     private List<RoomMemberResponseDto> getRoomMembersByRoomId(Long roomId) {
