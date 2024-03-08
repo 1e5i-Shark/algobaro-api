@@ -122,6 +122,28 @@ public class RoomMemberServiceImpl implements RoomMemberService {
         return findRoomMembers;
     }
 
+    @Override
+    @Transactional
+    public List<RoomMemberResponseDto> exitRoomByMemberId(Long memberId) {
+        // 멤버가 있는 방 조회
+        Room findRoom = roomMemberRepository.findRoomByMemberId(memberId)
+                .orElseThrow(() -> RoomNotFoundException.of(RoomErrorCode.ROOM_NOT_FOUND));
+
+        // 방 번호와 멤버 번호로 roomMember 조회
+        RoomMember roomMember = roomMemberRepository.findRoomMemberByRoomIdAndMemberId(
+                        findRoom.getId(), memberId)
+                .orElseThrow(() -> RoomMemberNotFoundException.of(
+                        RoomMemberErrorCode.ROOM_MEMBER_ERROR_CODE));
+
+        // roomMember 삭제
+        roomMemberRepository.delete(roomMember);
+
+        // 방에 남아있는 roomMember 조회 <- 잘 삭제됐는지 확인용
+        return roomMemberRepository.findByRoomId(findRoom.getId()).stream()
+                .map(RoomMemberResponseDto::of)
+                .toList();
+    }
+
     private void validateIsHostAndOrganizer(RoomMember host, RoomMember organizer) {
         if (host.getRoomMemberRole() != RoomMemberRole.HOST) {
             throw HostValidationException.of(RoomMemberErrorCode.ROOM_MEMBER_IS_NOT_HOST);

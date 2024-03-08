@@ -23,4 +23,6 @@ public interface RoomMemberService {
     RoomHostResponseDto changeHostAutomatically(RoomMember roomMember);
 
     List<RoomMember> getByRoomIdAllReady(Long roomId);
+
+    List<RoomMemberResponseDto> exitRoomByMemberId(Long memberId);
 }
