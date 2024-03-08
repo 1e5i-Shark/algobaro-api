@@ -45,7 +45,7 @@ public class SolveHistory extends BaseEntity {
     @Column(name = "start_at", nullable = false, columnDefinition = "datetime")
     private LocalDateTime startAt;
 
-    @Column(name = "end_at", nullable = false, columnDefinition = "datetime")
+    @Column(name = "end_at", columnDefinition = "datetime")
     private LocalDateTime endAt;
 
     @Enumerated(EnumType.STRING)
@@ -60,14 +60,13 @@ public class SolveHistory extends BaseEntity {
     private ProblemPlatform problemPlatform;
 
     @Builder
-    public SolveHistory(Member member, String roomUuid, LocalDateTime startAt,
-            LocalDateTime endAt, String problemLink) {
+    public SolveHistory(Member member, String roomUuid, String problemLink) {
         this.member = member;
         this.roomUuid = roomUuid;
         this.inputCode = null;
         this.codeLanguage = null;
-        this.startAt = startAt;
-        this.endAt = endAt;
+        this.startAt = LocalDateTime.now();
+        this.endAt = null;
         this.solveStatus = SolveStatus.FAIL;
         this.problemLink = problemLink;
         this.problemPlatform = ProblemPlatform.BOJ;
