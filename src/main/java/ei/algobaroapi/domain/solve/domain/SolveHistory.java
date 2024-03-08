@@ -39,7 +39,7 @@ public class SolveHistory extends BaseEntity {
     @Column(name = "input_code", columnDefinition = "TEXT")
     private String inputCode;
 
-    @Column(name = "code_language", nullable = false)
+    @Column(name = "code_language")
     private String codeLanguage;
 
     @Column(name = "start_at", nullable = false, columnDefinition = "datetime")
@@ -60,12 +60,12 @@ public class SolveHistory extends BaseEntity {
     private ProblemPlatform problemPlatform;
 
     @Builder
-    public SolveHistory(Member member, String roomUuid, String codeLanguage, LocalDateTime startAt,
+    public SolveHistory(Member member, String roomUuid, LocalDateTime startAt,
             LocalDateTime endAt, String problemLink) {
         this.member = member;
         this.roomUuid = roomUuid;
         this.inputCode = null;
-        this.codeLanguage = codeLanguage;
+        this.codeLanguage = null;
         this.startAt = startAt;
         this.endAt = endAt;
         this.solveStatus = SolveStatus.FAIL;
