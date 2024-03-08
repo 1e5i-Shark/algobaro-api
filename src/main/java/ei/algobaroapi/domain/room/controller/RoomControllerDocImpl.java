@@ -1,6 +1,7 @@
 package ei.algobaroapi.domain.room.controller;
 
 import ei.algobaroapi.domain.member.domain.Member;
+import ei.algobaroapi.domain.room.domain.Room;
 import ei.algobaroapi.domain.room.dto.request.RoomCreateRequestDto;
 import ei.algobaroapi.domain.room.dto.request.RoomListRequestDto;
 import ei.algobaroapi.domain.room.dto.request.RoomUpdateRequestDto;
@@ -8,8 +9,8 @@ import ei.algobaroapi.domain.room.dto.response.RoomDetailResponseDto;
 import ei.algobaroapi.domain.room.dto.response.RoomResponseDto;
 import ei.algobaroapi.domain.room.service.RoomService;
 import ei.algobaroapi.global.config.swaggerdoc.RoomControllerDoc;
+import ei.algobaroapi.global.dto.PageResponse;
 import jakarta.validation.Valid;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -31,7 +32,7 @@ public class RoomControllerDocImpl implements RoomControllerDoc {
 
     @Override
     @GetMapping("/rooms")
-    public List<RoomResponseDto> getAllRooms(
+    public PageResponse<Room, RoomResponseDto> getAllRooms(
             @ModelAttribute @Valid RoomListRequestDto roomListRequestDto) {
         return roomService.getAllRooms(roomListRequestDto);
     }
@@ -61,7 +62,9 @@ public class RoomControllerDocImpl implements RoomControllerDoc {
 
     @Override
     @PostMapping("rooms/codes/{roomShortUuid}")
-    public RoomDetailResponseDto startCodingTest(@PathVariable(name = "roomShortUuid") String roomShortUuid) {
+    public RoomDetailResponseDto startCodingTest(
+            @PathVariable(name = "roomShortUuid") String roomShortUuid
+    ) {
         return roomService.startCodingTest(roomShortUuid);
     }
 }

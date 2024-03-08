@@ -1,15 +1,16 @@
 package ei.algobaroapi.global.config.swaggerdoc;
 
 import ei.algobaroapi.domain.member.domain.Member;
+import ei.algobaroapi.domain.room.domain.Room;
 import ei.algobaroapi.domain.room.dto.request.RoomCreateRequestDto;
 import ei.algobaroapi.domain.room.dto.request.RoomListRequestDto;
 import ei.algobaroapi.domain.room.dto.request.RoomUpdateRequestDto;
 import ei.algobaroapi.domain.room.dto.response.RoomDetailResponseDto;
 import ei.algobaroapi.domain.room.dto.response.RoomResponseDto;
+import ei.algobaroapi.global.dto.PageResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.util.List;
 
 @Tag(name = "Room", description = "방 관련 API")
 @SuppressWarnings("unused")
@@ -17,7 +18,7 @@ public interface RoomControllerDoc {
 
     @Operation(summary = "모든 방 정보 조회", description = "현재 존재하는 모든 방 정보를 조회합니다.")
     @ApiResponse(responseCode = "200", description = "방 정보 조회 성공")
-    List<RoomResponseDto> getAllRooms(RoomListRequestDto roomListRequestDto);
+    PageResponse<Room, RoomResponseDto> getAllRooms(RoomListRequestDto roomListRequestDto);
 
     @Operation(summary = "방 생성", description = "새로운 방을 생성합니다.")
     @ApiResponse(responseCode = "200", description = "방 생성 성공")

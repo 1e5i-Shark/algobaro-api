@@ -14,10 +14,11 @@ import ei.algobaroapi.domain.room_member.domain.RoomMember;
 import ei.algobaroapi.domain.room_member.dto.response.RoomMemberResponseDto;
 import ei.algobaroapi.domain.room_member.service.RoomMemberService;
 import ei.algobaroapi.domain.solve.service.SolveHistoryService;
+import ei.algobaroapi.global.dto.PageResponse;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,13 +33,17 @@ public class RoomServiceImpl implements RoomService {
 
 
     @Override
-    public List<RoomResponseDto> getAllRooms(RoomListRequestDto roomListRequestDto) {
-        Pageable pageable = PageRequest.of(roomListRequestDto.getPage(),
-                roomListRequestDto.getSize());
-
-        return roomRepository.findAll(pageable).getContent().stream()
-                .map(RoomResponseDto::of)
-                .toList();
+    public PageResponse<Room, RoomResponseDto> getAllRooms(RoomListRequestDto request) {
+        return PageResponse.of(
+                roomRepository.findListPage(
+                        request,
+                        PageRequest.of(
+                                Optional.ofNullable(request.getPage()).orElse(0),
+                                Optional.ofNullable(request.getSize()).orElse(6)
+                        )
+                ),
+                RoomResponseDto::of
+        );
     }
 
     @Override
