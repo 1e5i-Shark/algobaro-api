@@ -1,6 +1,7 @@
 package ei.algobaroapi.domain.room.domain;
 
 import ei.algobaroapi.domain.room.dto.request.RoomUpdateRequestDto;
+import ei.algobaroapi.domain.room_member.domain.RoomMember;
 import ei.algobaroapi.global.entity.BaseEntity;
 import ei.algobaroapi.global.util.StringListConverter;
 import jakarta.persistence.Column;
@@ -8,11 +9,14 @@ import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import lombok.AccessLevel;
@@ -70,6 +74,9 @@ public class Room extends BaseEntity {
 
     @Column(name = "room_uuid", nullable = false)
     private String roomUuid;
+
+    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
+    private List<RoomMember> roomMembers = new ArrayList<>();
 
     @Builder
     public Room(RoomStatus roomStatus, String title, List<String> languages, LocalDateTime startAt,
