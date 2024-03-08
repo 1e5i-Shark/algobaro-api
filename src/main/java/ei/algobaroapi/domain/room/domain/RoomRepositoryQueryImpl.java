@@ -30,7 +30,7 @@ public class RoomRepositoryQueryImpl implements RoomRepositoryQuery {
 
         List<Room> content = jpaQueryFactory
                 .selectFrom(room)
-                .leftJoin(room.roomMembers).fetchJoin()
+                .leftJoin(room.roomMembers)
                 .where(booleanExpression)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
