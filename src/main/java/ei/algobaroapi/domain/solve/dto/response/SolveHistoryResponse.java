@@ -32,7 +32,7 @@ public class SolveHistoryResponse {
                 solveHistory.getRoomUuid(),
                 solveHistory.getCodeLanguage(),
                 solveHistory.getSolveStatus().name(),
-                solveHistory.getEndAt().toString()
+                solveHistory.getStartAt().toString()
         );
     }
 }
