@@ -1,6 +1,7 @@
 package ei.algobaroapi.domain.solve.controller;
 
 import ei.algobaroapi.domain.member.domain.Member;
+import ei.algobaroapi.domain.solve.domain.SolveHistory;
 import ei.algobaroapi.domain.solve.dto.request.BojCodeSubmissionRequest;
 import ei.algobaroapi.domain.solve.dto.request.SolveHistoryListFindRequest;
 import ei.algobaroapi.domain.solve.dto.response.BojCodeSubmissionResponse;
@@ -10,8 +11,8 @@ import ei.algobaroapi.domain.solve.dto.response.SolveResultResponse;
 import ei.algobaroapi.domain.solve.service.SolveHistoryService;
 import ei.algobaroapi.domain.solve.service.SolveService;
 import ei.algobaroapi.global.config.swaggerdoc.SolveControllerDoc;
+import ei.algobaroapi.global.dto.PageResponse;
 import jakarta.validation.Valid;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -44,7 +45,7 @@ public class SolveController implements SolveControllerDoc {
     @Override
     @GetMapping("/solves/history")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public List<SolveHistoryResponse> getHistoryList(
+    public PageResponse<SolveHistory, SolveHistoryResponse> getHistoryList(
             @AuthenticationPrincipal Member member,
             @ModelAttribute @Valid SolveHistoryListFindRequest request
     ) {
