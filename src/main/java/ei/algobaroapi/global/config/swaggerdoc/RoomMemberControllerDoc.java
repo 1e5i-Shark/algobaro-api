@@ -17,7 +17,7 @@ public interface RoomMemberControllerDoc {
 
     @Operation(summary = "방 참여", description = "생성된 방에 참여합니다.")
     @ApiResponse(responseCode = "200", description = "방 참여에 성공하였습니다.")
-    List<RoomMemberResponseDto> joinRoomByRoomId(Long roomId, Member member);
+    List<RoomMemberResponseDto> joinRoomByRoomId(Long roomId, String password, Member member);
 
     @Operation(summary = "준비 상태 변경", description = "방 참여자의 준비 상태를 변경합니다. true -> false, false -> true")
     @ApiResponse(responseCode = "200", description = "준비 상태 변경에 성공하였습니다.")

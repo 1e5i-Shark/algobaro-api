@@ -11,11 +11,11 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -29,8 +29,9 @@ public class RoomMemberControllerDocImpl implements RoomMemberControllerDoc {
     @PostMapping("/rooms-join/{roomId}")
     @PreAuthorize("hasRole('USER')")
     public List<RoomMemberResponseDto> joinRoomByRoomId(@PathVariable(name = "roomId") Long roomId,
+            @RequestParam(name = "password") String password,
             @AuthenticationPrincipal Member member) {
-        return roomMemberService.joinRoomByRoomId(roomId, member);
+        return roomMemberService.joinRoomByRoomId(roomId, password, member);
     }
 
     @PostMapping("/rooms-ready/{roomId}")
