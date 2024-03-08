@@ -30,7 +30,7 @@ public class SolveHistoryRepositoryQueryImpl implements SolveHistoryRepositoryQu
                 .fetch();
 
         JPAQuery<Long> countQuery = jpaQueryFactory
-                .select(solveHistory.id)
+                .select(solveHistory.count())
                 .from(solveHistory)
                 .where(booleanExpression);
 
