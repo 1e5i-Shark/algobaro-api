@@ -60,8 +60,8 @@ public class RoomControllerDocImpl implements RoomControllerDoc {
     }
 
     @Override
-    @PostMapping("rooms/codes/{roomId}")
-    public void startCodingTest(@PathVariable(name = "roomId") Long roomId) {
-
+    @PostMapping("rooms/codes/{roomShortUuid}")
+    public RoomDetailResponseDto startCodingTest(@PathVariable(name = "roomShortUuid") String roomShortUuid) {
+        return roomService.startCodingTest(roomShortUuid);
     }
 }
