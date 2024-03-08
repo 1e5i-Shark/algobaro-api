@@ -69,6 +69,10 @@ public class RoomRepositoryQueryImpl implements RoomRepositoryQuery {
     }
 
     private BooleanExpression languageContains(List<String> languages) {
+        if (languages == null || languages.isEmpty()) {
+            return null;
+        }
+
         StringTemplate template = Expressions.stringTemplate("{0}", room.languages);
 
         BooleanExpression languageCondition = null;
