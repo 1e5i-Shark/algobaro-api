@@ -37,7 +37,7 @@ public class SolveHistoryRepositoryQueryImpl implements SolveHistoryRepositoryQu
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
 
-    private static BooleanExpression memberIdEq(Long memberId) {
+    private BooleanExpression memberIdEq(Long memberId) {
         return solveHistory.member.id.eq(memberId);
     }
 }
