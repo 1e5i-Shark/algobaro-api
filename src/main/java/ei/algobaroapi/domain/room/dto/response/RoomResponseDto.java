@@ -40,6 +40,9 @@ public class RoomResponseDto {
     @Schema(description = "방 short UUID", example = "2ad2e9db")
     private String roomShortUuid;
 
+    @Schema(description = "방 참여 인원 수", example = "3")
+    private Integer currentMemberCount;
+
     public static RoomResponseDto of(Room room) {
         return new RoomResponseDto(
                 room.getId(),
@@ -50,7 +53,8 @@ public class RoomResponseDto {
                 room.getProblemPlatform(),
                 room.getRoomLimit(),
                 room.getTags(),
-                room.getRoomShortUuid()
+                room.getRoomShortUuid(),
+                room.getRoomMembers().size()
         );
     }
 }
