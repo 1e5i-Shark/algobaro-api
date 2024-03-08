@@ -1,6 +1,5 @@
 package ei.algobaroapi.domain.solve.dto.request;
 
-import ei.algobaroapi.domain.solve.domain.SolveStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,7 +14,4 @@ public class SolveHistoryListFindRequest {
 
     @Schema(description = "페이지 크기", example = "10")
     private Integer size;
-
-    @Schema(description = "풀이 상태", example = "SUCCESS")
-    private SolveStatus status;
 }

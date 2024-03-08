@@ -19,8 +19,7 @@ public class SolveHistoryRepositoryQueryImpl implements SolveHistoryRepositoryQu
 
     @Override
     public Page<SolveHistory> findListPage(SolveHistoryListFindRequest request, Pageable pageable, Long memberId) {
-        BooleanExpression booleanExpression = solveStatusEq(request.getStatus())
-                .and(memberIdEq(memberId));
+        BooleanExpression booleanExpression = memberIdEq(memberId);
 
         List<SolveHistory> content = jpaQueryFactory
                 .selectFrom(solveHistory)
@@ -40,11 +39,5 @@ public class SolveHistoryRepositoryQueryImpl implements SolveHistoryRepositoryQu
 
     private static BooleanExpression memberIdEq(Long memberId) {
         return solveHistory.member.id.eq(memberId);
-    }
-
-    private BooleanExpression solveStatusEq(SolveStatus solveStatus) {
-        return solveStatus == null
-                ? solveHistory.solveStatus.isNotNull()
-                : solveHistory.solveStatus.eq(solveStatus);
     }
 }
