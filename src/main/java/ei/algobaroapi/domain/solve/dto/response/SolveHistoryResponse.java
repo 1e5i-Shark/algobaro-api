@@ -20,9 +20,6 @@ public class SolveHistoryResponse {
     @Schema(description = "풀이 언어", example = "java")
     private final String language;
 
-    @Schema(description = "문제 제목", example = "A+B")
-    private final String title;
-
     @Schema(description = "풀이 결과", example = "SUCCESS")
     private final String solveStatus;
 
@@ -34,7 +31,6 @@ public class SolveHistoryResponse {
                 solveHistory.getId(),
                 solveHistory.getRoomUuid(),
                 solveHistory.getCodeLanguage(),
-                solveHistory.getProblemName(),
                 solveHistory.getSolveStatus().name(),
                 solveHistory.getEndAt().toString()
         );
