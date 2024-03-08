@@ -100,8 +100,8 @@ public class RoomServiceImpl implements RoomService {
         // SolveHistory 에 RoomMember 정보 저장
         for (RoomMember roomMember : findRoomMembers) {
             SolveHistory createSolveHistory = SolveHistory.builder()
-                    .member(memberService.getMemberByEmail(
-                            roomMember.getMember().getEmail().getEmail()))
+                    .member(memberService.getMemberById(
+                            roomMember.getMember().getId()))
                     .roomUuid(roomShortUuid)
                     .problemLink(room.getProblemLink())
                     .build();
