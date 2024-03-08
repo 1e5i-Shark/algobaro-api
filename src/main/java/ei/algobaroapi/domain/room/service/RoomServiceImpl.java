@@ -16,6 +16,7 @@ import ei.algobaroapi.domain.room_member.service.RoomMemberService;
 import ei.algobaroapi.domain.solve.service.SolveHistoryService;
 import ei.algobaroapi.global.dto.PageResponse;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,10 @@ public class RoomServiceImpl implements RoomService {
         return PageResponse.of(
                 roomRepository.findListPage(
                         request,
-                        PageRequest.of(request.getPage(), request.getSize())
+                        PageRequest.of(
+                                Optional.ofNullable(request.getPage()).orElse(0),
+                                Optional.ofNullable(request.getSize()).orElse(6)
+                        )
                 ),
                 RoomResponseDto::of
         );
