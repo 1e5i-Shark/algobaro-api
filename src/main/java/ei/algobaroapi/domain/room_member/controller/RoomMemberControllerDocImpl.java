@@ -3,6 +3,7 @@ package ei.algobaroapi.domain.room_member.controller;
 import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.room_member.domain.RoomMember;
 import ei.algobaroapi.domain.room_member.dto.request.HostChangeRequestDto;
+import ei.algobaroapi.domain.room_member.dto.request.JoinRoomRequestDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomHostResponseDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomMemberResponseDto;
 import ei.algobaroapi.domain.room_member.service.RoomMemberService;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -29,9 +29,9 @@ public class RoomMemberControllerDocImpl implements RoomMemberControllerDoc {
     @PostMapping("/rooms-join/{roomId}")
     @PreAuthorize("hasRole('USER')")
     public List<RoomMemberResponseDto> joinRoomByRoomId(@PathVariable(name = "roomId") Long roomId,
-            @RequestParam(name = "password") String password,
+            @RequestBody JoinRoomRequestDto joinRoomRequestDto,
             @AuthenticationPrincipal Member member) {
-        return roomMemberService.joinRoomByRoomId(roomId, password, member);
+        return roomMemberService.joinRoomByRoomId(roomId, joinRoomRequestDto.getPassword(), member);
     }
 
     @PostMapping("/rooms-ready/{roomId}")
