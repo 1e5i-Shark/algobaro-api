@@ -17,7 +17,7 @@ public class RoomExitResponse {
     @Schema(description = "방장 변경 여부", example = "true")
     private final boolean isHostChanged;
 
-    @Schema(description = "변경 된 방장의 방-멤버 번호", example = "2")
+    @Schema(description = "변경 된 방장의 멤버 id", example = "2")
     private final Long newHostId;
 
     public static RoomExitResponse changedHost(Long roomId, Long newHostId) {
