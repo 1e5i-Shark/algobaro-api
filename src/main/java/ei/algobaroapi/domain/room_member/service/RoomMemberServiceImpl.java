@@ -107,9 +107,9 @@ public class RoomMemberServiceImpl implements RoomMemberService {
 
         validateIsHostAndOrganizer(host, organizer);
 
-        host.changeRole(RoomMemberRole.PARTICIPANT);
+        host.changeRoleToParticipant();
 
-        organizer.changeRole(RoomMemberRole.HOST);
+        organizer.changeRoleToHost();
 
         return RoomHostManualResponseDto.of(hostManualChangeRequestDto.getRoomId(), host, organizer);
     }
@@ -132,7 +132,7 @@ public class RoomMemberServiceImpl implements RoomMemberService {
                         RoomMemberErrorCode.ROOM_MEMBER_ERROR_CODE));
 
         // 방장으로 변경
-        newHost.changeRole(RoomMemberRole.HOST);
+        newHost.changeRoleToHost();
 
         return RoomHostAutoChangeResponseDto.of(roomId, newHost);
     }
