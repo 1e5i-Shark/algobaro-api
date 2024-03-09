@@ -89,13 +89,26 @@ public class RoomMemberServiceImpl implements RoomMemberService {
 
     @Override
     @Transactional
-    public RoomMemberResponseDto changeReadyStatus(Long roomId, Long memberId) {
+    public RoomMemberResponseDto chageStatusToReady(Long roomId, Long memberId) {
         RoomMember roomMember = roomMemberRepository.findRoomMemberByRoomIdAndMemberId(roomId,
                         memberId)
                 .orElseThrow(() -> RoomMemberNotFoundException.of(
                         RoomMemberErrorCode.ROOM_MEMBER_ERROR_CODE));
 
-        roomMember.changeReadyStatus();
+        roomMember.markReady();
+
+        return RoomMemberResponseDto.of(roomMember);
+    }
+
+    @Override
+    @Transactional
+    public RoomMemberResponseDto chageStatusToUnready(Long roomId, Long memberId) {
+        RoomMember roomMember = roomMemberRepository.findRoomMemberByRoomIdAndMemberId(roomId,
+                        memberId)
+                .orElseThrow(() -> RoomMemberNotFoundException.of(
+                        RoomMemberErrorCode.ROOM_MEMBER_ERROR_CODE));
+
+        roomMember.markUnready();
 
         return RoomMemberResponseDto.of(roomMember);
     }

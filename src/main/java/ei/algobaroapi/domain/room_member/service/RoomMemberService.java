@@ -20,7 +20,9 @@ public interface RoomMemberService {
 
     List<RoomMemberResponseDto> getRoomMembersByRoomId(Long roomId);
 
-    RoomMemberResponseDto changeReadyStatus(Long roomId, Long memberId);
+    RoomMemberResponseDto chageStatusToReady(Long roomId, Long memberId);
+
+    RoomMemberResponseDto chageStatusToUnready(Long roomId, Long memberId);
 
     RoomHostManualResponseDto changeHostManually(HostManualChangeRequestDto hostManualChangeRequestDto);
 
