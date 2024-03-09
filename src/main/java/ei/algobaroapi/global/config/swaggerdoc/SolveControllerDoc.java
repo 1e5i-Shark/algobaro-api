@@ -35,10 +35,6 @@ public interface SolveControllerDoc {
     @ApiResponse(responseCode = "E02201", description = "해당 풀이 내역에 접근할 수 없습니다.", content = @Content)
     SolveHistoryDetailResponse getHistoryDetail(Member member, Long solveId);
 
-    @Operation(summary = "문제 풀이 종료", description = "문제 풀이를 종료합니다.")
-    @ApiResponse(responseCode = "201", description = "문제 풀이 종료 성공")
-    void completeSolveHistory(String roomUuid);
-
     @Operation(summary = "문제 풀이 결과 조회", description = "문제 풀이 종료 후 풀이 결과를 조회합니다.")
     @ApiResponse(responseCode = "200", description = "문제 풀이 결과 조회 성공")
     SolveResultResponse getSolveResultInRoom(String roomUuid);
