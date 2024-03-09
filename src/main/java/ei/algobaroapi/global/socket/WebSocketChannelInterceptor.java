@@ -22,7 +22,8 @@ public class WebSocketChannelInterceptor implements ChannelInterceptor {
         final StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
 
         if (accessor.getCommand() == StompCommand.CONNECT ||
-                accessor.getCommand() == StompCommand.SUBSCRIBE) {
+                accessor.getCommand() == StompCommand.SUBSCRIBE ||
+                accessor.getCommand() == StompCommand.SEND) {
             String token = extractToken(accessor);
             if (!jwtProvider.validateToken(token)) {
                 throw new IllegalArgumentException("Invalid token");
