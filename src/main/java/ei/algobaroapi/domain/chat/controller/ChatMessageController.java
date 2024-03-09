@@ -73,6 +73,18 @@ public class ChatMessageController {
         );
     }
 
+    @MessageMapping("/chat/change-host")
+    public void changeHostManually(
+            MessageRequest messageRequestDto,
+            @Header("Authorization") String authorization
+    ) {
+        chatService.changeHostManually(
+                messageRequestDto.getRoomId(),
+                tempParseMemberIdFromHeader(authorization),
+                Long.parseLong(messageRequestDto.getMessage())
+        );
+    }
+
     @MessageExceptionHandler
     public String exception() {
         return "Error has occurred.";
