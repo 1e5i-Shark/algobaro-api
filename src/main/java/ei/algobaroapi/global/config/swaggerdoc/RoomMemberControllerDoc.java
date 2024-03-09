@@ -24,11 +24,6 @@ public interface RoomMemberControllerDoc {
     List<RoomMemberResponseDto> validateEnterRoom(String shortUuid, JoinRoomRequestDto joinRoomRequestDto,
             Member member);
 
-    @Operation(summary = "준비 상태 변경", description = "방 참여자의 준비 상태를 변경합니다. true -> false, false -> true")
-    @ApiResponse(responseCode = "200", description = "준비 상태 변경에 성공하였습니다.")
-    @ApiResponse(responseCode = "E05301", description = "해당 방에 멤버를 찾지 못했습니다.")
-    RoomMemberResponseDto changeReadyStatus(Long roomId, Member member);
-
     @Operation(summary = "방장 수동 변경", description = "현재 방장이 참여자에게 방장 권한을 위임합니다.")
     @ApiResponse(responseCode = "200", description = "방장 수동 위임에 성공하였습니다.")
     @ApiResponse(responseCode = "E05301", description = "해당 방에 멤버를 찾지 못했습니다.")
