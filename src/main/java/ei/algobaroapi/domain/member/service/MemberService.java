@@ -1,7 +1,9 @@
 package ei.algobaroapi.domain.member.service;
 
 import ei.algobaroapi.domain.member.domain.Member;
-import ei.algobaroapi.domain.member.dto.request.MemberDetailUpdateRequest;
+import ei.algobaroapi.domain.member.dto.request.MemberProfileImageUpdateRequest;
+import ei.algobaroapi.domain.member.dto.request.MemberGeneralUpdateRequest;
+import ei.algobaroapi.domain.member.dto.request.MemberPasswordUpdateRequest;
 import ei.algobaroapi.domain.member.dto.response.MemberDetailResponse;
 
 public interface MemberService {
@@ -14,7 +16,11 @@ public interface MemberService {
 
     MemberDetailResponse getMemberDetailById(Long id);
 
-    void updateMemberDetail(Long id, MemberDetailUpdateRequest request);
+    void updateMemberProfileImageInfo(Long id, MemberProfileImageUpdateRequest request);
+
+    void updateMemberGeneralInfo(Long id, MemberGeneralUpdateRequest request);
+
+    void updateMemberPassword(Long id, MemberPasswordUpdateRequest request);
 
     boolean isExistingMemberByEmail(String email);
 

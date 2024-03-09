@@ -4,7 +4,9 @@ import ei.algobaroapi.domain.auth.util.PasswordUtil;
 import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.member.domain.MemberRepository;
 import ei.algobaroapi.domain.member.domain.vo.EmailVo;
-import ei.algobaroapi.domain.member.dto.request.MemberDetailUpdateRequest;
+import ei.algobaroapi.domain.member.dto.request.MemberProfileImageUpdateRequest;
+import ei.algobaroapi.domain.member.dto.request.MemberGeneralUpdateRequest;
+import ei.algobaroapi.domain.member.dto.request.MemberPasswordUpdateRequest;
 import ei.algobaroapi.domain.member.dto.response.MemberDetailResponse;
 import ei.algobaroapi.domain.member.exception.MemberFoundException;
 import ei.algobaroapi.domain.member.exception.common.MemberErrorCode;
@@ -45,14 +47,29 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public void updateMemberDetail(Long id, MemberDetailUpdateRequest request) {
+    public void updateMemberProfileImageInfo(Long id, MemberProfileImageUpdateRequest request) {
+        Member findMember = this.getMemberById(id);
+
+    }
+
+    @Override
+    @Transactional
+    public void updateMemberGeneralInfo(Long id, MemberGeneralUpdateRequest request) {
+        Member findMember = this.getMemberById(id);
+
+        findMember.updateGeneralInfo(request);
+    }
+
+    @Override
+    @Transactional
+    public void updateMemberPassword(Long id, MemberPasswordUpdateRequest request) {
         Member findMember = this.getMemberById(id);
 
         if (!passwordUtil.isPasswordMatch(request.getCurrentPassword(), findMember.getPassword())) {
             throw MemberFoundException.of(MemberErrorCode.PASSWORD_NOT_MATCH);
         }
 
-        findMember.updateDetail(request);
+        findMember.updatePassword(request);
     }
 
     @Override
