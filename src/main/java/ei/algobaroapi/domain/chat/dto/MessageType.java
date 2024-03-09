@@ -11,7 +11,8 @@ public enum MessageType {
     QUIT_ROOM("quit"),
     SEND_MESSAGE("message"),
     READY_ROOM("ready"),
-    UNREADY_ROOM("unready");
+    UNREADY_ROOM("unready"),
+    CHANGE_HOST("changeHost");
 
     @JsonValue
     private final String value;
