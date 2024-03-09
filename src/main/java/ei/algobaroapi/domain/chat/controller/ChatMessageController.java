@@ -6,48 +6,36 @@ import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.member.service.MemberService;
 import ei.algobaroapi.global.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
 public class ChatMessageController {
 
-    private static final String CHAT_ROOM_URL = "/chat/room/";
     private final ChatService chatService;
-    private final SimpMessagingTemplate simpMessagingTemplate;
     private final JwtProvider jwtProvider;
     private final MemberService memberService;
-    @Value("${spring.myapp.websocket.sub-prefix}")
-    private String webSocketSubPrefix;
 
     @MessageMapping("/chat/enter")
-    public void enter(MessageRequest messageRequestDto) {
-        simpMessagingTemplate.convertAndSend(
-                webSocketSubPrefix + CHAT_ROOM_URL + messageRequestDto.getRoomId(),
-                chatService.enterRoom(messageRequestDto.getUserId())
-        );
+    public void enter(MessageRequest messageRequestDto, @Header("Authorization") String authorization) {
+        Long memberId = tempParseMemberIdFromHeader(authorization);
+        chatService.enterRoom(messageRequestDto.getRoomId(), memberId);
     }
 
     @MessageMapping("/chat/quit")
-    public void quit(MessageRequest messageRequestDto) {
-        simpMessagingTemplate.convertAndSend(
-                webSocketSubPrefix + CHAT_ROOM_URL + messageRequestDto.getRoomId(),
-                chatService.quitRoom(messageRequestDto.getUserId())
-        );
+    public void quit(MessageRequest messageRequestDto, @Header("Authorization") String authorization) {
+        chatService.quitRoom(messageRequestDto.getRoomId(), tempParseMemberIdFromHeader(authorization));
     }
 
     @MessageMapping("/chat/message")
-    public void message(MessageRequest messageRequestDto) {
-        simpMessagingTemplate.convertAndSend(
-                webSocketSubPrefix + CHAT_ROOM_URL + messageRequestDto.getRoomId(),
-                chatService.convertAndSendMessage(
-                        messageRequestDto.getUserId(),
-                        messageRequestDto.getMessage()
-                )
+    public void message(MessageRequest messageRequestDto, @Header("Authorization") String authorization) {
+        chatService.convertAndSendMessage(
+                messageRequestDto.getRoomId(),
+                tempParseMemberIdFromHeader(authorization),
+                messageRequestDto.getMessage()
         );
     }
 
