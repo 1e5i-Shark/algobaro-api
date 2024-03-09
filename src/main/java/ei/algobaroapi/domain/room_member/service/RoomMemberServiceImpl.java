@@ -136,7 +136,7 @@ public class RoomMemberServiceImpl implements RoomMemberService {
 
         organizer.changeRoleToHost();
 
-        return RoomHostManualResponseDto.of(hostManualChangeRequestDto.getRoomId(), host,
+        return RoomHostManualResponseDto.of(hostManualChangeRequestDto.getRoomShortUuid(), host,
                 organizer);
     }
 
