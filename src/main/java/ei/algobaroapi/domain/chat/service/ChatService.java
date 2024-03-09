@@ -10,5 +10,7 @@ public interface ChatService {
 
     void readyRoom(String roomId, Long memberId);
 
-    void unreadyRoom(String roomId, Long aLong);
+    void unreadyRoom(String roomId, Long memberId);
+
+    void changeHostManually(String roomId, Long beforeHost, Long afterHost);
 }

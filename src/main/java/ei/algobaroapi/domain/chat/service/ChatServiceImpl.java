@@ -3,6 +3,7 @@ package ei.algobaroapi.domain.chat.service;
 import ei.algobaroapi.domain.chat.dto.MessageResponse;
 import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.member.service.MemberService;
+import ei.algobaroapi.domain.room_member.dto.request.HostManualChangeRequestDto;
 import ei.algobaroapi.domain.room_member.service.RoomMemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -43,5 +44,16 @@ public class ChatServiceImpl implements ChatService {
     public void unreadyRoom(String roomId, Long memberId) {
         roomMemberService.chageStatusToUnready(roomId, memberId);
         messageService.sendMessage(roomId, MessageResponse.unreadyRoom(memberId));
+    }
+
+    @Override
+    public void changeHostManually(String roomId, Long beforeHostId, Long afterHostId) {
+        roomMemberService.changeHostManually(HostManualChangeRequestDto.builder()
+                .roomShortUuid(roomId)
+                .hostId(beforeHostId)
+                .organizerId(afterHostId)
+                .build()
+        );
+        messageService.sendMessage(roomId, MessageResponse.changeHost(beforeHostId));
     }
 }
