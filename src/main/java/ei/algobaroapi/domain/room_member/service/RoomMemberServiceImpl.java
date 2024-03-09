@@ -117,21 +117,14 @@ public class RoomMemberServiceImpl implements RoomMemberService {
     @Override
     @Transactional
     public RoomHostAutoChangeResponseDto changeHostAutomatically(HostAutoChangeRequestDto hostAutoChangeRequestDto) {
-        // 소켓을 통해 방장이 나갔음을 감지하고 해당 메서드 호출
-
         Long roomId = hostAutoChangeRequestDto.getRoomId();
 
-        // 해당 방에서 방장이 나갔으므로 해당 방장 정보 삭제
-        roomMemberRepository.deleteById(hostAutoChangeRequestDto.getHostId());
-
-        // 방장이 나갔을 때 방장이 아닌 사람 중 가장 먼저 들어온 사람을 탐색
         RoomMember newHost = roomMemberRepository.findByRoomId(roomId).stream()
                 .filter(RoomMember::isParticipant)
                 .min(Comparator.comparing(RoomMember::getCreatedAt))
                 .orElseThrow(() -> RoomMemberNotFoundException.of(
                         RoomMemberErrorCode.ROOM_MEMBER_ERROR_CODE));
 
-        // 방장으로 변경
         newHost.changeRoleToHost();
 
         return RoomHostAutoChangeResponseDto.of(roomId, newHost);
