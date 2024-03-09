@@ -71,18 +71,22 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public RoomDetailResponseDto getRoomByRoomUuid(String roomShortUuid) {
-        Room findRoom = roomRepository.findByRoomUuidStartingWith(roomShortUuid)
-                .orElseThrow(() -> RoomNotFoundException.of(RoomErrorCode.ROOM_NOT_FOUND));
+    public RoomDetailResponseDto getRoomDetailShortUuid(String roomShortUuid) {
+        Room findRoom = getRoomByShortUuid(roomShortUuid);
 
         return RoomDetailResponseDto.of(findRoom, getRoomMembersByRoomId(findRoom.getId()));
     }
 
     @Override
+    public Room getRoomByShortUuid(String roomShortUuid) {
+        return roomRepository.findByRoomUuidStartingWith(roomShortUuid)
+                .orElseThrow(() -> RoomNotFoundException.of(RoomErrorCode.ROOM_NOT_FOUND));
+    }
+
+    @Override
     @Transactional
     public RoomDetailResponseDto startCodingTest(String roomShortUuid) {
-        Room room = roomRepository.findByRoomUuidStartingWith(roomShortUuid)
-                .orElseThrow(() -> RoomNotFoundException.of(RoomErrorCode.ROOM_NOT_FOUND));
+        Room room = getRoomByShortUuid(roomShortUuid);
         Long roomId = room.getId();
 
         List<RoomMember> roomMembers = roomMemberService.getByRoomIdAllReady(roomId);
