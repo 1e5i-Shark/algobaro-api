@@ -1,7 +1,9 @@
 package ei.algobaroapi.global.config.swaggerdoc;
 
 import ei.algobaroapi.domain.member.domain.Member;
-import ei.algobaroapi.domain.member.dto.request.MemberDetailUpdateRequest;
+import ei.algobaroapi.domain.member.dto.request.MemberGeneralUpdateRequest;
+import ei.algobaroapi.domain.member.dto.request.MemberPasswordUpdateRequest;
+import ei.algobaroapi.domain.member.dto.request.MemberProfileImageUpdateRequest;
 import ei.algobaroapi.domain.member.dto.response.MemberDetailResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -18,5 +20,14 @@ public interface MemberControllerDoc {
     @Operation(summary = "내 정보 수정", description = "로그인 한 사용자의 정보를 수정합니다.")
     @ApiResponse(responseCode = "200", description = "사용자 정보 수정 성공")
     @ApiResponse(responseCode = "E01201", description = "비밀번호가 일치하지 않습니다.")
-    void updateMemberInfo(Member member, MemberDetailUpdateRequest memberUpdateRequest);
+    void updateMemberProfileImageInfo(Member member,
+            MemberProfileImageUpdateRequest memberProfileImageUpdateRequest);
+
+    @Operation(summary = "내 일반 정보 수정", description = "로그인 한 사용자의 일반 정보(닉네임, 백준 id)를 수정합니다.")
+    void updateMemberGeneralInfo(Member member,
+            MemberGeneralUpdateRequest memberGeneralUpdateRequest);
+
+    @Operation(summary = "내 비밀번호 수정", description = "로그인 한 사용자의 비밀번호를 수정합니다.")
+    void updateMemberPassword(Member member,
+            MemberPasswordUpdateRequest memberPasswordUpdateRequest);
 }
