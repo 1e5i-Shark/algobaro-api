@@ -87,24 +87,6 @@ public class SolveHistoryServiceImpl implements SolveHistoryService {
     }
 
     @Override
-    @Transactional
-    public void completeSolveHistory(String roomUuid) {
-        // TODO: 트랜잭션 내 API 호출 분리 필요
-        List<SolveHistory> solveHistoryList = this.getSolveHistoryList(roomUuid);
-
-        solveHistoryList.forEach(solveHistory -> {
-            SolveStatus solveStatus = problemService.checkSolveResult(
-                    ProblemSolveRequest.builder()
-                            .problemLink(solveHistory.getProblemLink())
-                            .userBojId(solveHistory.getMember().getBojId())
-                            .build()
-            );
-
-            solveHistory.complete(solveStatus);
-        });
-    }
-
-    @Override
     public SolveResultResponse getSolveResultInRoom(String roomUuid) {
         List<SolveHistory> solveHistoryList = this.getSolveHistoryList(roomUuid);
 

@@ -7,8 +7,6 @@ import ei.algobaroapi.domain.room.service.RoomService;
 import ei.algobaroapi.domain.room_member.dto.request.HostManualChangeRequestDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomExitResponse;
 import ei.algobaroapi.domain.room_member.service.RoomMemberService;
-import ei.algobaroapi.domain.solve.service.SolveHistoryService;
-import ei.algobaroapi.domain.solve.service.SolveService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +18,6 @@ public class ChatServiceImpl implements ChatService {
     private final MemberService memberService;
     private final RoomService roomService;
     private final RoomMemberService roomMemberService;
-    private final SolveHistoryService solveHistoryService;
 
     @Override
     public void enterRoom(String roomShortUuid, Long memberId) {
@@ -33,7 +30,8 @@ public class ChatServiceImpl implements ChatService {
     public void quitRoom(String roomShortUuid, Long memberId) {
         RoomExitResponse roomExitResponse = roomMemberService.exitRoomByMemberId(memberId);
         if (roomExitResponse.isHostChanged()) {
-            messageService.sendMessage(roomShortUuid, MessageResponse.changeHost(roomExitResponse.getNewHostId()));
+            messageService.sendMessage(roomShortUuid,
+                    MessageResponse.changeHost(roomExitResponse.getNewHostId()));
         }
         messageService.sendMessage(roomShortUuid, MessageResponse.quitRoom(memberId));
     }
@@ -74,7 +72,7 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public void endCodingTest(String roomShortUuid, Long memberId) {
-        solveHistoryService.completeSolveHistory(roomShortUuid);
+        roomService.completeSolveHistory(roomShortUuid);
         messageService.sendMessage(roomShortUuid, MessageResponse.endCoding(memberId));
     }
 }
