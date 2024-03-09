@@ -101,7 +101,7 @@ public class Member extends BaseEntity implements UserDetails {
         this.bojId = request.getBojId() != null ? request.getBojId() : this.bojId;
     }
 
-    public void updatePassword(MemberPasswordUpdateRequest request) {
-        this.password = request.getNewPassword() != null ? request.getNewPassword() : this.password;
+    public void updatePassword(String encryptPassword) {
+        this.password = encryptPassword != null ? encryptPassword : this.password;
     }
 }
