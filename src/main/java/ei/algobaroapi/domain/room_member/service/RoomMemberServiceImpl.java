@@ -11,7 +11,7 @@ import ei.algobaroapi.domain.room_member.domain.RoomMemberRole;
 import ei.algobaroapi.domain.room_member.dto.request.HostAutoChangeRequestDto;
 import ei.algobaroapi.domain.room_member.dto.request.HostManualChangeRequestDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomHostAutoChangeResponseDto;
-import ei.algobaroapi.domain.room_member.dto.response.RoomHostResponseDto;
+import ei.algobaroapi.domain.room_member.dto.response.RoomHostManualResponseDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomMemberResponseDto;
 import ei.algobaroapi.domain.room_member.exception.HostValidationException;
 import ei.algobaroapi.domain.room_member.exception.OrganizerValidationException;
@@ -95,7 +95,7 @@ public class RoomMemberServiceImpl implements RoomMemberService {
 
     @Override
     @Transactional
-    public RoomHostResponseDto changeHostManually(
+    public RoomHostManualResponseDto changeHostManually(
             HostManualChangeRequestDto hostManualChangeRequestDto) {
         RoomMember host = roomMemberRepository.findById(hostManualChangeRequestDto.getHostId())
                 .orElseThrow(() -> RoomMemberNotFoundException.of(
@@ -111,7 +111,7 @@ public class RoomMemberServiceImpl implements RoomMemberService {
 
         organizer.changeRole(RoomMemberRole.HOST);
 
-        return RoomHostResponseDto.of(hostManualChangeRequestDto.getRoomId(), host, organizer);
+        return RoomHostManualResponseDto.of(hostManualChangeRequestDto.getRoomId(), host, organizer);
     }
 
     @Override
