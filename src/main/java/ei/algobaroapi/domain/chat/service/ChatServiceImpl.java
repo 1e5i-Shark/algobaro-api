@@ -4,6 +4,7 @@ import ei.algobaroapi.domain.chat.dto.MessageResponse;
 import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.member.service.MemberService;
 import ei.algobaroapi.domain.room_member.dto.request.HostManualChangeRequestDto;
+import ei.algobaroapi.domain.room_member.dto.response.RoomExitResponse;
 import ei.algobaroapi.domain.room_member.service.RoomMemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,10 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public void quitRoom(String roomShortUuid, Long memberId) {
-        roomMemberService.exitRoomByMemberId(memberId);
+        RoomExitResponse roomExitResponse = roomMemberService.exitRoomByMemberId(memberId);
+        if (roomExitResponse.isHostChanged()) {
+            messageService.sendMessage(roomShortUuid, MessageResponse.changeHost(roomExitResponse.getNewHostId()));
+        }
         messageService.sendMessage(roomShortUuid, MessageResponse.quitRoom(memberId));
     }
 
