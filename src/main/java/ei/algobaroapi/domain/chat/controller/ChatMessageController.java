@@ -25,7 +25,7 @@ public class ChatMessageController {
             @Header("Authorization") String authorization
     ) {
         chatService.enterRoom(
-                messageRequestDto.getRoomId(),
+                messageRequestDto.getRoomShortUuid(),
                 tempParseMemberIdFromHeader(authorization)
         );
     }
@@ -35,7 +35,7 @@ public class ChatMessageController {
             MessageRequest messageRequestDto,
             @Header("Authorization") String authorization
     ) {
-        chatService.quitRoom(messageRequestDto.getRoomId(),
+        chatService.quitRoom(messageRequestDto.getRoomShortUuid(),
                 tempParseMemberIdFromHeader(authorization));
     }
 
@@ -45,7 +45,7 @@ public class ChatMessageController {
             @Header("Authorization") String authorization
     ) {
         chatService.convertAndSendMessage(
-                messageRequestDto.getRoomId(),
+                messageRequestDto.getRoomShortUuid(),
                 tempParseMemberIdFromHeader(authorization),
                 messageRequestDto.getMessage()
         );
@@ -57,7 +57,7 @@ public class ChatMessageController {
             @Header("Authorization") String authorization
     ) {
         chatService.readyRoom(
-                messageRequestDto.getRoomId(),
+                messageRequestDto.getRoomShortUuid(),
                 tempParseMemberIdFromHeader(authorization)
         );
     }
@@ -68,7 +68,7 @@ public class ChatMessageController {
             @Header("Authorization") String authorization
     ) {
         chatService.unreadyRoom(
-                messageRequestDto.getRoomId(),
+                messageRequestDto.getRoomShortUuid(),
                 tempParseMemberIdFromHeader(authorization)
         );
     }
@@ -79,7 +79,7 @@ public class ChatMessageController {
             @Header("Authorization") String authorization
     ) {
         chatService.changeHostManually(
-                messageRequestDto.getRoomId(),
+                messageRequestDto.getRoomShortUuid(),
                 tempParseMemberIdFromHeader(authorization),
                 Long.parseLong(messageRequestDto.getMessage())
         );

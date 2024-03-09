@@ -2,15 +2,15 @@ package ei.algobaroapi.domain.chat.service;
 
 public interface ChatService {
 
-    void enterRoom(String roomId, Long memberId);
+    void enterRoom(String roomShortUuid, Long memberId);
 
-    void quitRoom(String roomId, Long memberId);
+    void quitRoom(String roomShortUuid, Long memberId);
 
-    void convertAndSendMessage(String roomId, Long memberId, String message);
+    void convertAndSendMessage(String roomShortUuid, Long memberId, String message);
 
-    void readyRoom(String roomId, Long memberId);
+    void readyRoom(String roomShortUuid, Long memberId);
 
-    void unreadyRoom(String roomId, Long memberId);
+    void unreadyRoom(String roomShortUuid, Long memberId);
 
-    void changeHostManually(String roomId, Long beforeHost, Long afterHost);
+    void changeHostManually(String roomShortUuid, Long beforeHost, Long afterHost);
 }

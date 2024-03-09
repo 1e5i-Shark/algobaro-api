@@ -17,43 +17,43 @@ public class ChatServiceImpl implements ChatService {
     private final RoomMemberService roomMemberService;
 
     @Override
-    public void enterRoom(String roomId, Long memberId) {
+    public void enterRoom(String roomShortUuid, Long memberId) {
         Member member = memberService.getMemberById(memberId);
-        roomMemberService.joinRoomByRoomShortUuid(roomId, member);
-        messageService.sendMessage(roomId, MessageResponse.enterRoom(memberId));
+        roomMemberService.joinRoomByRoomShortUuid(roomShortUuid, member);
+        messageService.sendMessage(roomShortUuid, MessageResponse.enterRoom(memberId));
     }
 
     @Override
-    public void quitRoom(String roomId, Long memberId) {
+    public void quitRoom(String roomShortUuid, Long memberId) {
         roomMemberService.exitRoomByMemberId(memberId);
-        messageService.sendMessage(roomId, MessageResponse.quitRoom(memberId));
+        messageService.sendMessage(roomShortUuid, MessageResponse.quitRoom(memberId));
     }
 
     @Override
-    public void convertAndSendMessage(String roomId, Long memberId, String message) {
-        messageService.sendMessage(roomId, MessageResponse.sendMessage(memberId, message));
+    public void convertAndSendMessage(String roomShortUuid, Long memberId, String message) {
+        messageService.sendMessage(roomShortUuid, MessageResponse.sendMessage(memberId, message));
     }
 
     @Override
-    public void readyRoom(String roomId, Long memberId) {
-        roomMemberService.chageStatusToReady(roomId, memberId);
-        messageService.sendMessage(roomId, MessageResponse.readyRoom(memberId));
+    public void readyRoom(String roomShortUuid, Long memberId) {
+        roomMemberService.chageStatusToReady(roomShortUuid, memberId);
+        messageService.sendMessage(roomShortUuid, MessageResponse.readyRoom(memberId));
     }
 
     @Override
-    public void unreadyRoom(String roomId, Long memberId) {
-        roomMemberService.chageStatusToUnready(roomId, memberId);
-        messageService.sendMessage(roomId, MessageResponse.unreadyRoom(memberId));
+    public void unreadyRoom(String roomShortUuid, Long memberId) {
+        roomMemberService.chageStatusToUnready(roomShortUuid, memberId);
+        messageService.sendMessage(roomShortUuid, MessageResponse.unreadyRoom(memberId));
     }
 
     @Override
-    public void changeHostManually(String roomId, Long beforeHostId, Long afterHostId) {
+    public void changeHostManually(String roomShortUuid, Long beforeHostId, Long afterHostId) {
         roomMemberService.changeHostManually(HostManualChangeRequestDto.builder()
-                .roomShortUuid(roomId)
+                .roomShortUuid(roomShortUuid)
                 .hostId(beforeHostId)
                 .organizerId(afterHostId)
                 .build()
         );
-        messageService.sendMessage(roomId, MessageResponse.changeHost(beforeHostId));
+        messageService.sendMessage(roomShortUuid, MessageResponse.changeHost(beforeHostId));
     }
 }
