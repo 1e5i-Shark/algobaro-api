@@ -57,6 +57,13 @@ public class RoomMemberServiceImpl implements RoomMemberService {
         Room room = roomRepository.findByRoomUuidStartingWith(shortUuid)
                 .orElseThrow(() -> RoomNotFoundException.of(RoomErrorCode.ROOM_NOT_FOUND));
 
+        // 이미 방에 존재하면 아무것도 안 함
+        if (roomMemberRepository
+                .findRoomMemberByRoomIdAndMemberId(room.getId(), member.getId())
+                .isPresent()) {
+            return;
+        }
+
         RoomMember roomMember = RoomMember.builder()
                 .room(room)
                 .member(member)
