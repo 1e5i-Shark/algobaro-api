@@ -10,7 +10,7 @@ import lombok.Getter;
 public class HostManualChangeRequestDto {
 
     @Schema(description = "방 번호", example = "4")
-    private Long roomId;
+    private String roomShortUuid;
 
     @Schema(description = "현재 방장 번호", example = "1")
     private Long hostId;
