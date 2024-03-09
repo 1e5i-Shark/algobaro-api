@@ -132,7 +132,8 @@ public class SolveHistoryServiceImpl implements SolveHistoryService {
         solveHistoryRepository.save(createSolveHistory);
     }
 
-    private List<SolveHistory> getSolveHistoryList(String roomUuid) {
+    @Override
+    public List<SolveHistory> getSolveHistoryList(String roomUuid) {
         return solveHistoryRepository.findByRoomUuidWithMember(roomUuid);
     }
 }

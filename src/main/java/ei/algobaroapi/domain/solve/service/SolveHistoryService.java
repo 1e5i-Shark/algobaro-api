@@ -6,6 +6,7 @@ import ei.algobaroapi.domain.solve.dto.response.SolveHistoryDetailResponse;
 import ei.algobaroapi.domain.solve.dto.response.SolveHistoryResponse;
 import ei.algobaroapi.domain.solve.dto.response.SolveResultResponse;
 import ei.algobaroapi.global.dto.PageResponse;
+import java.util.List;
 
 public interface SolveHistoryService {
 
@@ -24,4 +25,6 @@ public interface SolveHistoryService {
     SolveResultResponse getSolveResultInRoom(String roomUuid);
 
     void setUpSolveHistory(Long memberId, String roomUuid, String problemLink);
+
+    List<SolveHistory> getSolveHistoryList(String roomUuid);
 }
