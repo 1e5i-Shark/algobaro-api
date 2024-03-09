@@ -5,6 +5,7 @@ import ei.algobaroapi.domain.room.domain.Room;
 import ei.algobaroapi.domain.room.domain.RoomRepository;
 import ei.algobaroapi.domain.room.exception.RoomNotFoundException;
 import ei.algobaroapi.domain.room.exception.common.RoomErrorCode;
+import ei.algobaroapi.domain.room.service.RoomService;
 import ei.algobaroapi.domain.room_member.domain.RoomMember;
 import ei.algobaroapi.domain.room_member.domain.RoomMemberRepository;
 import ei.algobaroapi.domain.room_member.domain.RoomMemberRole;
@@ -31,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class RoomMemberServiceImpl implements RoomMemberService {
 
     private final RoomRepository roomRepository;
+    private final RoomService roomService;
     private final RoomMemberRepository roomMemberRepository;
 
     @Override
@@ -52,10 +54,9 @@ public class RoomMemberServiceImpl implements RoomMemberService {
 
     @Override
     @Transactional
-    public List<RoomMemberResponseDto> joinRoomByRoomId(Long roomId, String password,
+    public List<RoomMemberResponseDto> joinRoomByRoomShortUuid(String shortUuid, String password,
             Member member) {
-        Room room = roomRepository.findById(roomId).orElseThrow(() -> RoomNotFoundException.of(
-                RoomErrorCode.ROOM_NOT_FOUND));
+        Room room = roomService.getRoomByShortUuid(shortUuid);
 
         validateConditionToJoinRoom(room, password);
 
@@ -68,7 +69,7 @@ public class RoomMemberServiceImpl implements RoomMemberService {
 
         roomMemberRepository.save(roomMember);
 
-        return roomMemberRepository.findByRoomId(roomId).stream()
+        return roomMemberRepository.findByRoomId(room.getId()).stream()
                 .map(RoomMemberResponseDto::of)
                 .toList();
     }

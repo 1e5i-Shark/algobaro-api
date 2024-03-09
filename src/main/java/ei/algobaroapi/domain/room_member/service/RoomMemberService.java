@@ -14,7 +14,7 @@ public interface RoomMemberService {
 
     List<RoomMemberResponseDto> createRoomByRoomId(Room room, Member member);
 
-    List<RoomMemberResponseDto> joinRoomByRoomId(Long roomId, String password, Member member);
+    List<RoomMemberResponseDto> joinRoomByRoomShortUuid(String shortUuid, String password, Member member);
 
     List<RoomMemberResponseDto> getRoomMembersByRoomId(Long roomId);
 
