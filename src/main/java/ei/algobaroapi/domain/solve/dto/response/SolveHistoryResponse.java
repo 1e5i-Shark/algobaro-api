@@ -26,13 +26,17 @@ public class SolveHistoryResponse {
     @Schema(description = "풀이 시간", example = "2024-01-01T00:00:00")
     private final String solvedAt;
 
+    @Schema(description = "문제 링크", example = "https://www.acmicpc.net/problem/1000")
+    private final String problemLink;
+
     public static SolveHistoryResponse of(SolveHistory solveHistory) {
         return new SolveHistoryResponse(
                 solveHistory.getId(),
                 solveHistory.getRoomUuid(),
                 solveHistory.getCodeLanguage(),
                 solveHistory.getSolveStatus().name(),
-                solveHistory.getStartAt().toString()
+                solveHistory.getStartAt().toString(),
+                solveHistory.getProblemLink()
         );
     }
 }

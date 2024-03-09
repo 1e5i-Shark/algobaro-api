@@ -138,6 +138,10 @@ public class Room extends BaseEntity {
         return this.roomStatus == RoomStatus.RECRUITING;
     }
 
+    public boolean isRunning() {
+        return this.roomStatus == RoomStatus.RUNNING;
+    }
+
     public boolean passwordIsCorrect(String password) {
         return this.password.equals(password);
     }

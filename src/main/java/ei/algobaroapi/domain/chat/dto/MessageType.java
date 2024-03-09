@@ -9,7 +9,12 @@ import lombok.RequiredArgsConstructor;
 public enum MessageType {
     ENTER_ROOM("enter"),
     QUIT_ROOM("quit"),
-    SEND_MESSAGE("message");
+    SEND_MESSAGE("message"),
+    READY_ROOM("ready"),
+    UNREADY_ROOM("unready"),
+    CHANGE_HOST("change-host"),
+    START_CODING("start-coding"),
+    END_CODING("end-coding");
 
     @JsonValue
     private final String value;

@@ -7,9 +7,7 @@ import lombok.Getter;
 @Builder
 public class MessageRequest {
 
-    private String roomId;
-
-    private String userId;
+    private String roomShortUuid;
 
     private String message;
 }

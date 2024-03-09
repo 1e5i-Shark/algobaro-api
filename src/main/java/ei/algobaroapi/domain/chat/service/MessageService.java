@@ -1,12 +1,24 @@
 package ei.algobaroapi.domain.chat.service;
 
-import ei.algobaroapi.domain.chat.dto.MessageResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Service;
 
-public interface MessageService {
+@Service
+@RequiredArgsConstructor
+public class MessageService {
 
-    MessageResponse enterRoom(String userId);
+    private static final String CHAT_ROOM_URL = "/chat/room/";
+    private final SimpMessagingTemplate simpMessagingTemplate;
+    @Value("${spring.myapp.websocket.sub-prefix}")
+    private String webSocketSubPrefix;
 
-    MessageResponse quitRoom(String userId);
 
-    MessageResponse convertAndSendMessage(String userId, String message);
+    public void sendMessage(String roomId, Object payload) {
+        simpMessagingTemplate.convertAndSend(
+                webSocketSubPrefix + CHAT_ROOM_URL + roomId,
+                payload
+        );
+    }
 }

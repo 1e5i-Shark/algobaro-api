@@ -60,6 +60,9 @@ dependencies {
 
     // Crawling
     implementation 'org.jsoup:jsoup:1.17.2'
+
+    // AWS S3
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 }
 
 tasks.named('test') {

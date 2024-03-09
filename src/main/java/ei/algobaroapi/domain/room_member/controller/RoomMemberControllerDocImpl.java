@@ -27,32 +27,11 @@ public class RoomMemberControllerDocImpl implements RoomMemberControllerDoc {
     private final RoomMemberService roomMemberService;
 
     @Override
-    @PostMapping("/rooms-join/{roomId}")
+    @PostMapping("/rooms/{shortUuid}/validate-enter")
     @PreAuthorize("hasRole('USER')")
-    public List<RoomMemberResponseDto> joinRoomByRoomId(@PathVariable(name = "roomId") Long roomId,
+    public List<RoomMemberResponseDto> validateEnterRoom(@PathVariable(name = "shortUuid") String shortUuid,
             @RequestBody JoinRoomRequestDto joinRoomRequestDto,
             @AuthenticationPrincipal Member member) {
-        return roomMemberService.joinRoomByRoomId(roomId, joinRoomRequestDto.getPassword(), member);
-    }
-
-    @PostMapping("/rooms-ready/{roomId}")
-    @PreAuthorize("hasRole('USER')")
-    public RoomMemberResponseDto changeReadyStatus(@PathVariable(name = "roomId") Long roomId,
-            @AuthenticationPrincipal Member member) {
-        return roomMemberService.changeReadyStatus(roomId, member.getId());
-    }
-
-    @Override
-    @PostMapping("/rooms/manual-change-host")
-    public RoomHostManualResponseDto changeHostManually(
-            @RequestBody HostManualChangeRequestDto hostManualChangeRequestDto) {
-        return roomMemberService.changeHostManually(hostManualChangeRequestDto);
-    }
-
-    @Override
-    @PostMapping("/rooms/auto-change-host")
-    public RoomHostAutoChangeResponseDto changeHostAutomatically(
-            @RequestBody HostAutoChangeRequestDto hostAutoChangeRequestDto) {
-        return roomMemberService.changeHostAutomatically(hostAutoChangeRequestDto);
+        return roomMemberService.validateEnterRoom(shortUuid, joinRoomRequestDto.getPassword(), member);
     }
 }

@@ -1,7 +1,8 @@
 package ei.algobaroapi.domain.member.controller;
 
 import ei.algobaroapi.domain.member.domain.Member;
-import ei.algobaroapi.domain.member.dto.request.MemberDetailUpdateRequest;
+import ei.algobaroapi.domain.member.dto.request.MemberGeneralUpdateRequest;
+import ei.algobaroapi.domain.member.dto.request.MemberPasswordUpdateRequest;
 import ei.algobaroapi.domain.member.dto.response.MemberDetailResponse;
 import ei.algobaroapi.domain.member.service.MemberService;
 import ei.algobaroapi.global.config.swaggerdoc.MemberControllerDoc;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,12 +33,32 @@ public class MemberController implements MemberControllerDoc {
     }
 
     @Override
-    @PatchMapping("/members/my")
+    @PatchMapping("/members/my/profile-image")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public void updateMemberInfo(
+    public void updateMemberProfileImageInfo(
             @AuthenticationPrincipal Member member,
-            @RequestBody @Valid MemberDetailUpdateRequest memberUpdateRequest
+            @RequestPart("image") MultipartFile multipartFile
     ) {
-        memberService.updateMemberDetail(member.getId(), memberUpdateRequest);
+        memberService.updateMemberProfileImageInfo(member.getId(), multipartFile);
+    }
+
+    @Override
+    @PatchMapping("/members/my/general")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public void updateMemberGeneralInfo(
+            @AuthenticationPrincipal Member member,
+            @RequestBody @Valid MemberGeneralUpdateRequest memberGeneralUpdateRequest
+    ) {
+        memberService.updateMemberGeneralInfo(member.getId(), memberGeneralUpdateRequest);
+    }
+
+    @Override
+    @PatchMapping("/members/my/password")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public void updateMemberPassword(
+            @AuthenticationPrincipal Member member,
+            @RequestBody @Valid MemberPasswordUpdateRequest memberPasswordUpdateRequest
+    ) {
+        memberService.updateMemberPassword(member.getId(), memberPasswordUpdateRequest);
     }
 }

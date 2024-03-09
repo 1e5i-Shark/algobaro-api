@@ -1,6 +1,8 @@
 package ei.algobaroapi.domain.room.service;
 
 import ei.algobaroapi.domain.member.domain.Member;
+import ei.algobaroapi.domain.problem.dto.request.ProblemSolveRequest;
+import ei.algobaroapi.domain.problem.service.ProblemService;
 import ei.algobaroapi.domain.room.domain.Room;
 import ei.algobaroapi.domain.room.domain.RoomRepository;
 import ei.algobaroapi.domain.room.dto.request.RoomCreateRequestDto;
@@ -13,6 +15,8 @@ import ei.algobaroapi.domain.room.exception.common.RoomErrorCode;
 import ei.algobaroapi.domain.room_member.domain.RoomMember;
 import ei.algobaroapi.domain.room_member.dto.response.RoomMemberResponseDto;
 import ei.algobaroapi.domain.room_member.service.RoomMemberService;
+import ei.algobaroapi.domain.solve.domain.SolveHistory;
+import ei.algobaroapi.domain.solve.domain.SolveStatus;
 import ei.algobaroapi.domain.solve.service.SolveHistoryService;
 import ei.algobaroapi.global.dto.PageResponse;
 import java.util.List;
@@ -30,7 +34,7 @@ public class RoomServiceImpl implements RoomService {
     private final RoomRepository roomRepository;
     private final RoomMemberService roomMemberService;
     private final SolveHistoryService solveHistoryService;
-
+    private final ProblemService problemService;
 
     @Override
     public PageResponse<Room, RoomResponseDto> getAllRooms(RoomListRequestDto request) {
@@ -71,18 +75,21 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public RoomDetailResponseDto getRoomByRoomUuid(String roomShortUuid) {
-        Room findRoom = roomRepository.findByRoomUuidStartingWith(roomShortUuid)
-                .orElseThrow(() -> RoomNotFoundException.of(RoomErrorCode.ROOM_NOT_FOUND));
+    public RoomDetailResponseDto getRoomDetailShortUuid(String roomShortUuid) {
+        Room findRoom = getRoomByShortUuid(roomShortUuid);
 
         return RoomDetailResponseDto.of(findRoom, getRoomMembersByRoomId(findRoom.getId()));
+    }
+
+    private Room getRoomByShortUuid(String roomShortUuid) {
+        return roomRepository.findByRoomUuidStartingWith(roomShortUuid)
+                .orElseThrow(() -> RoomNotFoundException.of(RoomErrorCode.ROOM_NOT_FOUND));
     }
 
     @Override
     @Transactional
     public RoomDetailResponseDto startCodingTest(String roomShortUuid) {
-        Room room = roomRepository.findByRoomUuidStartingWith(roomShortUuid)
-                .orElseThrow(() -> RoomNotFoundException.of(RoomErrorCode.ROOM_NOT_FOUND));
+        Room room = getRoomByShortUuid(roomShortUuid);
         Long roomId = room.getId();
 
         List<RoomMember> roomMembers = roomMemberService.getByRoomIdAllReady(roomId);
@@ -96,6 +103,23 @@ public class RoomServiceImpl implements RoomService {
 
         return RoomDetailResponseDto.of(room,
                 roomMembers.stream().map(RoomMemberResponseDto::of).toList());
+    }
+
+    @Override
+    @Transactional
+    public void completeSolveHistory(String roomUuid) {
+        List<SolveHistory> solveHistoryList = solveHistoryService.getSolveHistoryList(roomUuid);
+
+        solveHistoryList.forEach(solveHistory -> {
+            SolveStatus solveStatus = problemService.checkSolveResult(
+                    ProblemSolveRequest.builder()
+                            .problemLink(solveHistory.getProblemLink())
+                            .userBojId(solveHistory.getMember().getBojId())
+                            .build()
+            );
+
+            solveHistory.complete(solveStatus);
+        });
     }
 
     private List<RoomMemberResponseDto> getRoomMembersByRoomId(Long roomId) {

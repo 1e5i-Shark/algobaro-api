@@ -1,53 +1,121 @@
 package ei.algobaroapi.domain.chat.controller;
 
 import ei.algobaroapi.domain.chat.dto.MessageRequest;
-import ei.algobaroapi.domain.chat.service.MessageService;
+import ei.algobaroapi.domain.chat.service.ChatService;
+import ei.algobaroapi.domain.member.domain.Member;
+import ei.algobaroapi.domain.member.service.MemberService;
+import ei.algobaroapi.global.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
 public class ChatMessageController {
 
-    private static final String CHAT_ROOM_URL = "/chat/room/";
-    private final MessageService messageService;
-    private final SimpMessagingTemplate simpMessagingTemplate;
-    @Value("${spring.myapp.websocket.sub-prefix}")
-    private String webSocketSubPrefix;
+    private final ChatService chatService;
+    private final JwtProvider jwtProvider;
+    private final MemberService memberService;
 
     @MessageMapping("/chat/enter")
-    public void enter(MessageRequest messageRequestDto) {
-        simpMessagingTemplate.convertAndSend(
-                webSocketSubPrefix + CHAT_ROOM_URL + messageRequestDto.getRoomId(),
-                messageService.enterRoom(messageRequestDto.getUserId())
+    public void enter(
+            MessageRequest messageRequestDto,
+            @Header("Authorization") String authorization
+    ) {
+        chatService.enterRoom(
+                messageRequestDto.getRoomShortUuid(),
+                tempParseMemberIdFromHeader(authorization)
         );
     }
 
     @MessageMapping("/chat/quit")
-    public void quit(MessageRequest messageRequestDto) {
-        simpMessagingTemplate.convertAndSend(
-                webSocketSubPrefix + CHAT_ROOM_URL + messageRequestDto.getRoomId(),
-                messageService.quitRoom(messageRequestDto.getUserId())
-        );
+    public void quit(
+            MessageRequest messageRequestDto,
+            @Header("Authorization") String authorization
+    ) {
+        chatService.quitRoom(messageRequestDto.getRoomShortUuid(),
+                tempParseMemberIdFromHeader(authorization));
     }
 
     @MessageMapping("/chat/message")
-    public void message(MessageRequest messageRequestDto) {
-        simpMessagingTemplate.convertAndSend(
-                webSocketSubPrefix + CHAT_ROOM_URL + messageRequestDto.getRoomId(),
-                messageService.convertAndSendMessage(
-                        messageRequestDto.getUserId(),
-                        messageRequestDto.getMessage()
-                )
+    public void message(
+            MessageRequest messageRequestDto,
+            @Header("Authorization") String authorization
+    ) {
+        chatService.convertAndSendMessage(
+                messageRequestDto.getRoomShortUuid(),
+                tempParseMemberIdFromHeader(authorization),
+                messageRequestDto.getMessage()
+        );
+    }
+
+    @MessageMapping("/chat/ready")
+    public void ready(
+            MessageRequest messageRequestDto,
+            @Header("Authorization") String authorization
+    ) {
+        chatService.readyRoom(
+                messageRequestDto.getRoomShortUuid(),
+                tempParseMemberIdFromHeader(authorization)
+        );
+    }
+
+    @MessageMapping("/chat/unready")
+    public void unready(
+            MessageRequest messageRequestDto,
+            @Header("Authorization") String authorization
+    ) {
+        chatService.unreadyRoom(
+                messageRequestDto.getRoomShortUuid(),
+                tempParseMemberIdFromHeader(authorization)
+        );
+    }
+
+    @MessageMapping("/chat/change-host")
+    public void changeHostManually(
+            MessageRequest messageRequestDto,
+            @Header("Authorization") String authorization
+    ) {
+        chatService.changeHostManually(
+                messageRequestDto.getRoomShortUuid(),
+                tempParseMemberIdFromHeader(authorization),
+                Long.parseLong(messageRequestDto.getMessage())
+        );
+    }
+
+    @MessageMapping("/chat/start-coding")
+    public void startCodingTest(
+            MessageRequest messageRequestDto,
+            @Header("Authorization") String authorization
+    ) {
+        chatService.startCodingTest(
+                messageRequestDto.getRoomShortUuid(),
+                tempParseMemberIdFromHeader(authorization)
+        );
+    }
+
+    @MessageMapping("/chat/end-coding")
+    public void endCodingTest(
+            MessageRequest messageRequestDto,
+            @Header("Authorization") String authorization
+    ) {
+        chatService.endCodingTest(
+                messageRequestDto.getRoomShortUuid(),
+                tempParseMemberIdFromHeader(authorization)
         );
     }
 
     @MessageExceptionHandler
     public String exception() {
         return "Error has occurred.";
+    }
+
+    // 임시 사용, 추후 Custom Annotation으로 변경 예정
+    private Long tempParseMemberIdFromHeader(String authorization) {
+        String emailByToken = jwtProvider.getUserEmailByToken(authorization.substring(7));
+        Member memberByEmail = memberService.getMemberByEmail(emailByToken);
+        return memberByEmail.getId();
     }
 }
