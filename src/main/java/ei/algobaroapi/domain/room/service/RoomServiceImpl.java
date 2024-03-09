@@ -77,8 +77,7 @@ public class RoomServiceImpl implements RoomService {
         return RoomDetailResponseDto.of(findRoom, getRoomMembersByRoomId(findRoom.getId()));
     }
 
-    @Override
-    public Room getRoomByShortUuid(String roomShortUuid) {
+    private Room getRoomByShortUuid(String roomShortUuid) {
         return roomRepository.findByRoomUuidStartingWith(roomShortUuid)
                 .orElseThrow(() -> RoomNotFoundException.of(RoomErrorCode.ROOM_NOT_FOUND));
     }
