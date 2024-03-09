@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @Schema(description = "방 방장 자동 변경 정보")
-public class RoomHostDto {
+public class RoomHostAutoChangeResponseDto {
 
     @Schema(description = "방 번호", example = "30")
     private Long roomId;
@@ -19,8 +19,8 @@ public class RoomHostDto {
     @Schema(description = "현재 방장의 닉네임", example = "test2")
     private String newHostNickname;
 
-    public static RoomHostDto of(Long roomId, RoomMember newHost) {
-        return RoomHostDto.builder()
+    public static RoomHostAutoChangeResponseDto of(Long roomId, RoomMember newHost) {
+        return RoomHostAutoChangeResponseDto.builder()
                 .roomId(roomId)
                 .newHostId(newHost.getId())
                 .newHostNickname(newHost.getMember().getNickname())
