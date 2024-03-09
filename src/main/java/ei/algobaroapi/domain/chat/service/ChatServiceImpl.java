@@ -61,7 +61,7 @@ public class ChatServiceImpl implements ChatService {
                 .organizerId(afterHostId)
                 .build()
         );
-        messageService.sendMessage(roomShortUuid, MessageResponse.changeHost(beforeHostId));
+        messageService.sendMessage(roomShortUuid, MessageResponse.changeHost(afterHostId));
     }
 
     @Override
