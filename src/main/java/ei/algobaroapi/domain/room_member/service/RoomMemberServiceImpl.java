@@ -198,7 +198,10 @@ public class RoomMemberServiceImpl implements RoomMemberService {
                 .orElseThrow(() -> RoomMemberNotFoundException.of(
                         RoomMemberErrorCode.ROOM_MEMBER_ERROR_CODE));
 
-        roomMemberRepository.delete(roomMember);
+        // 진행 중인 방인 경우 나가더라도 재입장을 위해 삭제하지 않음
+        if (!findRoom.isRunning()) {
+            roomMemberRepository.delete(roomMember);
+        }
 
         // 만약 방이 빈 방이 되었을 경우 방을 삭제
         if (checkRoomMemberExistInRoom(findRoom)) {
