@@ -57,14 +57,14 @@ public class RoomMember extends BaseEntity {
         this.submitCode = null;
     }
 
-    public void changeRole(RoomMemberRole roomMemberRole) {
-        if (roomMemberRole == RoomMemberRole.HOST) {
-            this.roomMemberRole = roomMemberRole;
-            this.isReady = true; // 방장은 언제나 준비 상태
-        } else {
-            this.roomMemberRole = roomMemberRole;
-            this.isReady = false; // 참여자 기본값은 준비 안됨
-        }
+    public void changeRoleToHost() {
+        this.roomMemberRole = RoomMemberRole.HOST;
+        this.isReady = true;
+    }
+
+    public void changeRoleToParticipant() {
+        this.roomMemberRole = RoomMemberRole.PARTICIPANT;
+        this.isReady = false;
     }
 
     public void changeReadyStatus() {
