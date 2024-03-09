@@ -54,11 +54,8 @@ public class RoomMemberServiceImpl implements RoomMemberService {
 
     @Override
     @Transactional
-    public List<RoomMemberResponseDto> joinRoomByRoomShortUuid(String shortUuid, String password,
-            Member member) {
+    public void joinRoomByRoomShortUuid(String shortUuid, Member member) {
         Room room = roomService.getRoomByShortUuid(shortUuid);
-
-        validateConditionToJoinRoom(room, password);
 
         RoomMember roomMember = RoomMember.builder()
                 .room(room)
@@ -68,10 +65,6 @@ public class RoomMemberServiceImpl implements RoomMemberService {
                 .build();
 
         roomMemberRepository.save(roomMember);
-
-        return roomMemberRepository.findByRoomId(room.getId()).stream()
-                .map(RoomMemberResponseDto::of)
-                .toList();
     }
 
     @Override
@@ -115,7 +108,8 @@ public class RoomMemberServiceImpl implements RoomMemberService {
                 .orElseThrow(() -> RoomMemberNotFoundException.of(
                         RoomMemberErrorCode.ROOM_MEMBER_ERROR_CODE));
 
-        RoomMember organizer = roomMemberRepository.findById(hostManualChangeRequestDto.getOrganizerId())
+        RoomMember organizer = roomMemberRepository.findById(
+                        hostManualChangeRequestDto.getOrganizerId())
                 .orElseThrow(() -> RoomMemberNotFoundException.of(
                         RoomMemberErrorCode.ROOM_MEMBER_ERROR_CODE));
 
@@ -125,12 +119,14 @@ public class RoomMemberServiceImpl implements RoomMemberService {
 
         organizer.changeRoleToHost();
 
-        return RoomHostManualResponseDto.of(hostManualChangeRequestDto.getRoomId(), host, organizer);
+        return RoomHostManualResponseDto.of(hostManualChangeRequestDto.getRoomId(), host,
+                organizer);
     }
 
     @Override
     @Transactional
-    public RoomHostAutoChangeResponseDto changeHostAutomatically(HostAutoChangeRequestDto hostAutoChangeRequestDto) {
+    public RoomHostAutoChangeResponseDto changeHostAutomatically(
+            HostAutoChangeRequestDto hostAutoChangeRequestDto) {
         Long roomId = hostAutoChangeRequestDto.getRoomId();
 
         RoomMember newHost = roomMemberRepository.findByRoomId(roomId).stream()
