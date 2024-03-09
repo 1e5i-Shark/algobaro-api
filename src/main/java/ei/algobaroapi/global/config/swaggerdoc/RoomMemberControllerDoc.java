@@ -1,10 +1,11 @@
 package ei.algobaroapi.global.config.swaggerdoc;
 
 import ei.algobaroapi.domain.member.domain.Member;
-import ei.algobaroapi.domain.room_member.domain.RoomMember;
-import ei.algobaroapi.domain.room_member.dto.request.HostChangeRequestDto;
+import ei.algobaroapi.domain.room_member.dto.request.HostAutoChangeRequestDto;
+import ei.algobaroapi.domain.room_member.dto.request.HostManualChangeRequestDto;
 import ei.algobaroapi.domain.room_member.dto.request.JoinRoomRequestDto;
-import ei.algobaroapi.domain.room_member.dto.response.RoomHostResponseDto;
+import ei.algobaroapi.domain.room_member.dto.response.RoomHostAutoChangeResponseDto;
+import ei.algobaroapi.domain.room_member.dto.response.RoomHostManualResponseDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomMemberResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -33,9 +34,9 @@ public interface RoomMemberControllerDoc {
     @ApiResponse(responseCode = "E05301", description = "해당 방에 멤버를 찾지 못했습니다.")
     @ApiResponse(responseCode = "E05302", description = "방장 권한을 위임할 수 있는 권한을 가지고 있지 않습니다.")
     @ApiResponse(responseCode = "E05303", description = "방장 권한을 위임 받을 수 있는 참여자가 아닙니다.")
-    RoomHostResponseDto changeHostManually(HostChangeRequestDto hostChangeRequestDto);
+    RoomHostManualResponseDto changeHostManually(HostManualChangeRequestDto hostManualChangeRequestDto);
 
-    @Operation(summary = "방장 자동 변경 - 작업 중", description = "현재 방장이 방을 나갔을 경우, 방에 참여한 순으로 방장을 새로 위임합니다.")
+    @Operation(summary = "방장 자동 변경", description = "현재 방장이 방을 나갔을 경우, 방에 참여한 순으로 방장을 새로 위임합니다.")
     @ApiResponse(responseCode = "200", description = "방장 자동 위임에 성공하였습니다.")
-    RoomHostResponseDto changeHostAutomatically(RoomMember roomMember);
+    RoomHostAutoChangeResponseDto changeHostAutomatically(HostAutoChangeRequestDto hostAutoChangeRequestDto);
 }

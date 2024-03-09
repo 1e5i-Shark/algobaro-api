@@ -44,6 +44,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional
     public void updateMemberDetail(Long id, MemberDetailUpdateRequest request) {
         Member findMember = this.getMemberById(id);
 

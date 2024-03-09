@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
-@Schema(description = "방 참여 요청 정보")
+@Schema(description = "방장 자동 변경 요청 정보")
 @NoArgsConstructor
 @AllArgsConstructor
-public class JoinRoomRequestDto {
+public class HostAutoChangeRequestDto {
 
-    @Schema(description = "방 비밀번호", example = "password1234")
-    private String password;
+    @Schema(description = "방 번호", example = "4")
+    private Long roomId;
 }

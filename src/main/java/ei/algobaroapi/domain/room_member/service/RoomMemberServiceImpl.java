@@ -8,8 +8,10 @@ import ei.algobaroapi.domain.room.exception.common.RoomErrorCode;
 import ei.algobaroapi.domain.room_member.domain.RoomMember;
 import ei.algobaroapi.domain.room_member.domain.RoomMemberRepository;
 import ei.algobaroapi.domain.room_member.domain.RoomMemberRole;
-import ei.algobaroapi.domain.room_member.dto.request.HostChangeRequestDto;
-import ei.algobaroapi.domain.room_member.dto.response.RoomHostResponseDto;
+import ei.algobaroapi.domain.room_member.dto.request.HostAutoChangeRequestDto;
+import ei.algobaroapi.domain.room_member.dto.request.HostManualChangeRequestDto;
+import ei.algobaroapi.domain.room_member.dto.response.RoomHostAutoChangeResponseDto;
+import ei.algobaroapi.domain.room_member.dto.response.RoomHostManualResponseDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomMemberResponseDto;
 import ei.algobaroapi.domain.room_member.exception.HostValidationException;
 import ei.algobaroapi.domain.room_member.exception.OrganizerValidationException;
@@ -17,6 +19,7 @@ import ei.algobaroapi.domain.room_member.exception.RoomMemberNotEnterException;
 import ei.algobaroapi.domain.room_member.exception.RoomMemberNotFoundException;
 import ei.algobaroapi.domain.room_member.exception.RoomMemberNotReadyException;
 import ei.algobaroapi.domain.room_member.exception.common.RoomMemberErrorCode;
+import java.util.Comparator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -79,26 +82,6 @@ public class RoomMemberServiceImpl implements RoomMemberService {
 
     @Override
     @Transactional
-    public RoomHostResponseDto changeHostManually(HostChangeRequestDto hostChangeRequestDto) {
-        RoomMember host = roomMemberRepository.findById(hostChangeRequestDto.getHostId())
-                .orElseThrow(() -> RoomMemberNotFoundException.of(
-                        RoomMemberErrorCode.ROOM_MEMBER_ERROR_CODE));
-
-        RoomMember organizer = roomMemberRepository.findById(hostChangeRequestDto.getOrganizerId())
-                .orElseThrow(() -> RoomMemberNotFoundException.of(
-                        RoomMemberErrorCode.ROOM_MEMBER_ERROR_CODE));
-
-        validateIsHostAndOrganizer(host, organizer);
-
-        host.changeRole(RoomMemberRole.PARTICIPANT);
-
-        organizer.changeRole(RoomMemberRole.HOST);
-
-        return RoomHostResponseDto.of(hostChangeRequestDto.getRoomId(), host, organizer);
-    }
-
-    @Override
-    @Transactional
     public RoomMemberResponseDto changeReadyStatus(Long roomId, Long memberId) {
         RoomMember roomMember = roomMemberRepository.findRoomMemberByRoomIdAndMemberId(roomId,
                         memberId)
@@ -111,8 +94,40 @@ public class RoomMemberServiceImpl implements RoomMemberService {
     }
 
     @Override
-    public RoomHostResponseDto changeHostAutomatically(RoomMember roomMember) {
-        return null;
+    @Transactional
+    public RoomHostManualResponseDto changeHostManually(
+            HostManualChangeRequestDto hostManualChangeRequestDto) {
+        RoomMember host = roomMemberRepository.findById(hostManualChangeRequestDto.getHostId())
+                .orElseThrow(() -> RoomMemberNotFoundException.of(
+                        RoomMemberErrorCode.ROOM_MEMBER_ERROR_CODE));
+
+        RoomMember organizer = roomMemberRepository.findById(hostManualChangeRequestDto.getOrganizerId())
+                .orElseThrow(() -> RoomMemberNotFoundException.of(
+                        RoomMemberErrorCode.ROOM_MEMBER_ERROR_CODE));
+
+        validateIsHostAndOrganizer(host, organizer);
+
+        host.changeRoleToParticipant();
+
+        organizer.changeRoleToHost();
+
+        return RoomHostManualResponseDto.of(hostManualChangeRequestDto.getRoomId(), host, organizer);
+    }
+
+    @Override
+    @Transactional
+    public RoomHostAutoChangeResponseDto changeHostAutomatically(HostAutoChangeRequestDto hostAutoChangeRequestDto) {
+        Long roomId = hostAutoChangeRequestDto.getRoomId();
+
+        RoomMember newHost = roomMemberRepository.findByRoomId(roomId).stream()
+                .filter(RoomMember::isParticipant)
+                .min(Comparator.comparing(RoomMember::getCreatedAt))
+                .orElseThrow(() -> RoomMemberNotFoundException.of(
+                        RoomMemberErrorCode.ROOM_MEMBER_ERROR_CODE));
+
+        newHost.changeRoleToHost();
+
+        return RoomHostAutoChangeResponseDto.of(roomId, newHost);
     }
 
     @Override
@@ -131,50 +146,44 @@ public class RoomMemberServiceImpl implements RoomMemberService {
     @Override
     @Transactional
     public List<RoomMemberResponseDto> exitRoomByMemberId(Long memberId) {
-        // 멤버가 있는 방 조회
         Room findRoom = roomMemberRepository.findRoomByMemberId(memberId)
                 .orElseThrow(() -> RoomNotFoundException.of(RoomErrorCode.ROOM_NOT_FOUND));
 
-        // 방 번호와 멤버 번호로 roomMember 조회
         RoomMember roomMember = roomMemberRepository.findRoomMemberByRoomIdAndMemberId(
                         findRoom.getId(), memberId)
                 .orElseThrow(() -> RoomMemberNotFoundException.of(
                         RoomMemberErrorCode.ROOM_MEMBER_ERROR_CODE));
 
-        // roomMember 삭제
         roomMemberRepository.delete(roomMember);
 
-        // 방에 남아있는 roomMember 조회 후 아무도 없다면 방 삭제
         if (checkRoomMemberExistInRoom(findRoom)) {
             roomRepository.delete(findRoom);
         }
 
-        // 방에 남아있는 roomMember 조회 <- 잘 삭제됐는지 확인용
         return roomMemberRepository.findByRoomId(findRoom.getId()).stream()
                 .map(RoomMemberResponseDto::of)
                 .toList();
     }
-  
+
     private void validateConditionToJoinRoom(Room room, String password) {
-        // 방에 참여할 수 있는지 확인 - 모집 중인지 체크
         checkRoomIsRecruiting(room);
 
-        // 방에 참여할 수 있는지 확인 - 방 비밀번호 체크
         checkRoomPassword(room, password);
 
-        // 방에 참여할 수 있는지 확인 - 인원 수 체크
         checkRoomHeadCount(room);
     }
 
     private void checkRoomIsRecruiting(Room room) {
         if (!room.isRecruiting()) {
-            throw RoomMemberNotEnterException.of(RoomMemberErrorCode.ROOM_MEMBER_CANNOT_ENTER_NOT_RECRUITING);
+            throw RoomMemberNotEnterException.of(
+                    RoomMemberErrorCode.ROOM_MEMBER_CANNOT_ENTER_NOT_RECRUITING);
         }
     }
 
     private void checkRoomPassword(Room room, String password) {
         if (!room.passwordIsCorrect(password)) {
-            throw RoomMemberNotEnterException.of(RoomMemberErrorCode.ROOM_MEMBER_CANNOT_ENTER_PASSWORD);
+            throw RoomMemberNotEnterException.of(
+                    RoomMemberErrorCode.ROOM_MEMBER_CANNOT_ENTER_PASSWORD);
         }
     }
 
@@ -182,7 +191,8 @@ public class RoomMemberServiceImpl implements RoomMemberService {
         int roomSize = roomMemberRepository.findByRoomId(room.getId()).size();
 
         if (room.isHeadCountFull(roomSize)) {
-            throw RoomMemberNotFoundException.of(RoomMemberErrorCode.ROOM_MEMBER_CANNOT_ENTER_HEADCOUNT);
+            throw RoomMemberNotFoundException.of(
+                    RoomMemberErrorCode.ROOM_MEMBER_CANNOT_ENTER_HEADCOUNT);
         }
     }
 
