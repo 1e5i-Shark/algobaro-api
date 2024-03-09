@@ -122,11 +122,15 @@ public class RoomMemberServiceImpl implements RoomMemberService {
     @Transactional
     public RoomHostManualResponseDto changeHostManually(
             HostManualChangeRequestDto hostManualChangeRequestDto) {
-        RoomMember host = roomMemberRepository.findById(hostManualChangeRequestDto.getHostId())
+        Room room = roomRepository.findByRoomUuidStartingWith(
+                        hostManualChangeRequestDto.getRoomShortUuid())
+                .orElseThrow(() -> RoomNotFoundException.of(RoomErrorCode.ROOM_NOT_FOUND));
+        RoomMember host = roomMemberRepository.findRoomMemberByRoomIdAndMemberId(room.getId(),
+                        hostManualChangeRequestDto.getHostId())
                 .orElseThrow(() -> RoomMemberNotFoundException.of(
                         RoomMemberErrorCode.ROOM_MEMBER_ERROR_CODE));
 
-        RoomMember organizer = roomMemberRepository.findById(
+        RoomMember organizer = roomMemberRepository.findRoomMemberByRoomIdAndMemberId(room.getId(),
                         hostManualChangeRequestDto.getOrganizerId())
                 .orElseThrow(() -> RoomMemberNotFoundException.of(
                         RoomMemberErrorCode.ROOM_MEMBER_ERROR_CODE));
