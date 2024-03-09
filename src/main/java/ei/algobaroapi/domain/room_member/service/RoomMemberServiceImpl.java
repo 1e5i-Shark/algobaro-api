@@ -75,6 +75,19 @@ public class RoomMemberServiceImpl implements RoomMemberService {
     }
 
     @Override
+    @Transactional
+    public List<RoomMemberResponseDto> validateEnterRoom(String shortUuid, String password,
+            Member member) {
+        Room room = roomService.getRoomByShortUuid(shortUuid);
+
+        validateConditionToJoinRoom(room, password);
+
+        return roomMemberRepository.findByRoomId(room.getId()).stream()
+                .map(RoomMemberResponseDto::of)
+                .toList();
+    }
+
+    @Override
     public List<RoomMemberResponseDto> getRoomMembersByRoomId(Long roomId) {
         return roomMemberRepository.findByRoomId(roomId).stream()
                 .map(RoomMemberResponseDto::of)

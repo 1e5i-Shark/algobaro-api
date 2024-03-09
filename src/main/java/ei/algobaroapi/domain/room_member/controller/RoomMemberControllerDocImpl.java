@@ -27,12 +27,12 @@ public class RoomMemberControllerDocImpl implements RoomMemberControllerDoc {
     private final RoomMemberService roomMemberService;
 
     @Override
-    @PostMapping("/rooms-join/{shortUuid}")
+    @PostMapping("/rooms/{shortUuid}/validate-enter")
     @PreAuthorize("hasRole('USER')")
-    public List<RoomMemberResponseDto> joinRoomByRoomId(@PathVariable(name = "shortUuid") String shortUuid,
+    public List<RoomMemberResponseDto> validateEnterRoom(@PathVariable(name = "shortUuid") String shortUuid,
             @RequestBody JoinRoomRequestDto joinRoomRequestDto,
             @AuthenticationPrincipal Member member) {
-        return roomMemberService.joinRoomByRoomShortUuid(shortUuid, joinRoomRequestDto.getPassword(), member);
+        return roomMemberService.validateEnterRoom(shortUuid, joinRoomRequestDto.getPassword(), member);
     }
 
     @PostMapping("/rooms-ready/{roomId}")
