@@ -21,4 +21,6 @@ public interface RoomService {
     RoomDetailResponseDto getRoomDetailShortUuid(String roomUuid);
 
     RoomDetailResponseDto startCodingTest(String roomUuid);
+
+    void completeSolveHistory(String roomUuid);
 }
