@@ -89,8 +89,10 @@ public class RoomMemberServiceImpl implements RoomMemberService {
 
     @Override
     @Transactional
-    public RoomMemberResponseDto chageStatusToReady(Long roomId, Long memberId) {
-        RoomMember roomMember = roomMemberRepository.findRoomMemberByRoomIdAndMemberId(roomId,
+    public RoomMemberResponseDto chageStatusToReady(String roomShortUuid, Long memberId) {
+        Room room = roomRepository.findByRoomUuidStartingWith(roomShortUuid)
+                .orElseThrow(() -> RoomNotFoundException.of(RoomErrorCode.ROOM_NOT_FOUND));
+        RoomMember roomMember = roomMemberRepository.findRoomMemberByRoomIdAndMemberId(room.getId(),
                         memberId)
                 .orElseThrow(() -> RoomMemberNotFoundException.of(
                         RoomMemberErrorCode.ROOM_MEMBER_ERROR_CODE));
@@ -102,8 +104,10 @@ public class RoomMemberServiceImpl implements RoomMemberService {
 
     @Override
     @Transactional
-    public RoomMemberResponseDto chageStatusToUnready(Long roomId, Long memberId) {
-        RoomMember roomMember = roomMemberRepository.findRoomMemberByRoomIdAndMemberId(roomId,
+    public RoomMemberResponseDto chageStatusToUnready(String roomShortUuid, Long memberId) {
+        Room room = roomRepository.findByRoomUuidStartingWith(roomShortUuid)
+                .orElseThrow(() -> RoomNotFoundException.of(RoomErrorCode.ROOM_NOT_FOUND));
+        RoomMember roomMember = roomMemberRepository.findRoomMemberByRoomIdAndMemberId(room.getId(),
                         memberId)
                 .orElseThrow(() -> RoomMemberNotFoundException.of(
                         RoomMemberErrorCode.ROOM_MEMBER_ERROR_CODE));
