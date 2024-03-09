@@ -1,6 +1,7 @@
 package ei.algobaroapi.domain.chat.service;
 
 import ei.algobaroapi.domain.chat.dto.MessageResponse;
+import ei.algobaroapi.domain.room_member.service.RoomMemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 public class ChatServiceImpl implements ChatService {
 
     private final MessageService messageService;
+    private final RoomMemberService roomMemberService;
 
     @Override
     public void enterRoom(String roomId, Long memberId) {
@@ -17,6 +19,7 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public void quitRoom(String roomId, Long memberId) {
+        roomMemberService.exitRoomByMemberId(memberId);
         messageService.sendMessage(roomId, MessageResponse.quitRoom(memberId));
     }
 
