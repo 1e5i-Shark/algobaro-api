@@ -92,6 +92,10 @@ public class Member extends BaseEntity implements UserDetails {
         return true;
     }
 
+    public void updateProfileImage(String profileImageUrl) {
+        this.profileImage = profileImageUrl;
+    }
+
     public void updateGeneralInfo(MemberGeneralUpdateRequest request) {
         this.nickname = request.getNickname() != null ? request.getNickname() : this.nickname;
         this.bojId = request.getBojId() != null ? request.getBojId() : this.bojId;
