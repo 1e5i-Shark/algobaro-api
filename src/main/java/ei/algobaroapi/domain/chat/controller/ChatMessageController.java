@@ -20,18 +20,30 @@ public class ChatMessageController {
     private final MemberService memberService;
 
     @MessageMapping("/chat/enter")
-    public void enter(MessageRequest messageRequestDto, @Header("Authorization") String authorization) {
-        Long memberId = tempParseMemberIdFromHeader(authorization);
-        chatService.enterRoom(messageRequestDto.getRoomId(), memberId);
+    public void enter(
+            MessageRequest messageRequestDto,
+            @Header("Authorization") String authorization
+    ) {
+        chatService.enterRoom(
+                messageRequestDto.getRoomId(),
+                tempParseMemberIdFromHeader(authorization)
+        );
     }
 
     @MessageMapping("/chat/quit")
-    public void quit(MessageRequest messageRequestDto, @Header("Authorization") String authorization) {
-        chatService.quitRoom(messageRequestDto.getRoomId(), tempParseMemberIdFromHeader(authorization));
+    public void quit(
+            MessageRequest messageRequestDto,
+            @Header("Authorization") String authorization
+    ) {
+        chatService.quitRoom(messageRequestDto.getRoomId(),
+                tempParseMemberIdFromHeader(authorization));
     }
 
     @MessageMapping("/chat/message")
-    public void message(MessageRequest messageRequestDto, @Header("Authorization") String authorization) {
+    public void message(
+            MessageRequest messageRequestDto,
+            @Header("Authorization") String authorization
+    ) {
         chatService.convertAndSendMessage(
                 messageRequestDto.getRoomId(),
                 tempParseMemberIdFromHeader(authorization),
