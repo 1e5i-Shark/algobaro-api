@@ -51,6 +51,28 @@ public class ChatMessageController {
         );
     }
 
+    @MessageMapping("/chat/ready")
+    public void ready(
+            MessageRequest messageRequestDto,
+            @Header("Authorization") String authorization
+    ) {
+        chatService.readyRoom(
+                messageRequestDto.getRoomId(),
+                tempParseMemberIdFromHeader(authorization)
+        );
+    }
+
+    @MessageMapping("/chat/unready")
+    public void unready(
+            MessageRequest messageRequestDto,
+            @Header("Authorization") String authorization
+    ) {
+        chatService.unreadyRoom(
+                messageRequestDto.getRoomId(),
+                tempParseMemberIdFromHeader(authorization)
+        );
+    }
+
     @MessageExceptionHandler
     public String exception() {
         return "Error has occurred.";

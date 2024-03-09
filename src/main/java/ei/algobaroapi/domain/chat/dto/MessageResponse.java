@@ -40,4 +40,20 @@ public class MessageResponse {
                 value
         );
     }
+
+    public static MessageResponse readyRoom(Long memberId) {
+        return new MessageResponse(
+                memberId,
+                MessageType.READY_ROOM,
+                null
+        );
+    }
+
+    public static MessageResponse unreadyRoom(Long memberId) {
+        return new MessageResponse(
+                memberId,
+                MessageType.UNREADY_ROOM,
+                null
+        );
+    }
 }
