@@ -85,6 +85,17 @@ public class ChatMessageController {
         );
     }
 
+    @MessageMapping("/chat/start-coding")
+    public void startCodingTest(
+            MessageRequest messageRequestDto,
+            @Header("Authorization") String authorization
+    ) {
+        chatService.startCodingTest(
+                messageRequestDto.getRoomShortUuid(),
+                tempParseMemberIdFromHeader(authorization)
+        );
+    }
+
     @MessageExceptionHandler
     public String exception() {
         return "Error has occurred.";
