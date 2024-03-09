@@ -5,6 +5,7 @@ import ei.algobaroapi.domain.room.domain.Room;
 import ei.algobaroapi.domain.room_member.domain.RoomMember;
 import ei.algobaroapi.domain.room_member.dto.request.HostAutoChangeRequestDto;
 import ei.algobaroapi.domain.room_member.dto.request.HostManualChangeRequestDto;
+import ei.algobaroapi.domain.room_member.dto.response.RoomExitResponse;
 import ei.algobaroapi.domain.room_member.dto.response.RoomHostAutoChangeResponseDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomHostManualResponseDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomMemberResponseDto;
@@ -30,5 +31,5 @@ public interface RoomMemberService {
 
     List<RoomMember> getByRoomIdAllReady(Long roomId);
 
-    List<RoomMemberResponseDto> exitRoomByMemberId(Long memberId);
+    RoomExitResponse exitRoomByMemberId(Long memberId);
 }
