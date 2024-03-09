@@ -32,4 +32,16 @@ public class ChatServiceImpl implements ChatService {
     public void convertAndSendMessage(String roomId, Long memberId, String message) {
         messageService.sendMessage(roomId, MessageResponse.sendMessage(memberId, message));
     }
+
+    @Override
+    public void readyRoom(String roomId, Long memberId) {
+        roomMemberService.chageStatusToReady(roomId, memberId);
+        messageService.sendMessage(roomId, MessageResponse.readyRoom(memberId));
+    }
+
+    @Override
+    public void unreadyRoom(String roomId, Long memberId) {
+        roomMemberService.chageStatusToUnready(roomId, memberId);
+        messageService.sendMessage(roomId, MessageResponse.unreadyRoom(memberId));
+    }
 }
