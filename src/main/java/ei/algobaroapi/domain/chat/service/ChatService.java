@@ -12,7 +12,7 @@ public interface ChatService {
 
     void unreadyRoom(String roomShortUuid, Long memberId);
 
-    void changeHostManually(String roomShortUuid, Long beforeHost, Long afterHost);
+    void changeHostManually(String roomShortUuid, Long beforeHostMemberId, Long afterHostMemberId);
 
     void startCodingTest(String roomShortUuid, Long memberId);
 

@@ -54,14 +54,18 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public void changeHostManually(String roomShortUuid, Long beforeHostId, Long afterHostId) {
+    public void changeHostManually(
+            String roomShortUuid,
+            Long beforeHostMemberId,
+            Long afterHostMemberId
+    ) {
         roomMemberService.changeHostManually(HostManualChangeRequestDto.builder()
                 .roomShortUuid(roomShortUuid)
-                .hostId(beforeHostId)
-                .organizerId(afterHostId)
+                .hostMemberId(beforeHostMemberId)
+                .organizerMemberId(afterHostMemberId)
                 .build()
         );
-        messageService.sendMessage(roomShortUuid, MessageResponse.changeHost(afterHostId));
+        messageService.sendMessage(roomShortUuid, MessageResponse.changeHost(afterHostMemberId));
     }
 
     @Override
