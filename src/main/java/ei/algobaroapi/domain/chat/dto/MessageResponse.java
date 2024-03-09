@@ -56,4 +56,12 @@ public class MessageResponse {
                 null
         );
     }
+
+    public static MessageResponse changeHost(Long memberId) {
+        return new MessageResponse(
+                memberId,
+                MessageType.CHANGE_HOST,
+                null
+        );
+    }
 }
