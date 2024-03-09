@@ -8,7 +8,9 @@ import ei.algobaroapi.domain.room.exception.common.RoomErrorCode;
 import ei.algobaroapi.domain.room_member.domain.RoomMember;
 import ei.algobaroapi.domain.room_member.domain.RoomMemberRepository;
 import ei.algobaroapi.domain.room_member.domain.RoomMemberRole;
+import ei.algobaroapi.domain.room_member.dto.request.HostAutoChangeRequestDto;
 import ei.algobaroapi.domain.room_member.dto.request.HostChangeRequestDto;
+import ei.algobaroapi.domain.room_member.dto.response.RoomHostDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomHostResponseDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomMemberResponseDto;
 import ei.algobaroapi.domain.room_member.exception.HostValidationException;
@@ -17,6 +19,7 @@ import ei.algobaroapi.domain.room_member.exception.RoomMemberNotEnterException;
 import ei.algobaroapi.domain.room_member.exception.RoomMemberNotFoundException;
 import ei.algobaroapi.domain.room_member.exception.RoomMemberNotReadyException;
 import ei.algobaroapi.domain.room_member.exception.common.RoomMemberErrorCode;
+import java.util.Comparator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -111,8 +114,26 @@ public class RoomMemberServiceImpl implements RoomMemberService {
     }
 
     @Override
-    public RoomHostResponseDto changeHostAutomatically(RoomMember roomMember) {
-        return null;
+    @Transactional
+    public RoomHostDto changeHostAutomatically(HostAutoChangeRequestDto hostAutoChangeRequestDto) {
+        // 소켓을 통해 방장이 나갔음을 감지하고 해당 메서드 호출
+
+        Long roomId = hostAutoChangeRequestDto.getRoomId();
+
+        // 해당 방에서 방장이 나갔으므로 해당 방장 정보 삭제
+        roomMemberRepository.deleteById(hostAutoChangeRequestDto.getHostId());
+
+        // 방장이 나갔을 때 방장이 아닌 사람 중 가장 먼저 들어온 사람을 탐색
+        RoomMember newHost = roomMemberRepository.findByRoomId(roomId).stream()
+                .filter(RoomMember::isParticipant)
+                .min(Comparator.comparing(RoomMember::getCreatedAt))
+                .orElseThrow(() -> RoomMemberNotFoundException.of(
+                        RoomMemberErrorCode.ROOM_MEMBER_ERROR_CODE));
+
+        // 방장으로 변경
+        newHost.changeRole(RoomMemberRole.HOST);
+
+        return RoomHostDto.of(roomId, newHost);
     }
 
     @Override
@@ -154,7 +175,7 @@ public class RoomMemberServiceImpl implements RoomMemberService {
                 .map(RoomMemberResponseDto::of)
                 .toList();
     }
-  
+
     private void validateConditionToJoinRoom(Room room, String password) {
         // 방에 참여할 수 있는지 확인 - 모집 중인지 체크
         checkRoomIsRecruiting(room);
@@ -168,13 +189,15 @@ public class RoomMemberServiceImpl implements RoomMemberService {
 
     private void checkRoomIsRecruiting(Room room) {
         if (!room.isRecruiting()) {
-            throw RoomMemberNotEnterException.of(RoomMemberErrorCode.ROOM_MEMBER_CANNOT_ENTER_NOT_RECRUITING);
+            throw RoomMemberNotEnterException.of(
+                    RoomMemberErrorCode.ROOM_MEMBER_CANNOT_ENTER_NOT_RECRUITING);
         }
     }
 
     private void checkRoomPassword(Room room, String password) {
         if (!room.passwordIsCorrect(password)) {
-            throw RoomMemberNotEnterException.of(RoomMemberErrorCode.ROOM_MEMBER_CANNOT_ENTER_PASSWORD);
+            throw RoomMemberNotEnterException.of(
+                    RoomMemberErrorCode.ROOM_MEMBER_CANNOT_ENTER_PASSWORD);
         }
     }
 
@@ -182,7 +205,8 @@ public class RoomMemberServiceImpl implements RoomMemberService {
         int roomSize = roomMemberRepository.findByRoomId(room.getId()).size();
 
         if (room.isHeadCountFull(roomSize)) {
-            throw RoomMemberNotFoundException.of(RoomMemberErrorCode.ROOM_MEMBER_CANNOT_ENTER_HEADCOUNT);
+            throw RoomMemberNotFoundException.of(
+                    RoomMemberErrorCode.ROOM_MEMBER_CANNOT_ENTER_HEADCOUNT);
         }
     }
 
