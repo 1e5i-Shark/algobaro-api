@@ -13,8 +13,8 @@ public class HostManualChangeRequestDto {
     private String roomShortUuid;
 
     @Schema(description = "현재 방장 번호", example = "1")
-    private Long hostId;
+    private Long hostMemberId;
 
     @Schema(description = "현재 참여자 번호", example = "2")
-    private Long organizerId;
+    private Long organizerMemberId;
 }
