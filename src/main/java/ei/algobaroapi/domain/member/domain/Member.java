@@ -1,7 +1,8 @@
 package ei.algobaroapi.domain.member.domain;
 
 import ei.algobaroapi.domain.member.domain.vo.EmailVo;
-import ei.algobaroapi.domain.member.dto.request.MemberDetailUpdateRequest;
+import ei.algobaroapi.domain.member.dto.request.MemberGeneralUpdateRequest;
+import ei.algobaroapi.domain.member.dto.request.MemberPasswordUpdateRequest;
 import ei.algobaroapi.global.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -91,9 +92,12 @@ public class Member extends BaseEntity implements UserDetails {
         return true;
     }
 
-    public void updateDetail(MemberDetailUpdateRequest request) {
-        this.nickname = request.getNickname();
-        this.bojId = request.getBojId();
-        this.password = request.getNewPassword();
+    public void updateGeneralInfo(MemberGeneralUpdateRequest request) {
+        this.nickname = request.getNickname() != null ? request.getNickname() : this.nickname;
+        this.bojId = request.getBojId() != null ? request.getBojId() : this.bojId;
+    }
+
+    public void updatePassword(MemberPasswordUpdateRequest request) {
+        this.password = request.getNewPassword() != null ? request.getNewPassword() : this.password;
     }
 }
