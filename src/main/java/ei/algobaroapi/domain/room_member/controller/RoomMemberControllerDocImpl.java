@@ -2,7 +2,7 @@ package ei.algobaroapi.domain.room_member.controller;
 
 import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.room_member.dto.request.HostAutoChangeRequestDto;
-import ei.algobaroapi.domain.room_member.dto.request.HostChangeRequestDto;
+import ei.algobaroapi.domain.room_member.dto.request.HostManualChangeRequestDto;
 import ei.algobaroapi.domain.room_member.dto.request.JoinRoomRequestDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomHostAutoChangeResponseDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomHostResponseDto;
@@ -45,8 +45,8 @@ public class RoomMemberControllerDocImpl implements RoomMemberControllerDoc {
     @Override
     @PostMapping("/rooms/manual-change-host")
     public RoomHostResponseDto changeHostManually(
-            @RequestBody HostChangeRequestDto hostChangeRequestDto) {
-        return roomMemberService.changeHostManually(hostChangeRequestDto);
+            @RequestBody HostManualChangeRequestDto hostManualChangeRequestDto) {
+        return roomMemberService.changeHostManually(hostManualChangeRequestDto);
     }
 
     @Override

@@ -6,7 +6,8 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class HostChangeRequestDto {
+@Schema(description = "방장 수동 변경 요청 정보")
+public class HostManualChangeRequestDto {
 
     @Schema(description = "방 번호", example = "4")
     private Long roomId;
