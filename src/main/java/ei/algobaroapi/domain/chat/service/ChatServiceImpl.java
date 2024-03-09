@@ -8,18 +8,20 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ChatServiceImpl implements ChatService {
 
+    private final MessageService messageService;
+
     @Override
-    public MessageResponse enterRoom(String userId) {
-        return MessageResponse.enterRoom(userId);
+    public void enterRoom(String roomId, Long memberId) {
+        messageService.sendMessage(roomId, MessageResponse.enterRoom(memberId));
     }
 
     @Override
-    public MessageResponse quitRoom(String userId) {
-        return MessageResponse.quitRoom(userId);
+    public void quitRoom(String roomId, Long memberId) {
+        messageService.sendMessage(roomId, MessageResponse.quitRoom(memberId));
     }
 
     @Override
-    public MessageResponse convertAndSendMessage(String userId, String message) {
-        return MessageResponse.sendMessage(userId, message);
+    public void convertAndSendMessage(String roomId, Long memberId, String message) {
+        messageService.sendMessage(roomId, MessageResponse.sendMessage(memberId, message));
     }
 }

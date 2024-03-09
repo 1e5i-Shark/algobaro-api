@@ -9,7 +9,7 @@ public class MessageRequest {
 
     private String roomId;
 
-    private String userId;
+    private Long memberId;
 
     private String message;
 }

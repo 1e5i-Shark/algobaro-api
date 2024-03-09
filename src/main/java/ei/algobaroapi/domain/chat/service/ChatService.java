@@ -1,12 +1,10 @@
 package ei.algobaroapi.domain.chat.service;
 
-import ei.algobaroapi.domain.chat.dto.MessageResponse;
-
 public interface ChatService {
 
-    MessageResponse enterRoom(String userId);
+    void enterRoom(String roomId, Long memberId);
 
-    MessageResponse quitRoom(String userId);
+    void quitRoom(String roomId, Long memberId);
 
-    MessageResponse convertAndSendMessage(String userId, String message);
+    void convertAndSendMessage(String roomId, Long memberId, String message);
 }
