@@ -74,7 +74,9 @@ public class MemberServiceImpl implements MemberService {
             throw MemberFoundException.of(MemberErrorCode.PASSWORD_NOT_MATCH);
         }
 
-        findMember.updatePassword(request);
+        String encryptPassword = passwordUtil.validateAndEncryptPassword(request.getNewPassword());
+
+        findMember.updatePassword(encryptPassword);
     }
 
     @Override
