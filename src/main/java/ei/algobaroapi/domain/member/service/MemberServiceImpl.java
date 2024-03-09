@@ -4,15 +4,16 @@ import ei.algobaroapi.domain.auth.util.PasswordUtil;
 import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.member.domain.MemberRepository;
 import ei.algobaroapi.domain.member.domain.vo.EmailVo;
-import ei.algobaroapi.domain.member.dto.request.MemberProfileImageUpdateRequest;
 import ei.algobaroapi.domain.member.dto.request.MemberGeneralUpdateRequest;
 import ei.algobaroapi.domain.member.dto.request.MemberPasswordUpdateRequest;
 import ei.algobaroapi.domain.member.dto.response.MemberDetailResponse;
 import ei.algobaroapi.domain.member.exception.MemberFoundException;
 import ei.algobaroapi.domain.member.exception.common.MemberErrorCode;
+import ei.algobaroapi.global.util.S3Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @Transactional(readOnly = true)
@@ -21,6 +22,7 @@ public class MemberServiceImpl implements MemberService {
 
     private final PasswordUtil passwordUtil;
     private final MemberRepository memberRepository;
+    private final S3Util s3Util;
 
     @Override
     public Member getMemberByEmail(String email) {
@@ -47,9 +49,12 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public void updateMemberProfileImageInfo(Long id, MemberProfileImageUpdateRequest request) {
+    public void updateMemberProfileImageInfo(Long id, MultipartFile multipartFile) {
         Member findMember = this.getMemberById(id);
 
+        String profileImageUrl = s3Util.upload(multipartFile);
+
+        findMember.updateProfileImage(profileImageUrl);
     }
 
     @Override

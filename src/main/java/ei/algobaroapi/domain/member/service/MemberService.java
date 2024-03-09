@@ -1,10 +1,10 @@
 package ei.algobaroapi.domain.member.service;
 
 import ei.algobaroapi.domain.member.domain.Member;
-import ei.algobaroapi.domain.member.dto.request.MemberProfileImageUpdateRequest;
 import ei.algobaroapi.domain.member.dto.request.MemberGeneralUpdateRequest;
 import ei.algobaroapi.domain.member.dto.request.MemberPasswordUpdateRequest;
 import ei.algobaroapi.domain.member.dto.response.MemberDetailResponse;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface MemberService {
 
@@ -16,7 +16,7 @@ public interface MemberService {
 
     MemberDetailResponse getMemberDetailById(Long id);
 
-    void updateMemberProfileImageInfo(Long id, MemberProfileImageUpdateRequest request);
+    void updateMemberProfileImageInfo(Long id, MultipartFile multipartFile);
 
     void updateMemberGeneralInfo(Long id, MemberGeneralUpdateRequest request);
 
