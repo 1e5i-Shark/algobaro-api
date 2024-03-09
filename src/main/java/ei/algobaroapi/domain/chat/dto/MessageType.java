@@ -13,7 +13,8 @@ public enum MessageType {
     READY_ROOM("ready"),
     UNREADY_ROOM("unready"),
     CHANGE_HOST("change-host"),
-    START_CODING("start-coding");
+    START_CODING("start-coding"),
+    END_CODING("end-coding");
 
     @JsonValue
     private final String value;

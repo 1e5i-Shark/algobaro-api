@@ -96,6 +96,17 @@ public class ChatMessageController {
         );
     }
 
+    @MessageMapping("/chat/end-coding")
+    public void endCodingTest(
+            MessageRequest messageRequestDto,
+            @Header("Authorization") String authorization
+    ) {
+        chatService.endCodingTest(
+                messageRequestDto.getRoomShortUuid(),
+                tempParseMemberIdFromHeader(authorization)
+        );
+    }
+
     @MessageExceptionHandler
     public String exception() {
         return "Error has occurred.";

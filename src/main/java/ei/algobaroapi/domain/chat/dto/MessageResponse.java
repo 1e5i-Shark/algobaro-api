@@ -72,4 +72,12 @@ public class MessageResponse {
                 null
         );
     }
+
+    public static MessageResponse endCoding(Long memberId) {
+        return new MessageResponse(
+                memberId,
+                MessageType.END_CODING,
+                null
+        );
+    }
 }

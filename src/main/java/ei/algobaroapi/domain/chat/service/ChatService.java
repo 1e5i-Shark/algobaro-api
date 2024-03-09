@@ -15,4 +15,6 @@ public interface ChatService {
     void changeHostManually(String roomShortUuid, Long beforeHost, Long afterHost);
 
     void startCodingTest(String roomShortUuid, Long memberId);
+
+    void endCodingTest(String roomShortUuid, Long memberId);
 }
