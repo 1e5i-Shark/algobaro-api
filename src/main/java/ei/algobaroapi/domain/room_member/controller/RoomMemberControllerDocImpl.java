@@ -4,7 +4,7 @@ import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.room_member.dto.request.HostAutoChangeRequestDto;
 import ei.algobaroapi.domain.room_member.dto.request.HostChangeRequestDto;
 import ei.algobaroapi.domain.room_member.dto.request.JoinRoomRequestDto;
-import ei.algobaroapi.domain.room_member.dto.response.RoomHostDto;
+import ei.algobaroapi.domain.room_member.dto.response.RoomHostAutoChangeResponseDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomHostResponseDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomMemberResponseDto;
 import ei.algobaroapi.domain.room_member.service.RoomMemberService;
@@ -51,7 +51,7 @@ public class RoomMemberControllerDocImpl implements RoomMemberControllerDoc {
 
     @Override
     @PostMapping("/rooms/auto-change-host")
-    public RoomHostDto changeHostAutomatically(
+    public RoomHostAutoChangeResponseDto changeHostAutomatically(
             @RequestBody HostAutoChangeRequestDto hostAutoChangeRequestDto) {
         return roomMemberService.changeHostAutomatically(hostAutoChangeRequestDto);
     }

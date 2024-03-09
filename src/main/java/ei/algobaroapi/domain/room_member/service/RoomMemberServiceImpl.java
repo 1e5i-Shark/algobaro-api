@@ -10,7 +10,7 @@ import ei.algobaroapi.domain.room_member.domain.RoomMemberRepository;
 import ei.algobaroapi.domain.room_member.domain.RoomMemberRole;
 import ei.algobaroapi.domain.room_member.dto.request.HostAutoChangeRequestDto;
 import ei.algobaroapi.domain.room_member.dto.request.HostChangeRequestDto;
-import ei.algobaroapi.domain.room_member.dto.response.RoomHostDto;
+import ei.algobaroapi.domain.room_member.dto.response.RoomHostAutoChangeResponseDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomHostResponseDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomMemberResponseDto;
 import ei.algobaroapi.domain.room_member.exception.HostValidationException;
@@ -115,7 +115,7 @@ public class RoomMemberServiceImpl implements RoomMemberService {
 
     @Override
     @Transactional
-    public RoomHostDto changeHostAutomatically(HostAutoChangeRequestDto hostAutoChangeRequestDto) {
+    public RoomHostAutoChangeResponseDto changeHostAutomatically(HostAutoChangeRequestDto hostAutoChangeRequestDto) {
         // 소켓을 통해 방장이 나갔음을 감지하고 해당 메서드 호출
 
         Long roomId = hostAutoChangeRequestDto.getRoomId();
@@ -133,7 +133,7 @@ public class RoomMemberServiceImpl implements RoomMemberService {
         // 방장으로 변경
         newHost.changeRole(RoomMemberRole.HOST);
 
-        return RoomHostDto.of(roomId, newHost);
+        return RoomHostAutoChangeResponseDto.of(roomId, newHost);
     }
 
     @Override
