@@ -81,7 +81,12 @@ public class RoomMemberServiceImpl implements RoomMemberService {
         Room room = roomRepository.findByRoomUuidStartingWith(shortUuid)
                 .orElseThrow(() -> RoomNotFoundException.of(RoomErrorCode.ROOM_NOT_FOUND));
 
-        validateConditionToJoinRoom(room, password);
+        // 만약 방에 이미 Member가 존재하면(재참가) validate를 하지 않고 참여하도록 함
+        if (roomMemberRepository
+                .findRoomMemberByRoomIdAndMemberId(room.getId(), member.getId())
+                .isEmpty()) {
+            validateConditionToJoinRoom(room, password);
+        }
 
         return roomMemberRepository.findByRoomId(room.getId()).stream()
                 .map(RoomMemberResponseDto::of)
