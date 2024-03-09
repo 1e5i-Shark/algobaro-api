@@ -34,11 +34,4 @@ public class RoomMemberControllerDocImpl implements RoomMemberControllerDoc {
             @AuthenticationPrincipal Member member) {
         return roomMemberService.validateEnterRoom(shortUuid, joinRoomRequestDto.getPassword(), member);
     }
-
-    @Override
-    @PostMapping("/rooms/manual-change-host")
-    public RoomHostManualResponseDto changeHostManually(
-            @RequestBody HostManualChangeRequestDto hostManualChangeRequestDto) {
-        return roomMemberService.changeHostManually(hostManualChangeRequestDto);
-    }
 }

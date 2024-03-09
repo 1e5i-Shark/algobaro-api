@@ -23,11 +23,4 @@ public interface RoomMemberControllerDoc {
     @ApiResponse(responseCode = "E05304", description = "방 참여 가능 인원이 가득 찼습니다.")
     List<RoomMemberResponseDto> validateEnterRoom(String shortUuid, JoinRoomRequestDto joinRoomRequestDto,
             Member member);
-
-    @Operation(summary = "방장 수동 변경", description = "현재 방장이 참여자에게 방장 권한을 위임합니다.")
-    @ApiResponse(responseCode = "200", description = "방장 수동 위임에 성공하였습니다.")
-    @ApiResponse(responseCode = "E05301", description = "해당 방에 멤버를 찾지 못했습니다.")
-    @ApiResponse(responseCode = "E05302", description = "방장 권한을 위임할 수 있는 권한을 가지고 있지 않습니다.")
-    @ApiResponse(responseCode = "E05303", description = "방장 권한을 위임 받을 수 있는 참여자가 아닙니다.")
-    RoomHostManualResponseDto changeHostManually(HostManualChangeRequestDto hostManualChangeRequestDto);
 }
