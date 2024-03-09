@@ -82,6 +82,19 @@ public class RoomMemberServiceImpl implements RoomMemberService {
 
     @Override
     @Transactional
+    public RoomMemberResponseDto changeReadyStatus(Long roomId, Long memberId) {
+        RoomMember roomMember = roomMemberRepository.findRoomMemberByRoomIdAndMemberId(roomId,
+                        memberId)
+                .orElseThrow(() -> RoomMemberNotFoundException.of(
+                        RoomMemberErrorCode.ROOM_MEMBER_ERROR_CODE));
+
+        roomMember.changeReadyStatus();
+
+        return RoomMemberResponseDto.of(roomMember);
+    }
+
+    @Override
+    @Transactional
     public RoomHostResponseDto changeHostManually(HostChangeRequestDto hostChangeRequestDto) {
         RoomMember host = roomMemberRepository.findById(hostChangeRequestDto.getHostId())
                 .orElseThrow(() -> RoomMemberNotFoundException.of(
@@ -98,19 +111,6 @@ public class RoomMemberServiceImpl implements RoomMemberService {
         organizer.changeRole(RoomMemberRole.HOST);
 
         return RoomHostResponseDto.of(hostChangeRequestDto.getRoomId(), host, organizer);
-    }
-
-    @Override
-    @Transactional
-    public RoomMemberResponseDto changeReadyStatus(Long roomId, Long memberId) {
-        RoomMember roomMember = roomMemberRepository.findRoomMemberByRoomIdAndMemberId(roomId,
-                        memberId)
-                .orElseThrow(() -> RoomMemberNotFoundException.of(
-                        RoomMemberErrorCode.ROOM_MEMBER_ERROR_CODE));
-
-        roomMember.changeReadyStatus();
-
-        return RoomMemberResponseDto.of(roomMember);
     }
 
     @Override

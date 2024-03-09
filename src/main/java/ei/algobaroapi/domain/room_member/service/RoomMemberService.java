@@ -18,9 +18,9 @@ public interface RoomMemberService {
 
     List<RoomMemberResponseDto> getRoomMembersByRoomId(Long roomId);
 
-    RoomHostResponseDto changeHostManually(HostChangeRequestDto hostChangeRequestDto);
-
     RoomMemberResponseDto changeReadyStatus(Long roomId, Long memberId);
+
+    RoomHostResponseDto changeHostManually(HostChangeRequestDto hostChangeRequestDto);
 
     RoomHostDto changeHostAutomatically(HostAutoChangeRequestDto hostAutoChangeRequestDto);
 
