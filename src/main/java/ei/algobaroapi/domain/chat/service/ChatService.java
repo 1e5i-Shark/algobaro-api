@@ -2,7 +2,7 @@ package ei.algobaroapi.domain.chat.service;
 
 import ei.algobaroapi.domain.chat.dto.MessageResponse;
 
-public interface MessageService {
+public interface ChatService {
 
     MessageResponse enterRoom(String userId);
 

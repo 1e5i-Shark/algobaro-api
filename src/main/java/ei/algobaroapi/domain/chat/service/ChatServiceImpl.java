@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class MessageServiceImpl implements MessageService {
+public class ChatServiceImpl implements ChatService {
 
     @Override
     public MessageResponse enterRoom(String userId) {

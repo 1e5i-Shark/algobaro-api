@@ -1,7 +1,7 @@
 package ei.algobaroapi.domain.chat.controller;
 
 import ei.algobaroapi.domain.chat.dto.MessageRequest;
-import ei.algobaroapi.domain.chat.service.MessageService;
+import ei.algobaroapi.domain.chat.service.ChatService;
 import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.member.service.MemberService;
 import ei.algobaroapi.global.jwt.JwtProvider;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ChatMessageController {
 
     private static final String CHAT_ROOM_URL = "/chat/room/";
-    private final MessageService messageService;
+    private final ChatService chatService;
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final JwtProvider jwtProvider;
     private final MemberService memberService;
@@ -28,7 +28,7 @@ public class ChatMessageController {
     public void enter(MessageRequest messageRequestDto) {
         simpMessagingTemplate.convertAndSend(
                 webSocketSubPrefix + CHAT_ROOM_URL + messageRequestDto.getRoomId(),
-                messageService.enterRoom(messageRequestDto.getUserId())
+                chatService.enterRoom(messageRequestDto.getUserId())
         );
     }
 
@@ -36,7 +36,7 @@ public class ChatMessageController {
     public void quit(MessageRequest messageRequestDto) {
         simpMessagingTemplate.convertAndSend(
                 webSocketSubPrefix + CHAT_ROOM_URL + messageRequestDto.getRoomId(),
-                messageService.quitRoom(messageRequestDto.getUserId())
+                chatService.quitRoom(messageRequestDto.getUserId())
         );
     }
 
@@ -44,7 +44,7 @@ public class ChatMessageController {
     public void message(MessageRequest messageRequestDto) {
         simpMessagingTemplate.convertAndSend(
                 webSocketSubPrefix + CHAT_ROOM_URL + messageRequestDto.getRoomId(),
-                messageService.convertAndSendMessage(
+                chatService.convertAndSendMessage(
                         messageRequestDto.getUserId(),
                         messageRequestDto.getMessage()
                 )
