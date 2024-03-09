@@ -4,7 +4,7 @@ import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.room.domain.Room;
 import ei.algobaroapi.domain.room_member.domain.RoomMember;
 import ei.algobaroapi.domain.room_member.dto.request.HostAutoChangeRequestDto;
-import ei.algobaroapi.domain.room_member.dto.request.HostChangeRequestDto;
+import ei.algobaroapi.domain.room_member.dto.request.HostManualChangeRequestDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomHostAutoChangeResponseDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomHostResponseDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomMemberResponseDto;
@@ -20,7 +20,7 @@ public interface RoomMemberService {
 
     RoomMemberResponseDto changeReadyStatus(Long roomId, Long memberId);
 
-    RoomHostResponseDto changeHostManually(HostChangeRequestDto hostChangeRequestDto);
+    RoomHostResponseDto changeHostManually(HostManualChangeRequestDto hostManualChangeRequestDto);
 
     RoomHostAutoChangeResponseDto changeHostAutomatically(HostAutoChangeRequestDto hostAutoChangeRequestDto);
 

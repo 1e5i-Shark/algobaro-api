@@ -9,7 +9,7 @@ import ei.algobaroapi.domain.room_member.domain.RoomMember;
 import ei.algobaroapi.domain.room_member.domain.RoomMemberRepository;
 import ei.algobaroapi.domain.room_member.domain.RoomMemberRole;
 import ei.algobaroapi.domain.room_member.dto.request.HostAutoChangeRequestDto;
-import ei.algobaroapi.domain.room_member.dto.request.HostChangeRequestDto;
+import ei.algobaroapi.domain.room_member.dto.request.HostManualChangeRequestDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomHostAutoChangeResponseDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomHostResponseDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomMemberResponseDto;
@@ -95,12 +95,13 @@ public class RoomMemberServiceImpl implements RoomMemberService {
 
     @Override
     @Transactional
-    public RoomHostResponseDto changeHostManually(HostChangeRequestDto hostChangeRequestDto) {
-        RoomMember host = roomMemberRepository.findById(hostChangeRequestDto.getHostId())
+    public RoomHostResponseDto changeHostManually(
+            HostManualChangeRequestDto hostManualChangeRequestDto) {
+        RoomMember host = roomMemberRepository.findById(hostManualChangeRequestDto.getHostId())
                 .orElseThrow(() -> RoomMemberNotFoundException.of(
                         RoomMemberErrorCode.ROOM_MEMBER_ERROR_CODE));
 
-        RoomMember organizer = roomMemberRepository.findById(hostChangeRequestDto.getOrganizerId())
+        RoomMember organizer = roomMemberRepository.findById(hostManualChangeRequestDto.getOrganizerId())
                 .orElseThrow(() -> RoomMemberNotFoundException.of(
                         RoomMemberErrorCode.ROOM_MEMBER_ERROR_CODE));
 
@@ -110,7 +111,7 @@ public class RoomMemberServiceImpl implements RoomMemberService {
 
         organizer.changeRole(RoomMemberRole.HOST);
 
-        return RoomHostResponseDto.of(hostChangeRequestDto.getRoomId(), host, organizer);
+        return RoomHostResponseDto.of(hostManualChangeRequestDto.getRoomId(), host, organizer);
     }
 
     @Override
