@@ -10,6 +10,7 @@ import ei.algobaroapi.domain.room_member.domain.RoomMemberRepository;
 import ei.algobaroapi.domain.room_member.domain.RoomMemberRole;
 import ei.algobaroapi.domain.room_member.dto.request.HostAutoChangeRequestDto;
 import ei.algobaroapi.domain.room_member.dto.request.HostManualChangeRequestDto;
+import ei.algobaroapi.domain.room_member.dto.response.RoomExitResponse;
 import ei.algobaroapi.domain.room_member.dto.response.RoomHostAutoChangeResponseDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomHostManualResponseDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomMemberResponseDto;
@@ -172,7 +173,7 @@ public class RoomMemberServiceImpl implements RoomMemberService {
 
     @Override
     @Transactional
-    public List<RoomMemberResponseDto> exitRoomByMemberId(Long memberId) {
+    public RoomExitResponse exitRoomByMemberId(Long memberId) {
         Room findRoom = roomMemberRepository.findRoomByMemberId(memberId)
                 .orElseThrow(() -> RoomNotFoundException.of(RoomErrorCode.ROOM_NOT_FOUND));
 
@@ -189,18 +190,20 @@ public class RoomMemberServiceImpl implements RoomMemberService {
         } else {
             // 방이 비지 않으면서 방장이 나갔을 경우 방장을 변경
             if (roomMember.getRoomMemberRole() == RoomMemberRole.HOST) {
-                this.changeHostAutomatically(
+                RoomHostAutoChangeResponseDto roomHostAutoChangeResponseDto = this.changeHostAutomatically(
                         HostAutoChangeRequestDto
                                 .builder()
                                 .roomId(findRoom.getId())
                                 .build()
                 );
+                return RoomExitResponse.changedHost(
+                        findRoom.getId(),
+                        roomHostAutoChangeResponseDto.getNewHostId()
+                );
             }
         }
 
-        return roomMemberRepository.findByRoomId(findRoom.getId()).stream()
-                .map(RoomMemberResponseDto::of)
-                .toList();
+        return RoomExitResponse.notChangedHost(findRoom.getId());
     }
 
     private void validateConditionToJoinRoom(Room room, String password) {
