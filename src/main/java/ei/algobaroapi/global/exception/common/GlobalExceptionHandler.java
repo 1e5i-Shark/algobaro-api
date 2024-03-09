@@ -5,6 +5,7 @@ import static ei.algobaroapi.global.exception.common.GlobalErrorCode.INTERNAL_SE
 import static ei.algobaroapi.global.exception.common.GlobalErrorCode.INVALID_INPUT_VALUE;
 
 import ei.algobaroapi.global.exception.GlobalEntityException;
+import ei.algobaroapi.global.exception.S3Exception;
 import ei.algobaroapi.global.response.message.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -58,6 +59,17 @@ public class GlobalExceptionHandler {
                 .body(ErrorResponse.of(
                         INTERNAL_SERVER_ERROR.getErrorCode(),
                         INTERNAL_SERVER_ERROR.getErrorMessage())
+                );
+    }
+
+    @ExceptionHandler(S3Exception.class)
+    public ResponseEntity<ErrorResponse> catchS3Exception(S3Exception e) {
+        log.error(e.getMessage());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ErrorResponse.of(
+                        e.getErrorCode(),
+                        e.getErrorMessage())
                 );
     }
 }
