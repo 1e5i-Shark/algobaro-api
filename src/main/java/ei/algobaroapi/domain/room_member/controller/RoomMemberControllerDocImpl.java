@@ -41,11 +41,4 @@ public class RoomMemberControllerDocImpl implements RoomMemberControllerDoc {
             @RequestBody HostManualChangeRequestDto hostManualChangeRequestDto) {
         return roomMemberService.changeHostManually(hostManualChangeRequestDto);
     }
-
-    @Override
-    @PostMapping("/rooms/auto-change-host")
-    public RoomHostAutoChangeResponseDto changeHostAutomatically(
-            @RequestBody HostAutoChangeRequestDto hostAutoChangeRequestDto) {
-        return roomMemberService.changeHostAutomatically(hostAutoChangeRequestDto);
-    }
 }
