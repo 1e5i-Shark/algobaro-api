@@ -16,12 +16,12 @@ import java.util.List;
 @SuppressWarnings("unused")
 public interface RoomMemberControllerDoc {
 
-    @Operation(summary = "방 참여", description = "생성된 방에 참여합니다.")
-    @ApiResponse(responseCode = "200", description = "방 참여에 성공하였습니다.")
+    @Operation(summary = "방 참여 전 검증", description = "방 참여 전 검증을 진행합니다.")
+    @ApiResponse(responseCode = "200", description = "방 참여 검증에 성공하였습니다. 소켓을 통해 채팅 방 참여 요청을 진행하시면 됩니다.")
     @ApiResponse(responseCode = "E05302", description = "모집 중인 방이 아닙니다.")
     @ApiResponse(responseCode = "E05303", description = "입력한 비밀번호와 방 비밀번호가 일치하지 않습니다.")
     @ApiResponse(responseCode = "E05304", description = "방 참여 가능 인원이 가득 찼습니다.")
-    List<RoomMemberResponseDto> joinRoomByRoomId(String shortUuid, JoinRoomRequestDto joinRoomRequestDto,
+    List<RoomMemberResponseDto> validateEnterRoom(String shortUuid, JoinRoomRequestDto joinRoomRequestDto,
             Member member);
 
     @Operation(summary = "준비 상태 변경", description = "방 참여자의 준비 상태를 변경합니다. true -> false, false -> true")

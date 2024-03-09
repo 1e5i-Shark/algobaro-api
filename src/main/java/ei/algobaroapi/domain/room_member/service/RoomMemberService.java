@@ -16,6 +16,8 @@ public interface RoomMemberService {
 
     List<RoomMemberResponseDto> joinRoomByRoomShortUuid(String shortUuid, String password, Member member);
 
+    List<RoomMemberResponseDto> validateEnterRoom(String shortUuid, String password, Member member);
+
     List<RoomMemberResponseDto> getRoomMembersByRoomId(Long roomId);
 
     RoomMemberResponseDto changeReadyStatus(Long roomId, Long memberId);
