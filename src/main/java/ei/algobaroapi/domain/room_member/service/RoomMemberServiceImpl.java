@@ -140,8 +140,8 @@ public class RoomMemberServiceImpl implements RoomMemberService {
                 organizer);
     }
 
+    // 현재 내부 호출 당하고 있어 Transactional을 붙이지 않음
     @Override
-    @Transactional
     public RoomHostAutoChangeResponseDto changeHostAutomatically(
             HostAutoChangeRequestDto hostAutoChangeRequestDto) {
         Long roomId = hostAutoChangeRequestDto.getRoomId();
@@ -183,8 +183,19 @@ public class RoomMemberServiceImpl implements RoomMemberService {
 
         roomMemberRepository.delete(roomMember);
 
+        // 만약 방이 빈 방이 되었을 경우 방을 삭제
         if (checkRoomMemberExistInRoom(findRoom)) {
             roomRepository.delete(findRoom);
+        } else {
+            // 방이 비지 않으면서 방장이 나갔을 경우 방장을 변경
+            if (roomMember.getRoomMemberRole() == RoomMemberRole.HOST) {
+                this.changeHostAutomatically(
+                        HostAutoChangeRequestDto
+                                .builder()
+                                .roomId(findRoom.getId())
+                                .build()
+                );
+            }
         }
 
         return roomMemberRepository.findByRoomId(findRoom.getId()).stream()
