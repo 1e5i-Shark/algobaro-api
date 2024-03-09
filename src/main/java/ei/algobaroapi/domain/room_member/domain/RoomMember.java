@@ -70,4 +70,8 @@ public class RoomMember extends BaseEntity {
     public void changeReadyStatus() {
         this.isReady = !this.isReady;
     }
+
+    public boolean isParticipant() {
+        return this.roomMemberRole == RoomMemberRole.PARTICIPANT;
+    }
 }
