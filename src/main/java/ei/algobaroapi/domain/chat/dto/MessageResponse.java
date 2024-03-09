@@ -64,4 +64,12 @@ public class MessageResponse {
                 null
         );
     }
+
+    public static MessageResponse startCoding(Long memberId) {
+        return new MessageResponse(
+                memberId,
+                MessageType.START_CODING,
+                null
+        );
+    }
 }

@@ -3,6 +3,7 @@ package ei.algobaroapi.domain.chat.service;
 import ei.algobaroapi.domain.chat.dto.MessageResponse;
 import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.member.service.MemberService;
+import ei.algobaroapi.domain.room.service.RoomService;
 import ei.algobaroapi.domain.room_member.dto.request.HostManualChangeRequestDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomExitResponse;
 import ei.algobaroapi.domain.room_member.service.RoomMemberService;
@@ -15,6 +16,7 @@ public class ChatServiceImpl implements ChatService {
 
     private final MessageService messageService;
     private final MemberService memberService;
+    private final RoomService roomService;
     private final RoomMemberService roomMemberService;
 
     @Override
@@ -59,5 +61,11 @@ public class ChatServiceImpl implements ChatService {
                 .build()
         );
         messageService.sendMessage(roomShortUuid, MessageResponse.changeHost(beforeHostId));
+    }
+
+    @Override
+    public void startCodingTest(String roomShortUuid, Long memberId) {
+        roomService.startCodingTest(roomShortUuid);
+        messageService.sendMessage(roomShortUuid, MessageResponse.startCoding(memberId));
     }
 }
