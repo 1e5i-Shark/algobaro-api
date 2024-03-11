@@ -1,11 +1,7 @@
 package ei.algobaroapi.domain.room_member.controller;
 
 import ei.algobaroapi.domain.member.domain.Member;
-import ei.algobaroapi.domain.room_member.dto.request.HostAutoChangeRequestDto;
-import ei.algobaroapi.domain.room_member.dto.request.HostManualChangeRequestDto;
 import ei.algobaroapi.domain.room_member.dto.request.JoinRoomRequestDto;
-import ei.algobaroapi.domain.room_member.dto.response.RoomHostAutoChangeResponseDto;
-import ei.algobaroapi.domain.room_member.dto.response.RoomHostManualResponseDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomMemberResponseDto;
 import ei.algobaroapi.domain.room_member.service.RoomMemberService;
 import ei.algobaroapi.global.config.swaggerdoc.RoomMemberControllerDoc;
@@ -29,9 +25,15 @@ public class RoomMemberControllerDocImpl implements RoomMemberControllerDoc {
     @Override
     @PostMapping("/rooms/{shortUuid}/validate-enter")
     @PreAuthorize("hasRole('USER')")
-    public List<RoomMemberResponseDto> validateEnterRoom(@PathVariable(name = "shortUuid") String shortUuid,
+    public List<RoomMemberResponseDto> validateEnterRoom(
+            @PathVariable(name = "shortUuid") String shortUuid,
             @RequestBody JoinRoomRequestDto joinRoomRequestDto,
-            @AuthenticationPrincipal Member member) {
-        return roomMemberService.validateEnterRoom(shortUuid, joinRoomRequestDto.getPassword(), member);
+            @AuthenticationPrincipal Member member
+    ) {
+        return roomMemberService.validateEnterRoom(
+                shortUuid,
+                joinRoomRequestDto.getPassword(),
+                member
+        );
     }
 }

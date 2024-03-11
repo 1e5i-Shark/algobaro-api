@@ -29,24 +29,30 @@ public class RoomMemberExceptionHandler {
         log.warn(e.getErrorMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(ErrorResponse.of(e.getErrorCode(), e.getErrorMessage()));
-    }      
-      
+    }
+
     @ExceptionHandler(RoomMemberNotFoundException.class)
-    public ResponseEntity<ErrorResponse> catchRoomMemberNotFountException(RoomMemberNotFoundException e) {
+    public ResponseEntity<ErrorResponse> catchRoomMemberNotFountException(
+            RoomMemberNotFoundException e
+    ) {
         log.warn(e.getErrorMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(ErrorResponse.of(e.getErrorCode(), e.getErrorMessage()));
     }
 
     @ExceptionHandler(RoomMemberNotReadyException.class)
-    public ResponseEntity<ErrorResponse> catchRoomMemberNotReadyException(RoomMemberNotReadyException e) {
+    public ResponseEntity<ErrorResponse> catchRoomMemberNotReadyException(
+            RoomMemberNotReadyException e
+    ) {
         log.warn(e.getErrorMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ErrorResponse.of(e.getErrorCode(), e.getErrorMessage()));
     }
 
     @ExceptionHandler(RoomMemberNotEnterException.class)
-    public ResponseEntity<ErrorResponse> catchRoomMemberNotEnterException(RoomMemberNotEnterException e) {
+    public ResponseEntity<ErrorResponse> catchRoomMemberNotEnterException(
+            RoomMemberNotEnterException e
+    ) {
         log.warn(e.getErrorMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ErrorResponse.of(e.getErrorCode(), e.getErrorMessage()));

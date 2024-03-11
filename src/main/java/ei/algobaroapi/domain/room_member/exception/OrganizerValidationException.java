@@ -4,7 +4,7 @@ import ei.algobaroapi.domain.room_member.exception.common.RoomMemberErrorCode;
 import lombok.Getter;
 
 @Getter
-public class OrganizerValidationException extends RuntimeException{
+public class OrganizerValidationException extends RuntimeException {
 
     private final String errorCode;
     private final String errorMessage;

@@ -2,11 +2,8 @@ package ei.algobaroapi.domain.solve.service;
 
 import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.member.service.MemberService;
-import ei.algobaroapi.domain.problem.dto.request.ProblemSolveRequest;
-import ei.algobaroapi.domain.problem.service.ProblemService;
 import ei.algobaroapi.domain.solve.domain.SolveHistory;
 import ei.algobaroapi.domain.solve.domain.SolveHistoryRepository;
-import ei.algobaroapi.domain.solve.domain.SolveStatus;
 import ei.algobaroapi.domain.solve.dto.request.SolveHistoryListFindRequest;
 import ei.algobaroapi.domain.solve.dto.response.SolveHistoryDetailResponse;
 import ei.algobaroapi.domain.solve.dto.response.SolveHistoryResponse;
@@ -28,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class SolveHistoryServiceImpl implements SolveHistoryService {
 
-    private final ProblemService problemService;
     private final MemberService memberService;
     private final SolveHistoryRepository solveHistoryRepository;
 

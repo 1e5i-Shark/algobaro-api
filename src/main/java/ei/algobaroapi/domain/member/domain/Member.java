@@ -2,7 +2,6 @@ package ei.algobaroapi.domain.member.domain;
 
 import ei.algobaroapi.domain.member.domain.vo.EmailVo;
 import ei.algobaroapi.domain.member.dto.request.MemberGeneralUpdateRequest;
-import ei.algobaroapi.domain.member.dto.request.MemberPasswordUpdateRequest;
 import ei.algobaroapi.global.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -103,5 +102,9 @@ public class Member extends BaseEntity implements UserDetails {
 
     public void updatePassword(String encryptPassword) {
         this.password = encryptPassword != null ? encryptPassword : this.password;
+    }
+
+    public void deleteProfileImage() {
+        this.profileImage = null;
     }
 }

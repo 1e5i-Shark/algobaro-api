@@ -80,6 +80,16 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional
+    public void deleteMemberProfileImage(Long id, String imageAddress) {
+        Member findMember = this.getMemberById(id);
+
+        s3Util.deleteImageFromS3(imageAddress);
+
+        findMember.deleteProfileImage();
+    }
+
+    @Override
     public boolean isExistingMemberByEmail(String email) {
         return memberRepository.existsByEmail(new EmailVo(email));
     }

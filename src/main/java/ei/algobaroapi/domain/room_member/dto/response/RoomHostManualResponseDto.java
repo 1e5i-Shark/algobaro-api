@@ -25,7 +25,11 @@ public class RoomHostManualResponseDto {
     @Schema(description = "현재 방장의 닉네임", example = "test2")
     private String newHostNickname;
 
-    public static RoomHostManualResponseDto of(String roomShortUuid, RoomMember previousHost, RoomMember newHost) {
+    public static RoomHostManualResponseDto of(
+            String roomShortUuid,
+            RoomMember previousHost,
+            RoomMember newHost
+    ) {
         return RoomHostManualResponseDto.builder()
                 .roomShortUuid(roomShortUuid)
                 .previousHostId(previousHost.getId())
