@@ -36,4 +36,9 @@ public interface MemberControllerDoc {
     @ApiResponse(responseCode = "E01201", description = "비밀번호가 일치하지 않습니다.")
     void updateMemberPassword(Member member,
             MemberPasswordUpdateRequest memberPasswordUpdateRequest);
+
+    @Operation(summary = "내 프로필 이미지 삭제", description = "로그인 한 사용자의 프로필 이미지를 삭제합니다.")
+    @ApiResponse(responseCode = "200", description = "프로필 이미지 삭제 성공")
+    @ApiResponse(responseCode = "E06406", description = "프로필 이미지 삭제 중 오류가 발생했습니다.")
+    void deleteMemberProfileImage(Member member, String imageAddress);
 }
