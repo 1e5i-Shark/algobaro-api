@@ -25,9 +25,13 @@ public interface RoomMemberService {
 
     RoomMemberResponseDto chageStatusToUnready(String roomShortUuid, Long memberId);
 
-    RoomHostManualResponseDto changeHostManually(HostManualChangeRequestDto hostManualChangeRequestDto);
+    RoomHostManualResponseDto changeHostManually(
+            HostManualChangeRequestDto hostManualChangeRequestDto)
+            ;
 
-    RoomHostAutoChangeResponseDto changeHostAutomatically(HostAutoChangeRequestDto hostAutoChangeRequestDto);
+    RoomHostAutoChangeResponseDto changeHostAutomatically(
+            HostAutoChangeRequestDto hostAutoChangeRequestDto
+    );
 
     List<RoomMember> getByRoomIdAllReady(Long roomId);
 

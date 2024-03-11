@@ -6,5 +6,9 @@ import org.springframework.data.domain.Pageable;
 
 public interface SolveHistoryRepositoryQuery {
 
-    Page<SolveHistory> findListPage(SolveHistoryListFindRequest request, Pageable pageable, Long memberId);
+    Page<SolveHistory> findListPage(
+            SolveHistoryListFindRequest request,
+            Pageable pageable,
+            Long memberId
+    );
 }
