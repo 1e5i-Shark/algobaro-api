@@ -2,6 +2,7 @@ package ei.algobaroapi.global.util;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.util.IOUtils;
@@ -10,6 +11,10 @@ import ei.algobaroapi.global.exception.common.GlobalErrorCode;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -61,6 +66,15 @@ public class S3Util {
         }
     }
 
+    public void deleteImageFromS3(String imageAddress) {
+        String key = getKeyFromImageAddress(imageAddress);
+        try {
+            amazonS3.deleteObject(new DeleteObjectRequest(bucketName, key));
+        } catch (Exception e) {
+            throw S3Exception.of(GlobalErrorCode.IO_EXCEPTION_ON_IMAGE_DELETE);
+        }
+    }
+
     private String uploadImageToS3(MultipartFile image) throws IOException {
         String originalFilename = image.getOriginalFilename(); //원본 파일 명
         String extension = originalFilename.substring(originalFilename.lastIndexOf(".")); //확장자 명
@@ -89,5 +103,15 @@ public class S3Util {
         }
 
         return amazonS3.getUrl(bucketName, s3FileName).toString();
+    }
+
+    private String getKeyFromImageAddress(String imageAddress) {
+        try {
+            URL url = new URL(imageAddress);
+            String decodingKey = URLDecoder.decode(url.getPath(), StandardCharsets.UTF_8);
+            return decodingKey.substring(1); // 맨 앞의 '/' 제거
+        } catch (MalformedURLException e) {
+            throw S3Exception.of(GlobalErrorCode.IO_EXCEPTION_ON_IMAGE_DELETE);
+        }
     }
 }
