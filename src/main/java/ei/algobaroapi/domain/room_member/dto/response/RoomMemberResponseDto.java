@@ -12,8 +12,11 @@ import lombok.Getter;
 @Schema(description = "방 참여자 정보")
 public class RoomMemberResponseDto {
 
-    @Schema(description = "아이디", example = "test1@test.com")
-    private String id;
+    @Schema(description = "멤버 식별 ID", example = "1")
+    private Long memberId;
+
+    @Schema(description = "이메일", example = "test1@test.com")
+    private String email;
 
     @Schema(description = "닉네임", example = "test1")
     private String nickname;
@@ -32,7 +35,8 @@ public class RoomMemberResponseDto {
 
     public static RoomMemberResponseDto of(RoomMember roomMember) {
         return RoomMemberResponseDto.builder()
-                .id(roomMember.getMember().getEmail().getEmail())
+                .memberId(roomMember.getMember().getId())
+                .email(roomMember.getMember().getEmail().getEmail())
                 .nickname(roomMember.getMember().getNickname())
                 .profileImage(roomMember.getMember().getProfileImage())
                 .isReady(roomMember.isReady())
