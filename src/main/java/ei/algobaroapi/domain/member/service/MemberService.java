@@ -22,6 +22,8 @@ public interface MemberService {
 
     void updateMemberPassword(Long id, MemberPasswordUpdateRequest request);
 
+    void deleteMemberProfileImage(Long id, String imageAddress);
+
     boolean isExistingMemberByEmail(String email);
 
     boolean isExistingMemberByNickname(String nickname);
