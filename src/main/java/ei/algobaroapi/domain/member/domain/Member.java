@@ -103,4 +103,8 @@ public class Member extends BaseEntity implements UserDetails {
     public void updatePassword(String encryptPassword) {
         this.password = encryptPassword != null ? encryptPassword : this.password;
     }
+
+    public void deleteProfileImage() {
+        this.profileImage = null;
+    }
 }
