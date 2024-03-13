@@ -41,6 +41,7 @@ public class RoomRepositoryQueryImpl implements RoomRepositoryQuery {
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(roomStatusPriority.asc(), room.createdAt.desc())
+                .distinct()
                 .fetch();
 
         JPAQuery<Long> countQuery = jpaQueryFactory
