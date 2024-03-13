@@ -27,10 +27,10 @@ public class BojProblemServiceImpl implements ProblemService {
     private static final String CORRECT = "맞았습니다!!";
 
     @Override
-    public ProblemHtmlResponse getProblemInfoHtml(ProblemFindRequest request) {
+    public ProblemHtmlResponse getProblemInfoHtml(String problemLink) {
         try {
             return ProblemHtmlResponse.of(
-                    Jsoup.connect(request.getProblemLink()).get().outerHtml());
+                    Jsoup.connect(problemLink).get().outerHtml());
         } catch (IOException e) {
             throw CrawlingAccessException.of(ProblemErrorCode.CRAWLING_NOT_ACCESS);
         }

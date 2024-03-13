@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ProblemService {
 
-    ProblemHtmlResponse getProblemInfoHtml(ProblemFindRequest request);
+    ProblemHtmlResponse getProblemInfoHtml(String problemLink);
 
     List<ProblemTestCaseResponse> getProblemTestCases(ProblemFindRequest request);
 
