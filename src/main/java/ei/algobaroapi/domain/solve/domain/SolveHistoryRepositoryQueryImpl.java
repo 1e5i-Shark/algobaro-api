@@ -32,6 +32,7 @@ public class SolveHistoryRepositoryQueryImpl implements SolveHistoryRepositoryQu
                 .where(booleanExpression)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(solveHistory.createdAt.desc())
                 .fetch();
 
         JPAQuery<Long> countQuery = jpaQueryFactory

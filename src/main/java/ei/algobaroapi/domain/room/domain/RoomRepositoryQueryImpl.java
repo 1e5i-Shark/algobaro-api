@@ -3,7 +3,9 @@ package ei.algobaroapi.domain.room.domain;
 import static ei.algobaroapi.domain.room.domain.QRoom.room;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.core.types.dsl.StringTemplate;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -18,6 +20,10 @@ import org.springframework.data.support.PageableExecutionUtils;
 @RequiredArgsConstructor
 public class RoomRepositoryQueryImpl implements RoomRepositoryQuery {
 
+    private static final NumberExpression<Integer> roomStatusPriority = new CaseBuilder()
+            .when(room.roomStatus.eq(RoomStatus.RECRUITING)).then(1)
+            .when(room.roomStatus.eq(RoomStatus.RUNNING)).then(2)
+            .otherwise(3);
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
@@ -34,6 +40,8 @@ public class RoomRepositoryQueryImpl implements RoomRepositoryQuery {
                 .where(booleanExpression)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(roomStatusPriority.asc(), room.createdAt.desc())
+                .distinct()
                 .fetch();
 
         JPAQuery<Long> countQuery = jpaQueryFactory

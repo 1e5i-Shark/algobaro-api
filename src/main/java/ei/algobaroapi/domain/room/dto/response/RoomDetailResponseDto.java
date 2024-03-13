@@ -51,7 +51,8 @@ public class RoomDetailResponseDto {
             """
                     [
                         {
-                            "id": "test1@test.com",
+                            "memberId": 1,
+                            "email": "test1@test.com",
                             "nickname": "test1",
                             "profileImage": null,
                             "role": "HOST",
@@ -59,7 +60,8 @@ public class RoomDetailResponseDto {
                             "ready": true
                         },
                         {
-                            "id": "test2@test.com",
+                            "memberId": 2,
+                            "email": "test2@test.com",
                             "nickname": "test2",
                             "profileImage": null,
                             "role": "PARTICIPANT",
