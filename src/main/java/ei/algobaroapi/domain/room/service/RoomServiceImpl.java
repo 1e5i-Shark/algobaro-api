@@ -107,8 +107,8 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     @Transactional
-    public void completeSolveHistory(String roomUuid) {
-        List<SolveHistory> solveHistoryList = solveHistoryService.getSolveHistoryList(roomUuid);
+    public void completeSolveHistory(String roomShortUuid) {
+        List<SolveHistory> solveHistoryList = solveHistoryService.getSolveHistoryListByRoomShortUuid(roomShortUuid);
 
         solveHistoryList.forEach(solveHistory -> {
             SolveStatus solveStatus = problemService.checkSolveResult(

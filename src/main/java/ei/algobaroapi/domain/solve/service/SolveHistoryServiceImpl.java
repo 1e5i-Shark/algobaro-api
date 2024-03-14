@@ -56,18 +56,24 @@ public class SolveHistoryServiceImpl implements SolveHistoryService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void updateSolveHistoryCode(
             Long memberId,
-            String roomUuid,
+            String roomShortUuid,
             String language,
             String code
     ) {
         Member findMember = memberService.getMemberById(memberId);
-        SolveHistory findSolveHistory = getSolveHistoryByMemberAndRoomUuid(roomUuid, findMember);
+        SolveHistory findSolveHistory = getSolveHistoryByMemberAndRoomUuid(
+                roomShortUuid,
+                findMember
+        );
 
         findSolveHistory.updateCodeAndLanguage(code, language);
     }
 
-    private SolveHistory getSolveHistoryByMemberAndRoomUuid(String roomUuid, Member findMember) {
-        return solveHistoryRepository.findByMemberAndRoomUuid(findMember, roomUuid)
+    private SolveHistory getSolveHistoryByMemberAndRoomUuid(
+            String roomShortUuid,
+            Member findMember
+    ) {
+        return solveHistoryRepository.findByMemberAndRoomUuidStartingWith(findMember.getId(), roomShortUuid)
                 .orElseThrow(() -> SolveFoundException.of(SolveErrorCode.SOLVE_HISTORY_NOT_FOUND));
     }
 
@@ -83,8 +89,9 @@ public class SolveHistoryServiceImpl implements SolveHistoryService {
     }
 
     @Override
-    public SolveResultResponse getSolveResultInRoom(String roomUuid) {
-        List<SolveHistory> solveHistoryList = this.getSolveHistoryList(roomUuid);
+    public SolveResultResponse getSolveResultInRoom(String roomShortUuid) {
+        List<SolveHistory> solveHistoryList =
+                this.getSolveHistoryListByRoomShortUuid(roomShortUuid);
 
         List<SolveResult> solveResults = solveHistoryList.stream()
                 .map(solveHistory ->
@@ -111,7 +118,7 @@ public class SolveHistoryServiceImpl implements SolveHistoryService {
     }
 
     @Override
-    public List<SolveHistory> getSolveHistoryList(String roomUuid) {
-        return solveHistoryRepository.findByRoomUuidWithMember(roomUuid);
+    public List<SolveHistory> getSolveHistoryListByRoomShortUuid(String roomShortUuid) {
+        return solveHistoryRepository.findByRoomShortUuidWithMember(roomShortUuid);
     }
 }
