@@ -56,18 +56,18 @@ public class SolveHistoryServiceImpl implements SolveHistoryService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void updateSolveHistoryCode(
             Long memberId,
-            String roomUuid,
+            String roomShortUuid,
             String language,
             String code
     ) {
         Member findMember = memberService.getMemberById(memberId);
-        SolveHistory findSolveHistory = getSolveHistoryByMemberAndRoomUuid(roomUuid, findMember);
+        SolveHistory findSolveHistory = getSolveHistoryByMemberAndRoomUuid(roomShortUuid, findMember);
 
         findSolveHistory.updateCodeAndLanguage(code, language);
     }
 
-    private SolveHistory getSolveHistoryByMemberAndRoomUuid(String roomUuid, Member findMember) {
-        return solveHistoryRepository.findByMemberAndRoomUuid(findMember, roomUuid)
+    private SolveHistory getSolveHistoryByMemberAndRoomUuid(String roomShortUuid, Member findMember) {
+        return solveHistoryRepository.findByMemberAndRoomUuidStartingWith(findMember, roomShortUuid)
                 .orElseThrow(() -> SolveFoundException.of(SolveErrorCode.SOLVE_HISTORY_NOT_FOUND));
     }
 
