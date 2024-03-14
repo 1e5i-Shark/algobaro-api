@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @SuppressWarnings("unused")
 public interface RoomControllerDoc {
 
-    @Operation(summary = "모든 방 정보 조회", description = "현재 존재하는 모든 방 정보를 조회합니다.")
+    @Operation(summary = "모든 방 정보 조회", description = "현재 존재하는 모든 방 정보를 조회합니다.\n\n방 상태: 입장 가능으로 사용 시 RECRUITING, 체크 해제 시 요청 x\n\n방 접근 타입: 비밀방 사용 시 PRIVATE, 체크 해제 시 요청 x)")
     @ApiResponse(responseCode = "200", description = "방 정보 조회 성공")
     PageResponse<Room, RoomResponseDto> getAllRooms(RoomListRequestDto roomListRequestDto);
 
