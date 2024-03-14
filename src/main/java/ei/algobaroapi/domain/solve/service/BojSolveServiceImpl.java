@@ -39,7 +39,7 @@ public class BojSolveServiceImpl implements SolveService {
 
         solveHistoryService.updateSolveHistoryCode(
                 memberId,
-                request.getRoomUuid(),
+                request.getRoomShortUuid(),
                 request.getLanguage(),
                 request.getCode()
         );

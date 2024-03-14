@@ -9,8 +9,8 @@ import lombok.Getter;
 @Builder
 public class BojCodeSubmissionRequest {
 
-    @Schema(description = "방 식별 값", example = "123e4567-e89b-12d3-a456-426614174000")
-    private String roomUuid;
+    @Schema(description = "방 식별 값", example = "123e4567")
+    private String roomShortUuid;
 
     @Schema(description = "코드 실행 언어\n\npython - python3\n\njavascript - nodejs\n\njava - java\n\nc++ - cpp", example = "java")
     private String language;
