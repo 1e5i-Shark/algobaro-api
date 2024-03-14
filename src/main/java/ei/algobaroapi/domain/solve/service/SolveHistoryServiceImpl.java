@@ -73,7 +73,7 @@ public class SolveHistoryServiceImpl implements SolveHistoryService {
             String roomShortUuid,
             Member findMember
     ) {
-        return solveHistoryRepository.findByMemberAndRoomUuidStartingWith(findMember, roomShortUuid)
+        return solveHistoryRepository.findByMemberAndRoomUuidStartingWith(findMember.getId(), roomShortUuid)
                 .orElseThrow(() -> SolveFoundException.of(SolveErrorCode.SOLVE_HISTORY_NOT_FOUND));
     }
 
