@@ -22,5 +22,5 @@ public interface RoomService {
 
     RoomDetailResponseDto startCodingTest(String roomShortUuid);
 
-    void completeSolveHistory(String roomUuid);
+    void completeSolveHistory(String roomShortUuid);
 }
