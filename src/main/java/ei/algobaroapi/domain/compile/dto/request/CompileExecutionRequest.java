@@ -10,7 +10,7 @@ import lombok.Getter;
 @Builder
 public class CompileExecutionRequest {
 
-    @Schema(description = "코드 실행 언어", example = "java")
+    @Schema(description = "코드 실행 언어\n\npython - python3\n\njavascript - nodejs\n\njava - java\n\nc++ - cpp", example = "java")
     @NotNull
     private String language;
 
