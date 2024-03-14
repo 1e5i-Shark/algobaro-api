@@ -86,10 +86,16 @@ public class RoomRepositoryQueryImpl implements RoomRepositoryQuery {
         BooleanExpression languageCondition = null;
 
         for (String language : languages) {
+            String languageWithQuotation = "\"" + language + "\"";
+            BooleanExpression languageContainsExpression = template.containsIgnoreCase(
+                    languageWithQuotation
+            );
             if (languageCondition == null) {
-                languageCondition = template.containsIgnoreCase(language);
+                languageCondition = languageContainsExpression;
             } else {
-                languageCondition = languageCondition.or(template.containsIgnoreCase(language));
+                languageCondition = languageCondition.or(
+                        languageContainsExpression
+                );
             }
         }
 
