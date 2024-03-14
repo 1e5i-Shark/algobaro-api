@@ -18,6 +18,6 @@ public interface SolveHistoryRepository extends
     @Query("select s from SolveHistory s where s.roomUuid like CONCAT(:roomShortUuid, '%') and s.member = :member")
     Optional<SolveHistory> findByMemberAndRoomUuidStartingWith(Member member, String roomShortUuid);
 
-    @Query("select s from SolveHistory s join fetch s.member where s.roomUuid = :roomUuid")
-    List<SolveHistory> findByRoomUuidWithMember(String roomUuid);
+    @Query("select s from SolveHistory s join fetch s.member where s.roomUuid like CONCAT(:roomShortUuid, '%')")
+    List<SolveHistory> findByRoomShortUuidWithMember(String roomShortUuid);
 }
