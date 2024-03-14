@@ -61,12 +61,18 @@ public class SolveHistoryServiceImpl implements SolveHistoryService {
             String code
     ) {
         Member findMember = memberService.getMemberById(memberId);
-        SolveHistory findSolveHistory = getSolveHistoryByMemberAndRoomUuid(roomShortUuid, findMember);
+        SolveHistory findSolveHistory = getSolveHistoryByMemberAndRoomUuid(
+                roomShortUuid,
+                findMember
+        );
 
         findSolveHistory.updateCodeAndLanguage(code, language);
     }
 
-    private SolveHistory getSolveHistoryByMemberAndRoomUuid(String roomShortUuid, Member findMember) {
+    private SolveHistory getSolveHistoryByMemberAndRoomUuid(
+            String roomShortUuid,
+            Member findMember
+    ) {
         return solveHistoryRepository.findByMemberAndRoomUuidStartingWith(findMember, roomShortUuid)
                 .orElseThrow(() -> SolveFoundException.of(SolveErrorCode.SOLVE_HISTORY_NOT_FOUND));
     }
