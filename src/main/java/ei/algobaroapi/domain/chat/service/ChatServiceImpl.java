@@ -3,10 +3,12 @@ package ei.algobaroapi.domain.chat.service;
 import ei.algobaroapi.domain.chat.dto.MessageResponse;
 import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.member.service.MemberService;
+import ei.algobaroapi.domain.room.dto.response.RoomDetailResponseDto;
 import ei.algobaroapi.domain.room.service.RoomService;
 import ei.algobaroapi.domain.room_member.dto.request.HostManualChangeRequestDto;
 import ei.algobaroapi.domain.room_member.dto.response.RoomExitResponse;
 import ei.algobaroapi.domain.room_member.service.RoomMemberService;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -70,8 +72,15 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public void startCodingTest(String roomShortUuid, Long memberId) {
-        roomService.startCodingTest(roomShortUuid);
-        messageService.sendMessage(roomShortUuid, MessageResponse.startCoding(memberId));
+        RoomDetailResponseDto roomDetailResponseDto = roomService.startCodingTest(roomShortUuid);
+        Integer timeLimitMinute = roomDetailResponseDto.getTimeLimit();
+        messageService.sendMessage(
+                roomShortUuid,
+                MessageResponse.startCoding(
+                        memberId,
+                        LocalDateTime.now().plusMinutes(timeLimitMinute).toString()
+                )
+        );
     }
 
     @Override
