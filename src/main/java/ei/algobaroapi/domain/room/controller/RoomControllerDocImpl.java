@@ -59,12 +59,4 @@ public class RoomControllerDocImpl implements RoomControllerDoc {
             @PathVariable(name = "roomShortUuid") String roomShortUuid) {
         return roomService.getRoomDetailShortUuid(roomShortUuid);
     }
-
-    @Override
-    @PostMapping("rooms/codes/{roomShortUuid}")
-    public RoomDetailResponseDto startCodingTest(
-            @PathVariable(name = "roomShortUuid") String roomShortUuid
-    ) {
-        return roomService.startCodingTest(roomShortUuid);
-    }
 }

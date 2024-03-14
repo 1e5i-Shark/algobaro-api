@@ -32,9 +32,4 @@ public interface RoomControllerDoc {
     @Operation(summary = "개별 방 정보 조회", description = "short UUID를 통해 방을 조회합니다.")
     @ApiResponse(responseCode = "200", description = "방 정보 조회 성공")
     RoomDetailResponseDto getRoomByShortUuid(String roomShortUuid);
-
-    @Operation(summary = "문제 풀이 시작", description = "문제 풀이를 시작합니다.")
-    @ApiResponse(responseCode = "200", description = "풀이 시작 성공")
-    @ApiResponse(responseCode = "E03101", description = "시작하려는 방 정보를 찾지 못했습니다.")
-    RoomDetailResponseDto startCodingTest(String roomShortUuid);
 }
