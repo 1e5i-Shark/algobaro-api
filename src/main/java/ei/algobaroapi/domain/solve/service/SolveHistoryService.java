@@ -20,9 +20,9 @@ public interface SolveHistoryService {
 
     void updateSolveHistoryCode(Long memberId, String roomShortUuid, String language, String code);
 
-    SolveResultResponse getSolveResultInRoom(String roomUuid);
+    SolveResultResponse getSolveResultInRoom(String roomShortUuid);
 
     void setUpSolveHistory(Long memberId, String roomUuid, String problemLink);
 
-    List<SolveHistory> getSolveHistoryList(String roomUuid);
+    List<SolveHistory> getSolveHistoryListByRoomShortUuid(String roomUuid);
 }

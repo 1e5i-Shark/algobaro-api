@@ -63,8 +63,8 @@ public class SolveController implements SolveControllerDoc {
     }
 
     @Override
-    @GetMapping("/solves/result/{roomUuid}")
-    public SolveResultResponse getSolveResultInRoom(@PathVariable("roomUuid") String roomUuid) {
-        return solveHistoryService.getSolveResultInRoom(roomUuid);
+    @GetMapping("/solves/result/{roomShortUuid}")
+    public SolveResultResponse getSolveResultInRoom(@PathVariable("roomShortUuid") String roomShortUuid) {
+        return solveHistoryService.getSolveResultInRoom(roomShortUuid);
     }
 }
