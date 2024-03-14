@@ -65,11 +65,11 @@ public class MessageResponse {
         );
     }
 
-    public static MessageResponse startCoding(Long memberId) {
+    public static MessageResponse startCoding(Long memberId, String endTime) {
         return new MessageResponse(
                 memberId,
                 MessageType.START_CODING,
-                null
+                endTime
         );
     }
 
