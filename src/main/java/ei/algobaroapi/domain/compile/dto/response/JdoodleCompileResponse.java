@@ -31,4 +31,8 @@ public class JdoodleCompileResponse {
         return new JdoodleCompileResponse(output, statusCode, memory, cpuTime, compilationStatus,
                 projectKey);
     }
+
+    public boolean isCompileSuccess() {
+        return statusCode == 200;
+    }
 }
