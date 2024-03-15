@@ -13,5 +13,6 @@ public interface CompileControllerDoc {
 
     @Operation(summary = "코드 제출", description = "사용자가 제출한 코드를 컴파일합니다.")
     @ApiResponse(responseCode = "201", description = "코드 컴파일 성공")
+    @ApiResponse(responseCode = "E07401", description = "Jdoodle API 호출 중 오류가 발생했습니다.")
     CompileExecutionResponse compileCode(Member member, CompileExecutionRequest request);
 }
