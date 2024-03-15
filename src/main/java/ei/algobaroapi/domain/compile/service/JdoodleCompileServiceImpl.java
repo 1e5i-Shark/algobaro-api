@@ -4,6 +4,8 @@ import ei.algobaroapi.domain.compile.dto.request.CompileExecutionRequest;
 import ei.algobaroapi.domain.compile.dto.request.JdoodleCompileRequest;
 import ei.algobaroapi.domain.compile.dto.response.CompileExecutionResponse;
 import ei.algobaroapi.domain.compile.dto.response.JdoodleCompileResponse;
+import ei.algobaroapi.domain.compile.exception.JdoodleException;
+import ei.algobaroapi.domain.compile.exception.common.CompileErrorCode;
 import ei.algobaroapi.global.util.HttpUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,17 +27,26 @@ public class JdoodleCompileServiceImpl implements CompileService {
 
     @Override
     public CompileExecutionResponse executeCode(CompileExecutionRequest request) {
-        JdoodleCompileResponse jdoodleCompileResponse = sendJdoodleCompileRequest(
-                JdoodleCompileRequest.builder()
-                        .clientId(clientId)
-                        .clientSecret(clientSecret)
-                        .stdin(request.getInput())
-                        .script(request.getCode())
-                        .language(request.getLanguage())
-                        .build()
-        );
+        try {
+            JdoodleCompileResponse jdoodleCompileResponse = sendJdoodleCompileRequest(
+                    JdoodleCompileRequest.builder()
+                            .clientId(clientId)
+                            .clientSecret(clientSecret)
+                            .stdin(request.getInput())
+                            .script(request.getCode())
+                            .language(request.getLanguage())
+                            .build()
+            );
 
-        return CompileExecutionResponse.of(jdoodleCompileResponse.getOutput());
+            if (jdoodleCompileResponse.isCompileSuccess()) {
+                return CompileExecutionResponse.success(jdoodleCompileResponse.getOutput());
+            } else {
+                return CompileExecutionResponse.failure();
+            }
+
+        } catch (Exception e) {
+            throw JdoodleException.of(CompileErrorCode.JDOODLE_API_EXCEPTION);
+        }
     }
 
     private JdoodleCompileResponse sendJdoodleCompileRequest(JdoodleCompileRequest request) {

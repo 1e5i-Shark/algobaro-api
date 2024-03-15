@@ -32,6 +32,7 @@ public class RoomRepositoryQueryImpl implements RoomRepositoryQuery {
                 .and(titleContainsIgnoreCase(request.getSearchTitle()))
                 .and(roomStatusEq(request.getRoomStatus()))
                 .and(roomAccessTypeEq(request.getRoomAccessType()))
+                .and(roomMemberNotZero())
                 .and(languageContains(request.getLanguages()));
 
         List<Room> content = jpaQueryFactory
@@ -76,6 +77,10 @@ public class RoomRepositoryQueryImpl implements RoomRepositoryQuery {
         }
     }
 
+    private BooleanExpression roomMemberNotZero() {
+        return room.roomMembers.size().gt(0);
+    }
+
     private BooleanExpression languageContains(List<String> languages) {
         if (languages == null || languages.isEmpty()) {
             return null;
@@ -86,10 +91,16 @@ public class RoomRepositoryQueryImpl implements RoomRepositoryQuery {
         BooleanExpression languageCondition = null;
 
         for (String language : languages) {
+            String languageWithQuotation = "\"" + language + "\"";
+            BooleanExpression languageContainsExpression = template.containsIgnoreCase(
+                    languageWithQuotation
+            );
             if (languageCondition == null) {
-                languageCondition = template.containsIgnoreCase(language);
+                languageCondition = languageContainsExpression;
             } else {
-                languageCondition = languageCondition.or(template.containsIgnoreCase(language));
+                languageCondition = languageCondition.or(
+                        languageContainsExpression
+                );
             }
         }
 
