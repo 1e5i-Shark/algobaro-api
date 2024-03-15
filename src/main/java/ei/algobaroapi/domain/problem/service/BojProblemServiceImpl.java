@@ -8,13 +8,14 @@ import ei.algobaroapi.domain.problem.exception.CrawlingAccessException;
 import ei.algobaroapi.domain.problem.exception.common.ProblemErrorCode;
 import ei.algobaroapi.domain.solve.domain.SolveStatus;
 import java.io.IOException;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,7 +39,37 @@ public class BojProblemServiceImpl implements ProblemService {
 
     @Override
     public List<ProblemTestCaseResponse> getProblemTestCases(ProblemFindRequest request) {
-        return Collections.emptyList();
+        try {
+            String problemLink = request.getProblemLink();
+
+            // Jsoup을 사용하여 웹페이지 가져오기
+            Document doc = Jsoup.connect(problemLink).get();
+
+            Elements sampleInputs = doc.select("[id^=sampleinput]");
+            Elements sampleOutputs = doc.select("[id^=sampleoutput]");
+
+            // 예제 입력과 출력의 개수 확인
+            int numSamples = sampleInputs.size();
+
+            List<ProblemTestCaseResponse> problemTestCases = new ArrayList<>();
+
+            // 예제 입력 출력을 출력
+            for (int i = 0; i < numSamples; i++) {
+                Element inputElement = sampleInputs.get(i);
+                Element outputElement = sampleOutputs.get(i);
+
+                // 예제 입력과 출력 텍스트 추출
+                String inputText = inputElement.select("pre").text();
+                String outputText = outputElement.select("pre").text();
+
+                // ProblemTestCaseResponse 생성
+                problemTestCases.add(ProblemTestCaseResponse.of(i + 1, inputText, outputText));
+            }
+
+            return problemTestCases;
+        } catch (IOException e) {
+            throw CrawlingAccessException.of(ProblemErrorCode.CRAWLING_NOT_ACCESS);
+        }
     }
 
     @Override
