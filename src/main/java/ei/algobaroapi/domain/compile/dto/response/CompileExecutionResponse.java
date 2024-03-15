@@ -13,7 +13,14 @@ public class CompileExecutionResponse {
     @Schema(description = "코드 실행 결과", example = "3")
     private final String result;
 
-    public static CompileExecutionResponse of(String result) {
-        return new CompileExecutionResponse(result);
+    @Schema(description = "컴파일 성공 여부", example = "true")
+    private final boolean isCompileSuccess;
+
+    public static CompileExecutionResponse success(String result) {
+        return new CompileExecutionResponse(result, true);
+    }
+
+    public static CompileExecutionResponse failure() {
+        return new CompileExecutionResponse("Compile Fail", false);
     }
 }
