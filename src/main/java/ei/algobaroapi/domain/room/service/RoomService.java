@@ -15,7 +15,7 @@ public interface RoomService {
 
     RoomDetailResponseDto createRoom(RoomCreateRequestDto roomCreateRequestDto, Member member);
 
-    RoomResponseDto updateRoomByRoomId(Long roomId,
+    RoomResponseDto updateRoomByRoomId(String roomShortUuid,
             RoomUpdateRequestDto roomUpdateRequestDto);
 
     RoomDetailResponseDto getRoomDetailShortUuid(String roomShortUuid);
