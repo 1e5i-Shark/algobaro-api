@@ -64,10 +64,9 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     @Transactional
-    public RoomResponseDto updateRoomByRoomId(Long roomId,
+    public RoomResponseDto updateRoomByRoomId(String roomShortUuid,
             RoomUpdateRequestDto roomUpdateRequestDto) {
-        Room room = roomRepository.findById(roomId)
-                .orElseThrow(() -> RoomNotFoundException.of(RoomErrorCode.ROOM_NOT_FOUND));
+        Room room = getRoomByShortUuid(roomShortUuid);
 
         room.update(roomUpdateRequestDto);
 

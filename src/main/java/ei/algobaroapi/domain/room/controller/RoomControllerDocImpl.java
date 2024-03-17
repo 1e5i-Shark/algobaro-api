@@ -47,10 +47,10 @@ public class RoomControllerDocImpl implements RoomControllerDoc {
     }
 
     @Override
-    @PatchMapping("/rooms/{roomId}")
-    public RoomResponseDto updateRoomById(@PathVariable(name = "roomId") Long roomId,
+    @PatchMapping("/rooms/{roomShortUuid}")
+    public RoomResponseDto updateRoomById(@PathVariable(name = "roomShortUuid") String roomShortUuid,
             @RequestBody @Valid RoomUpdateRequestDto roomUpdateRequestDto) {
-        return roomService.updateRoomByRoomId(roomId, roomUpdateRequestDto);
+        return roomService.updateRoomByRoomId(roomShortUuid, roomUpdateRequestDto);
     }
 
     @Override
