@@ -98,35 +98,51 @@ public class Room extends BaseEntity {
     }
 
     public void update(RoomUpdateRequestDto roomUpdateRequestDto) {
-        if (roomUpdateRequestDto.getTitle() != null) {
+        if (roomUpdateRequestDto.getTitle() != null && !roomUpdateRequestDto.getTitle().isEmpty()) {
             this.title = roomUpdateRequestDto.getTitle();
         }
-        if (roomUpdateRequestDto.getLanguages() != null) {
-            this.languages = roomUpdateRequestDto.getLanguages();
-        }
-        if (roomUpdateRequestDto.getStartAt() != null) {
+
+        if (roomUpdateRequestDto.getStartAt() != null && roomUpdateRequestDto.getStartAt()
+                .isAfter(LocalDateTime.now())) {
             this.startAt = roomUpdateRequestDto.getStartAt();
         }
+
+        if (roomUpdateRequestDto.getLanguages() != null && !roomUpdateRequestDto.getLanguages()
+                .isEmpty()) {
+            this.languages = roomUpdateRequestDto.getLanguages();
+        }
+
         if (roomUpdateRequestDto.getRoomAccessType() != null) {
             this.roomAccessType = roomUpdateRequestDto.getRoomAccessType();
         }
-        if (roomUpdateRequestDto.getProblemLink() != null) {
+
+        if (roomUpdateRequestDto.getProblemLink() != null && !roomUpdateRequestDto.getProblemLink()
+                .isEmpty()) {
             this.problemLink = roomUpdateRequestDto.getProblemLink();
         }
-        if (roomUpdateRequestDto.getProblemPlatform() != null) {
+
+        if (roomUpdateRequestDto.getProblemPlatform() != null
+                && !roomUpdateRequestDto.getProblemPlatform().isEmpty()) {
             this.problemPlatform = roomUpdateRequestDto.getProblemPlatform();
         }
-        if (roomUpdateRequestDto.getPassword() != null) {
+
+        if (roomUpdateRequestDto.getPassword() != null && !roomUpdateRequestDto.getPassword()
+                .isEmpty()) {
             this.password = roomUpdateRequestDto.getPassword();
         }
-        if (roomUpdateRequestDto.getRoomLimit() > 0) {
+
+        if (roomUpdateRequestDto.getRoomLimit() != null
+                && roomUpdateRequestDto.getRoomLimit() > 0) {
             this.roomLimit = roomUpdateRequestDto.getRoomLimit();
         }
-        if (roomUpdateRequestDto.getTags() != null) {
+
+        if (roomUpdateRequestDto.getTags() != null && !roomUpdateRequestDto.getTags().isEmpty()) {
             this.tags = roomUpdateRequestDto.getTags();
         }
-        if (roomUpdateRequestDto.getRoomLimit() != 0) {
-            this.roomLimit = roomUpdateRequestDto.getRoomLimit();
+
+        if (roomUpdateRequestDto.getTimeLimit() != null
+                && roomUpdateRequestDto.getTimeLimit() > 0) {
+            this.timeLimit = roomUpdateRequestDto.getTimeLimit();
         }
     }
 
