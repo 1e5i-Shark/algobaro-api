@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface RoomRepository extends JpaRepository<Room, Long>, RoomRepositoryQuery {
 
     @Query("SELECT r FROM Room r WHERE r.roomUuid LIKE CONCAT(:roomShortUuid, '%')")
-    Optional<Room> findByRoomUuidStartingWith(String roomShortUuid); // TODO: 방 참여 기능 구현 후 쿼리 수정
+    Optional<Room> findByRoomUuidStartingWith(String roomShortUuid);
 }
