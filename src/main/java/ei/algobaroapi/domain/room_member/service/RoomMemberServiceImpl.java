@@ -208,7 +208,7 @@ public class RoomMemberServiceImpl implements RoomMemberService {
             roomRepository.delete(findRoom);
         } else {
             // 방이 비지 않으면서 방장이 나갔을 경우 방장을 변경
-            if (roomMember.getRoomMemberRole() == RoomMemberRole.HOST) {
+            if (roomMember.isHost()) {
                 RoomHostAutoChangeResponseDto roomHostAutoChangeResponseDto = this.changeHostAutomatically(
                         HostAutoChangeRequestDto
                                 .builder()
@@ -223,6 +223,21 @@ public class RoomMemberServiceImpl implements RoomMemberService {
         }
 
         return RoomExitResponse.notChangedHost(findRoom.getId());
+    }
+
+    @Override
+    public void validateHost(String roomShortUuid, Long memberId) {
+        Room room = roomRepository.findByRoomUuidStartingWith(roomShortUuid)
+                .orElseThrow(() -> RoomNotFoundException.of(RoomErrorCode.ROOM_NOT_FOUND));
+
+        RoomMember roomMember = roomMemberRepository.findRoomMemberByRoomIdAndMemberId(room.getId(),
+                        memberId)
+                .orElseThrow(() -> RoomMemberNotFoundException.of(
+                        RoomMemberErrorCode.ROOM_MEMBER_ERROR_CODE));
+
+        if (!roomMember.isHost()) {
+            throw HostValidationException.of(RoomMemberErrorCode.ROOM_MEMBER_IS_NOT_HOST);
+        }
     }
 
     private void validateConditionToJoinRoom(Room room, String password) {

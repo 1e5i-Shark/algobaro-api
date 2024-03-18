@@ -36,4 +36,6 @@ public interface RoomMemberService {
     List<RoomMember> getByRoomIdAllReady(Long roomId);
 
     RoomExitResponse exitRoomByMemberId(Long memberId);
+
+    void validateHost(String roomShortUuid, Long memberId);
 }
