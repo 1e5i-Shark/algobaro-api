@@ -72,6 +72,8 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public void startCodingTest(String roomShortUuid, Long memberId) {
+        checkMemberIsHost(roomShortUuid, memberId);
+
         RoomDetailResponseDto roomDetailResponseDto = roomService.startCodingTest(roomShortUuid);
         Integer timeLimitMinute = roomDetailResponseDto.getTimeLimit();
         messageService.sendMessage(
@@ -85,7 +87,13 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public void endCodingTest(String roomShortUuid, Long memberId) {
+        checkMemberIsHost(roomShortUuid, memberId);
+
         roomService.completeSolveHistory(roomShortUuid);
         messageService.sendMessage(roomShortUuid, MessageResponse.endCoding(memberId));
+    }
+
+    private void checkMemberIsHost(String roomShortUuid, Long memberId) {
+        roomMemberService.validateHost(roomShortUuid, memberId);
     }
 }
