@@ -50,7 +50,7 @@ public class RoomControllerDocImpl implements RoomControllerDoc {
     @PatchMapping("/rooms/{roomShortUuid}")
     public RoomResponseDto updateRoomById(@PathVariable(name = "roomShortUuid") String roomShortUuid,
             @RequestBody @Valid RoomUpdateRequestDto roomUpdateRequestDto) {
-        return roomService.updateRoomByRoomId(roomShortUuid, roomUpdateRequestDto);
+        return roomService.updateRoomByShortUuid(roomShortUuid, roomUpdateRequestDto);
     }
 
     @Override
