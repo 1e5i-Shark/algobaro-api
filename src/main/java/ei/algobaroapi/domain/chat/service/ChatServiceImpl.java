@@ -25,17 +25,30 @@ public class ChatServiceImpl implements ChatService {
     public void enterRoom(String roomShortUuid, Long memberId) {
         Member member = memberService.getMemberById(memberId);
         roomMemberService.joinRoomByRoomShortUuid(roomShortUuid, member);
-        messageService.sendMessage(roomShortUuid, MessageResponse.enterRoom(memberId));
+        messageService.sendMessage(
+                roomShortUuid,
+                MessageResponse.enterRoom(
+                        memberId,
+                        member.getNickname()
+                )
+        );
     }
 
     @Override
     public void quitRoom(String roomShortUuid, Long memberId) {
+        Member member = memberService.getMemberById(memberId);
         RoomExitResponse roomExitResponse = roomMemberService.exitRoomByMemberId(memberId);
         if (roomExitResponse.isHostChanged()) {
             messageService.sendMessage(roomShortUuid,
                     MessageResponse.changeHost(roomExitResponse.getNewHostId()));
         }
-        messageService.sendMessage(roomShortUuid, MessageResponse.quitRoom(memberId));
+        messageService.sendMessage(
+                roomShortUuid,
+                MessageResponse.quitRoom(
+                        memberId,
+                        member.getNickname()
+                )
+        );
     }
 
     @Override
