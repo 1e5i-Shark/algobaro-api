@@ -14,19 +14,19 @@ public class MessageResponse {
     private final String value;
     private final String timestamp = LocalDateTime.now().toString();
 
-    public static MessageResponse enterRoom(Long memberId) {
+    public static MessageResponse enterRoom(Long memberId, String nickname) {
         return new MessageResponse(
                 memberId,
                 MessageType.ENTER_ROOM,
-                null
+                nickname
         );
     }
 
-    public static MessageResponse quitRoom(Long memberId) {
+    public static MessageResponse quitRoom(Long memberId, String nickname) {
         return new MessageResponse(
                 memberId,
                 MessageType.QUIT_ROOM,
-                null
+                nickname
         );
     }
 
