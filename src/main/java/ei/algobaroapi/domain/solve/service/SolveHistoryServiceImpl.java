@@ -107,6 +107,7 @@ public class SolveHistoryServiceImpl implements SolveHistoryService {
     }
 
     @Override
+    @Transactional
     public void setUpSolveHistory(Long memberId, String roomUuid, String problemLink) {
         SolveHistory createSolveHistory = SolveHistory.builder()
                 .member(memberService.getMemberById(memberId))
