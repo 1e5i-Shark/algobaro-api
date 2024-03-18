@@ -32,6 +32,9 @@ public class RoomDetailResponseDto {
     @Schema(description = "문제 플랫폼", example = "BOJ")
     private String problemPlatform;
 
+    @Schema(description = "문제 링크", example = "https://www.acmicpc.net/problem/1000")
+    private String problemLink;
+
     @Schema(description = "방 비밀번호", example = "password1234")
     private String password;
 
@@ -79,6 +82,7 @@ public class RoomDetailResponseDto {
                 room.getLanguages(),
                 room.getRoomAccessType(),
                 room.getProblemPlatform(),
+                room.getProblemLink(),
                 room.getPassword(),
                 room.getRoomLimit(),
                 room.getTags(),

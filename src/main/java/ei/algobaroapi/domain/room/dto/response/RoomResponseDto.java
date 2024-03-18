@@ -31,6 +31,9 @@ public class RoomResponseDto {
     @Schema(description = "문제 플랫폼", example = "BOJ")
     private String problemPlatform;
 
+    @Schema(description = "문제 링크", example = "https://www.acmicpc.net/problem/1000")
+    private String problemLink;
+
     @Schema(description = "방 최대 인원", example = "4")
     private Integer roomLimit;
 
@@ -51,6 +54,7 @@ public class RoomResponseDto {
                 room.getLanguages(),
                 room.getRoomAccessType(),
                 room.getProblemPlatform(),
+                room.getProblemLink(),
                 room.getRoomLimit(),
                 room.getTags(),
                 room.getRoomShortUuid(),
