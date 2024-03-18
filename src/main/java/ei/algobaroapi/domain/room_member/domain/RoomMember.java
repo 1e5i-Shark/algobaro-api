@@ -75,6 +75,10 @@ public class RoomMember extends BaseEntity {
         this.isReady = false;
     }
 
+    public boolean isHost() {
+        return this.roomMemberRole == RoomMemberRole.HOST;
+    }
+
     public boolean isParticipant() {
         return this.roomMemberRole == RoomMemberRole.PARTICIPANT;
     }
