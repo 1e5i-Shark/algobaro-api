@@ -72,13 +72,10 @@ public class SolveHistory extends BaseEntity {
         this.problemPlatform = ProblemPlatform.BOJ;
     }
 
-    public void complete(SolveStatus solveStatus) {
-        this.solveStatus = solveStatus;
-        this.endAt = LocalDateTime.now();
-    }
-
-    public void updateCodeAndLanguage(String code, String language) {
+    public void updateCodeAndLanguageAndSolveStatus(String code, String language, String solveStatus) {
         this.inputCode = code;
         this.codeLanguage = language;
+        this.solveStatus = SolveStatus.valueOf(solveStatus);
+        this.endAt = LocalDateTime.now();
     }
 }

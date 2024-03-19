@@ -58,7 +58,8 @@ public class SolveHistoryServiceImpl implements SolveHistoryService {
             Long memberId,
             String roomShortUuid,
             String language,
-            String code
+            String code,
+            String solveStatus
     ) {
         Member findMember = memberService.getMemberById(memberId);
         SolveHistory findSolveHistory = getSolveHistoryByMemberAndRoomUuid(
@@ -66,7 +67,7 @@ public class SolveHistoryServiceImpl implements SolveHistoryService {
                 findMember
         );
 
-        findSolveHistory.updateCodeAndLanguage(code, language);
+        findSolveHistory.updateCodeAndLanguageAndSolveStatus(code, language, solveStatus);
     }
 
     private SolveHistory getSolveHistoryByMemberAndRoomUuid(
