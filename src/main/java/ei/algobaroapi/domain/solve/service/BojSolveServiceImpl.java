@@ -8,7 +8,9 @@ import ei.algobaroapi.domain.problem.dto.response.ProblemTestCaseResponse;
 import ei.algobaroapi.domain.problem.service.ProblemService;
 import ei.algobaroapi.domain.solve.dto.BojTestCaseResult;
 import ei.algobaroapi.domain.solve.dto.request.BojCodeSubmissionRequest;
+import ei.algobaroapi.domain.solve.dto.request.CodeSubmissionRequest;
 import ei.algobaroapi.domain.solve.dto.response.BojCodeSubmissionResponse;
+import ei.algobaroapi.domain.solve.dto.response.CodeSubmissionResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,7 +26,20 @@ public class BojSolveServiceImpl implements SolveService {
     private final SolveHistoryService solveHistoryService;
 
     @Override
-    public BojCodeSubmissionResponse submitCode(Long memberId, BojCodeSubmissionRequest request) {
+    public CodeSubmissionResponse submitCode(Long memberId, CodeSubmissionRequest request) {
+        solveHistoryService.updateSolveHistoryCode(
+                memberId,
+                request.getRoomShortUuid(),
+                request.getLanguage(),
+                request.getCode()
+        );
+
+        return CodeSubmissionResponse.of(request.getCode());
+    }
+
+    @Override
+    public BojCodeSubmissionResponse submitCodeAndCompile(Long memberId,
+            BojCodeSubmissionRequest request) {
         List<ProblemTestCaseResponse> problemTestCases = problemService.getProblemTestCases(
                 ProblemFindRequest.builder()
                         .problemLink(request.getProblemLink())
