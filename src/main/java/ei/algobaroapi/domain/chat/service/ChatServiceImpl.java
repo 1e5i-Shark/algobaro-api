@@ -102,7 +102,6 @@ public class ChatServiceImpl implements ChatService {
     public void endCodingTest(String roomShortUuid, Long memberId) {
         checkMemberIsHost(roomShortUuid, memberId);
 
-        roomService.completeSolveHistory(roomShortUuid);
         messageService.sendMessage(roomShortUuid, MessageResponse.endCoding(memberId));
     }
 
