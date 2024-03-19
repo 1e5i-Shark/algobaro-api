@@ -67,7 +67,7 @@ public class SolveHistoryServiceImpl implements SolveHistoryService {
                 findMember
         );
 
-        findSolveHistory.updateCodeAndLanguage(code, language, solveStatus);
+        findSolveHistory.updateCodeAndLanguageAndSolveStatus(code, language, solveStatus);
     }
 
     private SolveHistory getSolveHistoryByMemberAndRoomUuid(
