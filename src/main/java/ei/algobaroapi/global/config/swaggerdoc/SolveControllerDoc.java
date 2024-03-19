@@ -3,8 +3,10 @@ package ei.algobaroapi.global.config.swaggerdoc;
 import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.solve.domain.SolveHistory;
 import ei.algobaroapi.domain.solve.dto.request.BojCodeSubmissionRequest;
+import ei.algobaroapi.domain.solve.dto.request.CodeSubmissionRequest;
 import ei.algobaroapi.domain.solve.dto.request.SolveHistoryListFindRequest;
 import ei.algobaroapi.domain.solve.dto.response.BojCodeSubmissionResponse;
+import ei.algobaroapi.domain.solve.dto.response.CodeSubmissionResponse;
 import ei.algobaroapi.domain.solve.dto.response.SolveHistoryDetailResponse;
 import ei.algobaroapi.domain.solve.dto.response.SolveHistoryResponse;
 import ei.algobaroapi.domain.solve.dto.response.SolveResultResponse;
@@ -20,7 +22,11 @@ public interface SolveControllerDoc {
 
     @Operation(summary = "코드 제출", description = "문제 코드를 제출합니다.")
     @ApiResponse(responseCode = "201", description = "코드 제출 성공")
-    BojCodeSubmissionResponse submissionCode(Member member, BojCodeSubmissionRequest request);
+    CodeSubmissionResponse submissionCode(Member member, CodeSubmissionRequest request);
+
+    @Operation(summary = "코드 제출 및 테스트 케이스 컴파일", description = "문제 코드를 제출합니다.")
+    @ApiResponse(responseCode = "201", description = "코드 제출 성공")
+    BojCodeSubmissionResponse submissionCodeAndCompile(Member member, BojCodeSubmissionRequest request);
 
     @Operation(summary = "문제 풀이 히스토리 리스트 조회", description = "문제 풀이 히스토리를 상세 조회합니다.")
     @ApiResponse(responseCode = "200", description = "문제 풀이 히스토리 리스트 조회 성공")
