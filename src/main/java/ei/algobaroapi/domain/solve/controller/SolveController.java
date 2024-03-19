@@ -45,7 +45,7 @@ public class SolveController implements SolveControllerDoc {
     }
 
     @Override
-    @PostMapping("/solves/submissionAndCompile")
+    @PostMapping("/solves/submission-and-compile")
     @PreAuthorize("hasRole('ROLE_USER')")
     public BojCodeSubmissionResponse submissionCodeAndCompile(
             @AuthenticationPrincipal Member member,
