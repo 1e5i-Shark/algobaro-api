@@ -100,8 +100,6 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public void endCodingTest(String roomShortUuid, Long memberId) {
-        checkMemberIsHost(roomShortUuid, memberId);
-
         messageService.sendMessage(roomShortUuid, MessageResponse.endCoding(memberId));
     }
 
