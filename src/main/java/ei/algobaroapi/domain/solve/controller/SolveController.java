@@ -3,8 +3,10 @@ package ei.algobaroapi.domain.solve.controller;
 import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.solve.domain.SolveHistory;
 import ei.algobaroapi.domain.solve.dto.request.BojCodeSubmissionRequest;
+import ei.algobaroapi.domain.solve.dto.request.CodeSubmissionRequest;
 import ei.algobaroapi.domain.solve.dto.request.SolveHistoryListFindRequest;
 import ei.algobaroapi.domain.solve.dto.response.BojCodeSubmissionResponse;
+import ei.algobaroapi.domain.solve.dto.response.CodeSubmissionResponse;
 import ei.algobaroapi.domain.solve.dto.response.SolveHistoryDetailResponse;
 import ei.algobaroapi.domain.solve.dto.response.SolveHistoryResponse;
 import ei.algobaroapi.domain.solve.dto.response.SolveResultResponse;
@@ -35,11 +37,21 @@ public class SolveController implements SolveControllerDoc {
     @Override
     @PostMapping("/solves/submission")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public BojCodeSubmissionResponse submissionCode(
+    public CodeSubmissionResponse submissionCode(
+            @AuthenticationPrincipal Member member,
+            @RequestBody @Valid CodeSubmissionRequest request
+    ) {
+        return solveService.submitCode(member.getId(), request);
+    }
+
+    @Override
+    @PostMapping("/solves/submissionAndCompile")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public BojCodeSubmissionResponse submissionCodeAndCompile(
             @AuthenticationPrincipal Member member,
             @RequestBody @Valid BojCodeSubmissionRequest request
     ) {
-        return solveService.submitCode(member.getId(), request);
+        return solveService.submitCodeAndCompile(member.getId(), request);
     }
 
     @Override
@@ -64,7 +76,8 @@ public class SolveController implements SolveControllerDoc {
 
     @Override
     @GetMapping("/solves/result/{roomShortUuid}")
-    public SolveResultResponse getSolveResultInRoom(@PathVariable("roomShortUuid") String roomShortUuid) {
+    public SolveResultResponse getSolveResultInRoom(
+            @PathVariable("roomShortUuid") String roomShortUuid) {
         return solveHistoryService.getSolveResultInRoom(roomShortUuid);
     }
 }
