@@ -97,7 +97,7 @@ public class BojProblemServiceImpl implements ProblemService {
             answer = result.equals(CORRECT) ? SolveStatus.SUCCESS : SolveStatus.FAIL;
 
         } catch (IOException e) {
-            throw CrawlingAccessException.of(ProblemErrorCode.CRAWLING_NOT_ACCESS);
+            return SolveStatus.FAIL;
         }
 
         return answer;

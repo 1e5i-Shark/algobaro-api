@@ -144,10 +144,18 @@ public class Room extends BaseEntity {
                 && roomUpdateRequestDto.getTimeLimit() > 0) {
             this.timeLimit = roomUpdateRequestDto.getTimeLimit();
         }
+
+        if (isPublic()) {
+            this.password = "";
+        }
     }
 
     public String getRoomShortUuid() {
         return this.roomUuid.split("-")[0];
+    }
+
+    public boolean isPublic() {
+        return this.roomAccessType == RoomAccessType.PUBLIC;
     }
 
     public boolean isRecruiting() {
