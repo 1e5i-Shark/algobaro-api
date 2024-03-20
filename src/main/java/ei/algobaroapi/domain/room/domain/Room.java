@@ -102,11 +102,6 @@ public class Room extends BaseEntity {
             this.title = roomUpdateRequestDto.getTitle();
         }
 
-        if (roomUpdateRequestDto.getStartAt() != null && roomUpdateRequestDto.getStartAt()
-                .isAfter(LocalDateTime.now())) {
-            this.startAt = roomUpdateRequestDto.getStartAt();
-        }
-
         if (roomUpdateRequestDto.getLanguages() != null && !roomUpdateRequestDto.getLanguages()
                 .isEmpty()) {
             this.languages = roomUpdateRequestDto.getLanguages();
