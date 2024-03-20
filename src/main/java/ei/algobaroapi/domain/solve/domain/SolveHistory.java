@@ -71,7 +71,7 @@ public class SolveHistory extends BaseEntity {
         this.startAt = LocalDateTime.now();
         this.endAt = null;
         this.solveStatus = SolveStatus.FAIL;
-        this.failureReason = "미제출";
+        this.failureReason = "UNSUBMITTED";
         this.problemLink = problemLink;
         this.problemPlatform = ProblemPlatform.BOJ;
     }
