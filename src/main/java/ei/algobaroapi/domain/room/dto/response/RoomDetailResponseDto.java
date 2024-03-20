@@ -90,10 +90,10 @@ public class RoomDetailResponseDto {
                 room.getRoomLimit(),
                 room.getTags(),
                 room.getTimeLimit(),
-                room.getRoomShortUuid(),
                 room.getStartAt() == null
                         ? null
                         : room.getStartAt().plusMinutes(room.getTimeLimit()).toString(),
+                room.getRoomShortUuid(),
                 roomMembers
         );
     }
