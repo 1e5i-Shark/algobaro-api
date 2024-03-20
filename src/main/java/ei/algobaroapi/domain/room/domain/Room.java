@@ -76,7 +76,7 @@ public class Room extends BaseEntity {
     private String roomUuid;
 
     @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
-    private List<RoomMember> roomMembers = new ArrayList<>();
+    private List<RoomMember> roomMembers;
 
     @Builder
     public Room(RoomStatus roomStatus, String title, List<String> languages, LocalDateTime startAt,
@@ -95,6 +95,8 @@ public class Room extends BaseEntity {
         this.tags = tags;
         this.timeLimit = timeLimit;
         this.roomUuid = UUID.randomUUID().toString();
+
+        this.roomMembers = new ArrayList<>();
     }
 
     public void update(RoomUpdateRequestDto roomUpdateRequestDto) {
