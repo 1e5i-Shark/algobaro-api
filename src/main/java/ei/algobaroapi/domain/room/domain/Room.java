@@ -176,5 +176,6 @@ public class Room extends BaseEntity {
 
     public void updateRoomStatusRunning() {
         this.roomStatus = RoomStatus.RUNNING;
+        this.startAt = LocalDateTime.now();
     }
 }
