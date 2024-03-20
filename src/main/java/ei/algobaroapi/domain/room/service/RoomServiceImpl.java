@@ -59,8 +59,12 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     @Transactional
-    public RoomResponseDto updateRoomByShortUuid(String roomShortUuid,
-            RoomUpdateRequestDto roomUpdateRequestDto) {
+    public RoomResponseDto updateRoomByShortUuid(
+            String roomShortUuid,
+            RoomUpdateRequestDto roomUpdateRequestDto,
+            Member member
+    ) {
+        roomMemberService.validateHost(roomShortUuid, member.getId());
         Room room = getRoomByShortUuid(roomShortUuid);
 
         room.update(roomUpdateRequestDto);

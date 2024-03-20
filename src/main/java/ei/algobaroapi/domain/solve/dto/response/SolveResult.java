@@ -24,4 +24,7 @@ public class SolveResult {
 
     @Schema(description = "풀이 결과", example = "SUCCESS")
     private final SolveStatus solveStatus;
+
+    @Schema(description = "실패 이유", example = "MEMORY_LIMIT / TIME_LIMIT / ETC / NULL")
+    private final String failureReason;
 }

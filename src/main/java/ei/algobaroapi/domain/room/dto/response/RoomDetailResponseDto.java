@@ -47,6 +47,9 @@ public class RoomDetailResponseDto {
     @Schema(description = "타이머(Minute)", example = "20")
     private Integer timeLimit;
 
+    @Schema(description = "방 종료 예정 시간", example = "2024-03-04T00:45:18")
+    private String endTime;
+
     @Schema(description = "방 short UUID", example = "2ad2e9db")
     private String roomShortUuid;
 
@@ -88,6 +91,9 @@ public class RoomDetailResponseDto {
                 room.getTags(),
                 room.getTimeLimit(),
                 room.getRoomShortUuid(),
+                room.getStartAt() == null
+                        ? null
+                        : room.getStartAt().plusMinutes(room.getTimeLimit()).toString(),
                 roomMembers
         );
     }

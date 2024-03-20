@@ -26,6 +26,9 @@ public class SolveHistoryDetailResponse {
     @Schema(description = "풀이 결과", example = "SUCCESS")
     private final String solveStatus;
 
+    @Schema(description = "실패 이유", example = "MEMORY_LIMIT / TIME_LIMIT / ETC / NULL")
+    private final String failureReason;
+
     @Schema(description = "풀이 시간", example = "2024-01-01T00:00:00")
     private final String solvedAt;
 
@@ -42,6 +45,7 @@ public class SolveHistoryDetailResponse {
                 solveHistory.getCodeLanguage(),
                 solveHistory.getInputCode(),
                 solveHistory.getSolveStatus().name(),
+                solveHistory.getFailureReason(),
                 solveHistory.getStartAt().toString(),
                 solveHistory.getProblemPlatform().name(),
                 solveHistory.getProblemLink()

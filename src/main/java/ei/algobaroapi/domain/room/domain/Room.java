@@ -76,9 +76,10 @@ public class Room extends BaseEntity {
     private String roomUuid;
 
     @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
-    private List<RoomMember> roomMembers = new ArrayList<>();
+    private List<RoomMember> roomMembers;
 
     @Builder
+    @SuppressWarnings("java:S107")
     public Room(RoomStatus roomStatus, String title, List<String> languages, LocalDateTime startAt,
             RoomAccessType roomAccessType, String problemLink, String problemPlatform,
             String password, Integer roomLimit, List<String> tags,
@@ -95,16 +96,13 @@ public class Room extends BaseEntity {
         this.tags = tags;
         this.timeLimit = timeLimit;
         this.roomUuid = UUID.randomUUID().toString();
+
+        this.roomMembers = new ArrayList<>();
     }
 
     public void update(RoomUpdateRequestDto roomUpdateRequestDto) {
         if (roomUpdateRequestDto.getTitle() != null && !roomUpdateRequestDto.getTitle().isEmpty()) {
             this.title = roomUpdateRequestDto.getTitle();
-        }
-
-        if (roomUpdateRequestDto.getStartAt() != null && roomUpdateRequestDto.getStartAt()
-                .isAfter(LocalDateTime.now())) {
-            this.startAt = roomUpdateRequestDto.getStartAt();
         }
 
         if (roomUpdateRequestDto.getLanguages() != null && !roomUpdateRequestDto.getLanguages()
@@ -176,5 +174,6 @@ public class Room extends BaseEntity {
 
     public void updateRoomStatusRunning() {
         this.roomStatus = RoomStatus.RUNNING;
+        this.startAt = LocalDateTime.now();
     }
 }

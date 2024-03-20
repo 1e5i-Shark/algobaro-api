@@ -2,7 +2,6 @@ package ei.algobaroapi.domain.room.dto.request;
 
 import ei.algobaroapi.domain.room.domain.RoomAccessType;
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,9 +13,6 @@ public class RoomUpdateRequestDto {
 
     @Schema(description = "방 제목", example = "같이 푸실분~")
     private String title;
-
-    @Schema(description = "방 시작 시간", example = "2024-2-18T17:30:00")
-    private LocalDateTime startAt;
 
     @Schema(description = "사용 가능 언어", example = "[\"JAVA\", \"C++\"]")
     private List<String> languages;
