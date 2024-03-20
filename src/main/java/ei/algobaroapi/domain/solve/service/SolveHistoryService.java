@@ -1,6 +1,7 @@
 package ei.algobaroapi.domain.solve.service;
 
 import ei.algobaroapi.domain.solve.domain.SolveHistory;
+import ei.algobaroapi.domain.solve.domain.SolveStatus;
 import ei.algobaroapi.domain.solve.dto.request.SolveHistoryListFindRequest;
 import ei.algobaroapi.domain.solve.dto.response.SolveHistoryDetailResponse;
 import ei.algobaroapi.domain.solve.dto.response.SolveHistoryResponse;
@@ -18,7 +19,7 @@ public interface SolveHistoryService {
 
     SolveHistoryDetailResponse getHistoryDetail(Long memberId, Long solveId);
 
-    void updateSolveHistoryCode(Long memberId, String roomShortUuid, String language, String code, String solveStatus);
+    void updateSolveHistoryCode(Long memberId, String roomShortUuid, String language, String code, SolveStatus solveStatus, String failureReason);
 
     SolveResultResponse getSolveResultInRoom(String roomShortUuid);
 

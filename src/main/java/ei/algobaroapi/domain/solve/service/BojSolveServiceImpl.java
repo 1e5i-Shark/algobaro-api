@@ -32,7 +32,8 @@ public class BojSolveServiceImpl implements SolveService {
                 request.getRoomShortUuid(),
                 request.getLanguage(),
                 request.getCode(),
-                request.getSolveStatus()
+                request.getSolveStatus(),
+                request.getFailureReason()
         );
 
         return CodeSubmissionResponse.of(request.getCode());
@@ -58,7 +59,8 @@ public class BojSolveServiceImpl implements SolveService {
                 request.getRoomShortUuid(),
                 request.getLanguage(),
                 request.getCode(),
-                request.getSolveStatus()
+                request.getSolveStatus(),
+                request.getFailureReason()
         );
 
         return BojCodeSubmissionResponse.of(testCaseResults);

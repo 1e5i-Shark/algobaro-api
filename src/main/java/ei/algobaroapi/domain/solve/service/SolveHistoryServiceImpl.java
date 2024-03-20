@@ -4,6 +4,7 @@ import ei.algobaroapi.domain.member.domain.Member;
 import ei.algobaroapi.domain.member.service.MemberService;
 import ei.algobaroapi.domain.solve.domain.SolveHistory;
 import ei.algobaroapi.domain.solve.domain.SolveHistoryRepository;
+import ei.algobaroapi.domain.solve.domain.SolveStatus;
 import ei.algobaroapi.domain.solve.dto.request.SolveHistoryListFindRequest;
 import ei.algobaroapi.domain.solve.dto.response.SolveHistoryDetailResponse;
 import ei.algobaroapi.domain.solve.dto.response.SolveHistoryResponse;
@@ -59,7 +60,8 @@ public class SolveHistoryServiceImpl implements SolveHistoryService {
             String roomShortUuid,
             String language,
             String code,
-            String solveStatus
+            SolveStatus solveStatus,
+            String failureReason
     ) {
         Member findMember = memberService.getMemberById(memberId);
         SolveHistory findSolveHistory = getSolveHistoryByMemberAndRoomUuid(
@@ -67,7 +69,7 @@ public class SolveHistoryServiceImpl implements SolveHistoryService {
                 findMember
         );
 
-        findSolveHistory.updateCodeAndLanguageAndSolveStatus(code, language, solveStatus);
+        findSolveHistory.updateCodeAndLanguageAndSolveStatus(code, language, solveStatus, failureReason);
     }
 
     private SolveHistory getSolveHistoryByMemberAndRoomUuid(
