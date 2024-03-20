@@ -103,6 +103,7 @@ public class SolveHistoryServiceImpl implements SolveHistoryService {
                                 .language(solveHistory.getCodeLanguage())
                                 .code(solveHistory.getInputCode())
                                 .solveStatus(solveHistory.getSolveStatus())
+                                .failureReason(solveHistory.getFailureReason())
                                 .build())
                 .toList();
 
