@@ -1,5 +1,6 @@
 package ei.algobaroapi.domain.solve.dto.request;
 
+import ei.algobaroapi.domain.solve.domain.SolveStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,5 +20,8 @@ public class CodeSubmissionRequest {
     private String code;
 
     @Schema(description = "코드 실행 결과", example = "SUCCESS / FAIL")
-    private String solveStatus;
+    private SolveStatus solveStatus;
+
+    @Schema(description = "실패 이유", example = "MEMORY_LIMIT, TIME_LIMIT, ETC")
+    private String failureReason;
 }
