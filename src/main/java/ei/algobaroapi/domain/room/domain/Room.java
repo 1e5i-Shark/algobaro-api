@@ -79,6 +79,7 @@ public class Room extends BaseEntity {
     private List<RoomMember> roomMembers;
 
     @Builder
+    @SuppressWarnings("java:S107")
     public Room(RoomStatus roomStatus, String title, List<String> languages, LocalDateTime startAt,
             RoomAccessType roomAccessType, String problemLink, String problemPlatform,
             String password, Integer roomLimit, List<String> tags,
