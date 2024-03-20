@@ -48,9 +48,13 @@ public class RoomControllerDocImpl implements RoomControllerDoc {
 
     @Override
     @PatchMapping("/rooms/{roomShortUuid}")
-    public RoomResponseDto updateRoomById(@PathVariable(name = "roomShortUuid") String roomShortUuid,
-            @RequestBody @Valid RoomUpdateRequestDto roomUpdateRequestDto) {
-        return roomService.updateRoomByShortUuid(roomShortUuid, roomUpdateRequestDto);
+    @PreAuthorize("hasRole('USER')")
+    public RoomResponseDto updateRoomById(
+            @PathVariable(name = "roomShortUuid") String roomShortUuid,
+            @RequestBody @Valid RoomUpdateRequestDto roomUpdateRequestDto,
+            @AuthenticationPrincipal Member member
+    ) {
+        return roomService.updateRoomByShortUuid(roomShortUuid, roomUpdateRequestDto, member);
     }
 
     @Override
