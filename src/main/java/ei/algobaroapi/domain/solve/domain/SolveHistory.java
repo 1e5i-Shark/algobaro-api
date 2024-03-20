@@ -52,6 +52,9 @@ public class SolveHistory extends BaseEntity {
     @Column(name = "solve_status", nullable = false)
     private SolveStatus solveStatus;
 
+    @Column(name = "failure_reason")
+    private String failureReason;
+
     @Column(name = "problem_link", nullable = false)
     private String problemLink;
 
@@ -68,14 +71,16 @@ public class SolveHistory extends BaseEntity {
         this.startAt = LocalDateTime.now();
         this.endAt = null;
         this.solveStatus = SolveStatus.FAIL;
+        this.failureReason = "미제출";
         this.problemLink = problemLink;
         this.problemPlatform = ProblemPlatform.BOJ;
     }
 
-    public void updateCodeAndLanguageAndSolveStatus(String code, String language, String solveStatus) {
+    public void updateCodeAndLanguageAndSolveStatus(String code, String language, SolveStatus solveStatus, String failureReason) {
         this.inputCode = code;
         this.codeLanguage = language;
-        this.solveStatus = SolveStatus.valueOf(solveStatus);
+        this.solveStatus = solveStatus;
+        this.failureReason = failureReason;
         this.endAt = LocalDateTime.now();
     }
 }
