@@ -60,6 +60,8 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public void updateMemberGeneralInfo(Long id, MemberGeneralUpdateRequest request) {
+        checkNicknameDuplication(request.getNickname());
+
         Member findMember = this.getMemberById(id);
 
         findMember.updateGeneralInfo(request);
@@ -97,5 +99,11 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public boolean isExistingMemberByNickname(String nickname) {
         return memberRepository.existsByNickname(nickname);
+    }
+
+    private void checkNicknameDuplication(String nickname) {
+        if (isExistingMemberByNickname(nickname)) {
+            throw MemberFoundException.of(MemberErrorCode.NICKNAME_DUPLICATION);
+        }
     }
 }
