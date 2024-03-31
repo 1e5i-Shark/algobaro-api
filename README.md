@@ -44,6 +44,8 @@ Rest API와 WebSocket 두 가지 통신 방식을 사용하여 기능 제공
 
 ![Algobaro Room Life Cycle](https://github.com/1e5i-Shark/algobaro-api/assets/113650170/69afd520-1abf-4548-845e-0693310b714a)
 
+자세한 내용은 [Wiki](https://github.com/1e5i-Shark/algobaro-api/wiki/Room-Life-Cycle) 참고
+
 <br>
 
 ## 🛠 System Design
@@ -61,16 +63,12 @@ Rest API와 WebSocket 두 가지 통신 방식을 사용하여 기능 제공
 <img src="https://img.shields.io/badge/MySQL 8.0-4479A1?style=for-the-badge&logo=MySQL&logoColor=white"></img>
 <img src="https://img.shields.io/badge/Gradle-02303A?style=for-the-badge&logo=Gradle&logoColor=white"></img>
 
-### CI/CD
+### System Architecture
+
+#### CI/CD
 
 ![CI/CD](https://github.com/1e5i-Shark/algobaro-api/assets/113650170/18d20e7a-5004-4656-be18-7ca95fef1c74)
 
-### Infrastructure
+#### Infrastructure
 
 ![Infrastructure](https://github.com/1e5i-Shark/algobaro-api/assets/113650170/5c217611-fe7c-4eae-a5d9-75bb7e1fa2bc)
-
-<br>
-
-###### ETC
-
-그 외 자세한 내용은 [GitHub Wiki](https://github.com/1e5i-Shark/algobaro-api/wiki) 참고
