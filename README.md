@@ -1,12 +1,12 @@
 # 알고바로 (Algobaro)
 
-[//]: # (로고 사진)
-
-<br>
+![Algobaro Logo](https://github.com/1e5i-Shark/algobaro-api/assets/113650170/011959cc-09a9-468d-853b-e7c20b13c9e8)
 
 - [Deploy Link](https://algobaro.vercel.app)
 - [GitHub Wiki](https://github.com/1e5i-Shark/algobaro-api/wiki)
 - [FE Repository](https://github.com/1e5i-Shark/algobaro-fe)
+
+<br>
 
 ## 🔍 Overview
 
@@ -14,7 +14,7 @@
 
 실제 코딩테스트 유사하게 시간 제한과 기본 레퍼런스만 제공되는 환경에서 코딩테스트를 다 같이 풀고, 여러 사람의 풀이 코드를 공유할 수 있는 서비스
 
-[//]: # (랜딩 페이지 사진)
+![Algobaro Landing](https://github.com/1e5i-Shark/algobaro-api/assets/113650170/8d34ee83-da80-412d-82ce-df4426eaed5a)
 
 <br>
 
@@ -35,7 +35,7 @@
 
 ### Room Life Cycle
 
-[//]: # (라이프 사이클 사진)
+![Algobaro Room Life Cycle](https://github.com/1e5i-Shark/algobaro-api/assets/113650170/69afd520-1abf-4548-845e-0693310b714a)
 
 <br>
 
@@ -56,11 +56,11 @@
 
 ### CI/CD
 
-[//]: # (CI/CD 사진)
+![CI/CD](https://github.com/1e5i-Shark/algobaro-api/assets/113650170/18d20e7a-5004-4656-be18-7ca95fef1c74)
 
 ### Infrastructure
 
-[//]: # (Infrastructure 사진)
+![Infrastructure](https://github.com/1e5i-Shark/algobaro-api/assets/113650170/5c217611-fe7c-4eae-a5d9-75bb7e1fa2bc)
 
 <br>
 
