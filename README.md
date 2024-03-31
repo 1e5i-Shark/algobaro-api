@@ -66,5 +66,4 @@
 
 ###### ETC
 
-그 외 자세한 내용은 [Wiki Home](https://github.com/1e5i-Shark/algobaro-api/wiki) 참고
-
+그 외 자세한 내용은 [GitHub Wiki](https://github.com/1e5i-Shark/algobaro-api/wiki) 참고
