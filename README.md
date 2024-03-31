@@ -20,14 +20,21 @@
 
 ## 📝 Specification
 
-- Auth: 인증
-- Members: 회원
-- Rooms: 방
-- Problems: 문제 정보
-- Solves: 문제 풀이
-- Compile: 코드 컴파일 및 실행
+| Domain   | Description |
+|----------|-------------|
+| Auth     | 인증          |
+| Members  | 회원          |
+| Rooms    | 방           |
+| Problems | 문제 정보       |
+| Solves   | 문제 풀이       |
+| Compile  | 코드 컴파일 및 실행 |
 
-크게 6가지의 Domain으로 구성되어 있으며, 각 Domain 기능을 제공하기 위해 Rest API와 WebSocket 두 가지 통신 방식을 사용한다.
+위와 같은 도메인을 제공하며, 각 도메인에서 제공하는 기능은
+[Feature Specification](https://github.com/1e5i-Shark/algobaro-api/wiki/Feature-Specification) 참고  
+Rest API와 WebSocket 두 가지 통신 방식을 사용하여 기능 제공
+
+- [Rest API Message Protocol](https://github.com/1e5i-Shark/algobaro-api/wiki/Rest-API-Message-Protocol)
+- [WebSocket Message Protocol](https://github.com/1e5i-Shark/algobaro-api/wiki/WebSocket-Message-Protocol)
 
 <br>
 
