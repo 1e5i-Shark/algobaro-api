@@ -3,9 +3,9 @@
 ![Algobaro Logo](https://github.com/1e5i-Shark/algobaro-api/assets/113650170/011959cc-09a9-468d-853b-e7c20b13c9e8)
 
 - 서비스 배포 링크 - [Link](https://algobaro.vercel.app)
-- 해당 프로젝트에 대한 자세한 정보 - [Wiki](https://github.com/1e5i-Shark/algobaro-api/wiki)
-- 프로젝트 웹 클라이언트 Repository - [Repository](https://github.com/1e5i-Shark/algobaro-fe)
-- 소켓 기본 연결 테스트 클라이언트 Repository - [Repository](https://github.com/hyoguoo/socket-test-client)
+- 해당 프로젝트에 대한 자세한 정보 - [GitHub Wiki](https://github.com/1e5i-Shark/algobaro-api/wiki)
+- 프로젝트 웹 클라이언트 Repository - [GitHub Repository](https://github.com/1e5i-Shark/algobaro-fe)
+- 소켓 기본 연결 테스트 클라이언트 Repository - [GitHub Repository](https://github.com/hyoguoo/socket-test-client)
 
 <br>
 
