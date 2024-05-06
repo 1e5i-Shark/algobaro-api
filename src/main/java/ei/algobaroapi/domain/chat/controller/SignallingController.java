@@ -3,6 +3,7 @@ package ei.algobaroapi.domain.chat.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -17,6 +18,7 @@ public class SignallingController {
     @SendTo("/topic/peer/offer/{camKey}/{roomShortUuid}")
     public String peerHandleOffer(
             @Payload String offer,
+            @Header("Authorization") String authorization,
             @DestinationVariable(value = "roomShortUuid") String roomShortUuid,
             @DestinationVariable(value = "camKey") String camKey
     ) {
@@ -30,6 +32,7 @@ public class SignallingController {
     @SendTo("/topic/peer/iceCandidate/{camKey}/{roomShortUuid}")
     public String peerHandleIceCandidate(
             @Payload String candidate,
+            @Header("Authorization") String authorization,
             @DestinationVariable(value = "roomShortUuid") String roomShortUuid,
             @DestinationVariable(value = "camKey") String camKey
     ) {
@@ -42,6 +45,7 @@ public class SignallingController {
     @SendTo("/topic/peer/answer/{camKey}/{roomShortUuid}")
     public String peerHandleAnswer(
             @Payload String answer,
+            @Header("Authorization") String authorization,
             @DestinationVariable(value = "roomShortUuid") String roomShortUuid,
             @DestinationVariable(value = "camKey") String camKey
     ) {
@@ -52,7 +56,10 @@ public class SignallingController {
     //camKey 를 받기위해 신호를 보내는 webSocket
     @MessageMapping("/call/key")
     @SendTo("/topic/call/key")
-    public String callKey(@Payload String message) {
+    public String callKey(
+            @Payload String message,
+            @Header("Authorization") String authorization
+    ) {
         log.info("[Key] : {}", message);
         return message;
     }
@@ -60,7 +67,10 @@ public class SignallingController {
     //자신의 camKey 를 모든 연결된 세션에 보내는 webSocket
     @MessageMapping("/send/key")
     @SendTo("/topic/send/key")
-    public String sendKey(@Payload String message) {
+    public String sendKey(
+            @Payload String message,
+            @Header("Authorization") String authorization
+    ) {
         return message;
     }
 }
