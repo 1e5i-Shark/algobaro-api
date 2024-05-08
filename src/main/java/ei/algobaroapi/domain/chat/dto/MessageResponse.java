@@ -80,4 +80,12 @@ public class MessageResponse {
                 null
         );
     }
+
+    public static MessageResponse volume(Long memberId, String message) {
+        return new MessageResponse(
+                memberId,
+                MessageType.VOLUME,
+                message
+        );
+    }
 }
