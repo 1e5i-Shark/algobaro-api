@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SignallingController {
 
     @MessageMapping("/peer/offer/{camKey}/{roomShortUuid}")
-    @SendTo("/topic/peer/offer/{camKey}/{roomShortUuid}")
+    @SendTo("/subscription/peer/offer/{camKey}/{roomShortUuid}")
     public String peerHandleOffer(
             @Payload String offer,
             @Header("Authorization") String authorization,
@@ -29,7 +29,7 @@ public class SignallingController {
     //iceCandidate 정보를 주고 받기 위한 webSocket
     //camKey : 각 요청하는 캠의 key , roomShortUuid : 룸 아이디
     @MessageMapping("/peer/iceCandidate/{camKey}/{roomShortUuid}")
-    @SendTo("/topic/peer/iceCandidate/{camKey}/{roomShortUuid}")
+    @SendTo("/subscription/peer/iceCandidate/{camKey}/{roomShortUuid}")
     public String peerHandleIceCandidate(
             @Payload String candidate,
             @Header("Authorization") String authorization,
@@ -42,7 +42,7 @@ public class SignallingController {
 
     //
     @MessageMapping("/peer/answer/{camKey}/{roomShortUuid}")
-    @SendTo("/topic/peer/answer/{camKey}/{roomShortUuid}")
+    @SendTo("/subscription/peer/answer/{camKey}/{roomShortUuid}")
     public String peerHandleAnswer(
             @Payload String answer,
             @Header("Authorization") String authorization,
@@ -55,7 +55,7 @@ public class SignallingController {
 
     //camKey 를 받기위해 신호를 보내는 webSocket
     @MessageMapping("/call/key")
-    @SendTo("/topic/call/key")
+    @SendTo("/subscription/call/key")
     public String callKey(
             @Payload String message,
             @Header("Authorization") String authorization
@@ -66,7 +66,7 @@ public class SignallingController {
 
     //자신의 camKey 를 모든 연결된 세션에 보내는 webSocket
     @MessageMapping("/send/key")
-    @SendTo("/topic/send/key")
+    @SendTo("/subscription/send/key")
     public String sendKey(
             @Payload String message,
             @Header("Authorization") String authorization
