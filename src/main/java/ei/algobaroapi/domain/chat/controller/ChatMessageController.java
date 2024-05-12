@@ -107,6 +107,18 @@ public class ChatMessageController {
         );
     }
 
+    @MessageMapping("/chat/volume")
+    public void volume(
+            MessageRequest messageRequestDto,
+            @Header("Authorization") String authorization
+    ) {
+        chatService.volume(
+                messageRequestDto.getRoomShortUuid(),
+                tempParseMemberIdFromHeader(authorization),
+                messageRequestDto.getMessage()
+        );
+    }
+
     @MessageExceptionHandler
     public String exception() {
         return "Error has occurred.";

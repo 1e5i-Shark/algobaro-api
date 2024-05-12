@@ -103,6 +103,11 @@ public class ChatServiceImpl implements ChatService {
         messageService.sendMessage(roomShortUuid, MessageResponse.endCoding(memberId));
     }
 
+    @Override
+    public void volume(String roomShortUuid, Long memberId, String message) {
+        messageService.sendMessage(roomShortUuid, MessageResponse.volume(memberId, message));
+    }
+
     private void checkMemberIsHost(String roomShortUuid, Long memberId) {
         roomMemberService.validateHost(roomShortUuid, memberId);
     }

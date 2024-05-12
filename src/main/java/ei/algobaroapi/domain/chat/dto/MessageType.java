@@ -14,7 +14,8 @@ public enum MessageType {
     UNREADY_ROOM("unready"),
     CHANGE_HOST("change-host"),
     START_CODING("start-coding"),
-    END_CODING("end-coding");
+    END_CODING("end-coding"),
+    VOLUME("volume");
 
     @JsonValue
     private final String value;

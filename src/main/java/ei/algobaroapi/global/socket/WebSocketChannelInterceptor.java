@@ -28,8 +28,8 @@ public class WebSocketChannelInterceptor implements ChannelInterceptor {
                 accessor.getCommand() == StompCommand.SEND) {
             try {
                 String token = extractToken(accessor);
-                if (token == null || !jwtProvider.validateToken(token)) {
-                    log.warn("토큰 null or 유효하지 않은 토큰");
+                if (!jwtProvider.validateToken(token)) {
+                    log.warn("jwtProvider에서 validate 하지 못한 값");
                     throw new IllegalArgumentException("Invalid token");
                 }
             } catch (Exception e) {
@@ -42,8 +42,12 @@ public class WebSocketChannelInterceptor implements ChannelInterceptor {
 
     private String extractToken(StompHeaderAccessor accessor) {
         String authorization = accessor.getFirstNativeHeader(AUTHORIZATION_HEADER);
-        if (authorization == null || !authorization.startsWith(BEARER_PREFIX)) {
-            throw new IllegalArgumentException("Invalid token");
+        if (authorization == null) {
+            log.warn("토큰이 null 입니다.");
+            throw new IllegalArgumentException("token is null");
+        } else if (!authorization.startsWith(BEARER_PREFIX)) {
+            log.warn("Bearer 로 시작하지 않는 토큰입니다.");
+            throw new IllegalArgumentException("invalid token");
         }
         return authorization.substring(BEARER_PREFIX.length());
     }
