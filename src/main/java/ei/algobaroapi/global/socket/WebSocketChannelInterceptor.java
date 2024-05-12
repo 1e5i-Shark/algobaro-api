@@ -41,7 +41,8 @@ public class WebSocketChannelInterceptor implements ChannelInterceptor {
     }
 
     private String extractToken(StompHeaderAccessor accessor) {
-        String authorization = accessor.getFirstNativeHeader(AUTHORIZATION_HEADER);
+//        String authorization = accessor.getFirstNativeHeader(AUTHORIZATION_HEADER);
+        String authorization = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0bmd1c0BuYXZlci5jb20iLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNzEzNzU4ODUxLCJleHAiOjE3MTYzNTA4NTF9.5B7899g1Q6A99EeZVRRUHWTeZaaQ8L2SSEOqTtomeFI";
         if (authorization == null) {
             log.warn("토큰이 null 입니다.");
             throw new IllegalArgumentException("token is null");
