@@ -17,4 +17,6 @@ public interface ChatService {
     void startCodingTest(String roomShortUuid, Long memberId);
 
     void endCodingTest(String roomShortUuid, Long memberId);
+
+    void volume(String roomShortUuid, Long memberId, String message);
 }
