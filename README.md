@@ -72,4 +72,4 @@ Rest API와 WebSocket 두 가지 통신 방식을 사용하여 기능 제공
 
 #### Infrastructure
 
-![Infrastructure](https://github.com/1e5i-Shark/algobaro-api/assets/113650170/5c217611-fe7c-4eae-a5d9-75bb7e1fa2bc)
+![Infrastructure](https://github.com/1e5i-Shark/algobaro-api/assets/87390396/6dd68e95-07a5-493f-938e-f52ee0bb5b9d)
